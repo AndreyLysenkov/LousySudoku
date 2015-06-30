@@ -6,7 +6,18 @@ using System.Threading.Tasks;
 
 namespace LousySudoku
 {
-    public class Class1
+    public class DBG
     {
+
+        public static string Change(string s)
+        {
+            return "checked " + s;
+        }
+
+        public static void Write(string s)
+        {
+            Console.WriteLine("out " + s);
+        }
+
     }
 }
