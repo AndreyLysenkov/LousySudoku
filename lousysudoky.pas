@@ -1,4 +1,4 @@
-{$reference 'LousySudoku/LousySudoku/bin/Debug/LousySudoku.dll'}
+{$reference 'lousysudoku.dll'}
 
 Begin
 Writeln(LousySudoku.DBG.Change('Allan Awake-Wolker'));
