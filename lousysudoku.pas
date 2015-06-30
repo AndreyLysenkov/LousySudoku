@@ -1,8 +1,8 @@
-{$reference 'lousysudoku.dll'}
+{$reference 'sudoku.dll'}
 
 Begin
-    Writeln(LousySudoku.Debug.TestString());
+    Writeln(Sudoku.Debug.TestString());
     Sleep(5000);
-    LousySudoku.Debug.TestMessage();
+    Sudoku.Debug.TestMessage();
     Readln();
 End.
