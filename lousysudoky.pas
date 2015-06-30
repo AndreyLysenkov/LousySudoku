@@ -1,7 +1,8 @@
 {$reference 'lousysudoku.dll'}
 
 Begin
-Writeln(LousySudoku.DBG.Change('Allan Awake-Wolker'));
-Sleep(5000);
-LousySudoku.DBG.Write('Test')
+    Writeln(LousySudoku.Debug.TestString());
+    Sleep(5000);
+    LousySudoku.Debug.TestMessage();
+    Readln();
 End.
