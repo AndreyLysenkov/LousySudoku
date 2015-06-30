@@ -11,9 +11,10 @@ namespace Sudoku
 
         enum NumberType
         {
-            none,
-            constant,
-            modify
+            Unexists,
+            Empty,
+            Constant,
+            Modify
         }
 
         int value;
