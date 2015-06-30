@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace LousySudoku
+namespace Sudoku
 {
-    class Interface
+    public class Core
     {
     }
 }
