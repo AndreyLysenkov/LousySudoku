@@ -5,7 +5,20 @@ using System.Text;
 
 namespace Sudoku
 {
-    public class Core
+
+    public class Sudoku
     {
+
+        public Number[] number;
+
+        public Number[] block;
+
+        public Sudoku()
+        {
+            number = null;
+            block = null;
+        }
+
+
     }
 }

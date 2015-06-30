@@ -5,14 +5,18 @@ using System.Text;
 
 namespace Sudoku
 {
-    public class Block
+    public class NumberPosition
     {
 
-        Number[] children;
+        int x;
 
-        public Block()
+        int y;
+
+        public NumberPosition()
         {
-            children = null;
+            x = 0;
+
+            y = 0;
         }
 
     }

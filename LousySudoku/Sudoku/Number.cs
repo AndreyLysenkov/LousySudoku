@@ -5,7 +5,24 @@ using System.Text;
 
 namespace Sudoku
 {
-    class Number
+
+    public class Number
     {
+
+        enum NumberType
+        {
+            none,
+            constant,
+            modify
+        }
+
+        int value;
+
+        NumberType type;
+
+        Block[] parents;
+
+
+
     }
 }
