@@ -18,9 +18,15 @@ namespace Sudoku
     /// <summary>
     /// Содержит методы, созданные для использования в методах IStringify;
     /// </summary>
-    public class Stringify_Help
+    public static class Stringify_Help
     {
 
+        public static string ArrayToString(IStringify[] array)
+        {
+            string result = "";
+
+            return result;
+        }
         
     }
 }
