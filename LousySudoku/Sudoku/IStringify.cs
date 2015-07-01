@@ -10,7 +10,7 @@ namespace Sudoku
 
         string Stringify();
 
-        static IStringify Unstringify(string value);
+        IStringify Unstringify(string value);
 
     }
 }
