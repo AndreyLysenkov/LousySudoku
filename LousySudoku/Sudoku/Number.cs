@@ -23,7 +23,10 @@ namespace Sudoku
 
         Block[] parents;
 
-
+        public int Value
+        {
+            get { return this.value; }
+        }
 
     }
 }
