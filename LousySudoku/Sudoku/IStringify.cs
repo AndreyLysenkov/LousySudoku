@@ -21,13 +21,13 @@ namespace Sudoku
     public static class Stringify_Help
     {
 
-        public static string ArrayToString<item>(item[] array, string separator = ".") 
+        public static string ArrayToString(IStringify[] array, string separator = ".") 
         {
             string result;
             result = array.Length.ToString() + separator;
             for (int i = 0; i < array.Length; i++)
             {
-                result += array[i].ToString() + separator;
+                result += array[i].Stringify() + separator;
             }
             return result;
         }
