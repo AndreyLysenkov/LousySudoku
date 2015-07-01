@@ -37,8 +37,20 @@ namespace Sudoku
 
         protected virtual int[] Check(int[] value, bool[] mask)
         {
-
-            return null;
+            int[] result = new int[0];
+            for (int i = 0; i < value.Length; i++)
+            {
+                for (int j = i + 1; (j < value.Length) && (mask[i]); j++)
+                {
+                    if ((mask[j]) && (value[i] == value[j]))
+                    {
+                        Array.Resize(ref result, result.Length + 2);
+                        result[result.Length - 1] = i;
+                        result[result.Length - 2] = j;
+                    }
+                }
+            }
+            return result;
         }
 
         public int[] Check()
