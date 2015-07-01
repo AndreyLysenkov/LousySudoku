@@ -47,12 +47,12 @@ namespace Sudoku
             }
         }
 
-        public string Stringify()
+        string IStringify.Stringify()
         {
             return null;
         }
 
-        static IStringify Unstringify(string value)
+        IStringify IStringify.Unstringify(string value)
         {
             return null;
         }
