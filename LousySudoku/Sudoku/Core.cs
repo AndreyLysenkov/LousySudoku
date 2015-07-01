@@ -6,7 +6,7 @@ using System.Text;
 namespace Sudoku
 {
 
-    public class Sudoku
+    public class Sudoku : IStringify
     {
 
         public class Size
@@ -43,6 +43,15 @@ namespace Sudoku
             size = new Size(9, 9);
         }
 
+        string IStringify.Stringify()
+        {
+            return null;
+        }
+
+        IStringify IStringify.Unstringify(string value)
+        {
+            return null;
+        }
 
     }
 }
