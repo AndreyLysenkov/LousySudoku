@@ -30,6 +30,25 @@ namespace Sudoku
             }
         }
 
+        /// <summary>
+        /// Содержит поля и методы для представления судоку на экране
+        /// </summary>
+        public class Visual
+        {
+
+            int[,] mask;
+            int[,] number;
+
+            public Size size;
+
+            public Visual (Sudoku sudoku)
+            {
+
+
+            }
+
+        }
+
         Number[] number;
 
         Number[] block;
@@ -42,7 +61,7 @@ namespace Sudoku
             block = new Number[0];
             size = new Size(9, 9);
         }
-
+        
         string IStringify.Stringify()
         {
             return null;
