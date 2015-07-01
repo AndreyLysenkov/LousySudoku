@@ -19,7 +19,7 @@ namespace Sudoku
 
         int value;
 
-        NumberType type;
+        public NumberType type;
 
         Block[] parents;
 
