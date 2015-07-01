@@ -8,6 +8,7 @@ namespace Sudoku
 
     public class Number : IStringify
     {
+
         public class Position
         {
 
@@ -37,6 +38,8 @@ namespace Sudoku
         public NumberType type;
 
         Block[] parents;
+
+        public Position position;
 
         public int Value
         {
