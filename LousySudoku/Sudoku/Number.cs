@@ -28,5 +28,24 @@ namespace Sudoku
             get { return this.value; }
         }
 
+        public bool HasValue
+        {
+            get
+            {
+                switch (this.type)
+                {
+                    case NumberType.Unexists:
+                    case NumberType.Empty:
+                        return false;
+
+                    case NumberType.Modify:
+                    case NumberType.Constant:
+                        return true;
+
+                    default: return false;
+                }
+            }
+        }
+
     }
 }
