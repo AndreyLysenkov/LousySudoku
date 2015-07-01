@@ -12,15 +12,23 @@ namespace Sudoku
         public class Position
         {
 
-            int x;
+            public int X
+            {
+                private set;
+                get;
+            }
 
-            int y;
+            public int Y
+            {
+                private set;
+                get;
+            }
 
             public Position()
             {
-                x = 0;
+                X = 0;
 
-                y = 0;
+                Y = 0;
             }
 
         }
