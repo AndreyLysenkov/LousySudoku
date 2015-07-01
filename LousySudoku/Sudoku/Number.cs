@@ -33,7 +33,7 @@ namespace Sudoku
 
         }
 
-        enum NumberType
+        public enum NumberType
         {
             Unexists,
             Empty,
