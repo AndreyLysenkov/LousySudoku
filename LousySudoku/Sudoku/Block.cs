@@ -15,5 +15,12 @@ namespace Sudoku
             children = null;
         }
 
+        public virtual int[] Check()
+        {
+            int[] result = new int[0];
+
+            return result;
+        }
+
     }
 }
