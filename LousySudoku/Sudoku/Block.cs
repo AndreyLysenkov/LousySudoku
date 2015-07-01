@@ -15,6 +15,16 @@ namespace Sudoku
             children = null;
         }
 
+        private int[] GetValues()
+        {
+            int[] result = new int[children.Length];
+            for (int i = 0; i < children.Length; i++)
+            {
+                result[i] = children[i].Value;
+            }
+            return result;
+        }
+
         public virtual int[] Check()
         {
             int[] result = new int[0];
@@ -32,6 +42,8 @@ namespace Sudoku
             }
             return result;
         }
+
+        
 
     }
 }
