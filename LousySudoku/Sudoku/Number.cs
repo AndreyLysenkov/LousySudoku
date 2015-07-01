@@ -49,6 +49,8 @@ namespace Sudoku
 
         string IStringify.Stringify()
         {
+
+
             return null;
         }
 
