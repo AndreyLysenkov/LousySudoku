@@ -43,8 +43,32 @@ namespace Sudoku
 
             public Visual (Sudoku sudoku)
             {
+                this.size = sudoku.size;
+                this.Load(sudoku);
+            }
 
+            private void Load(Sudoku sudoku, int default_mask_value = 0)
+            {
+                ///1st. Обнулить две матрицы;
+                mask = new int[size.Length, size.Height];
+                number = new int[size.Length, size.Height];
+                for (int i = 0; i < size.Length; i++ )
+                {
+                    for (int j = 0; j < size.Height; j++)
+                    {
+                        mask[i, j] = default_mask_value;
+                        number[i, j] = 0;
+                    }
+                }
 
+                ///Transfering itself;
+                for (int i = 0; i < sudoku.number.Length; i++)
+                {
+                    Number numb = sudoku.number[i];
+                    mask[numb., j] = numb.type;
+                    if (sudoku.number[i].HasValue)
+                        number[i, j] = sudoku.number[i].Value;
+                }
             }
 
         }
