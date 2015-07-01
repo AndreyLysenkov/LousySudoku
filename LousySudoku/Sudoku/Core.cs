@@ -11,15 +11,15 @@ namespace Sudoku
 
         public class Size
         {
-            int Length
+            public int Length
             {
-                public get;
+                get;
                 private set;
             }
 
-            int Height
+            public int Height
             {
-                public get;
+                get;
                 private set;
             }
 
