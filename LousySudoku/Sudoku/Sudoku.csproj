@@ -42,6 +42,7 @@
     <Compile Include="Block.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Debug.cs" />
+    <Compile Include="File.cs" />
     <Compile Include="Interface.cs" />
     <Compile Include="Number.cs" />
     <Compile Include="NumberPosition.cs" />
