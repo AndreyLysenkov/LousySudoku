@@ -217,5 +217,10 @@ namespace WpfApplication1
 
         }
 
+        private void Exit(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
     }
  }

@@ -25,7 +25,7 @@
                 <MenuItem Header="Открыть..."></MenuItem>
                 <MenuItem Header="Сохранить..."></MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="Выход"></MenuItem>
+                <MenuItem Header="Выход" Click="Exit"></MenuItem>
             </MenuItem>
             <MenuItem Header="Изменить">
                 <MenuItem Header="Размер" >
