@@ -42,7 +42,7 @@ namespace Sudoku
             {
                 for (int j = i + 1; j < children.Length; j++)
                 {
-                    if (children[i].value == children[j].value)
+                    if (children[i].Value == children[j].Value)
                     {
                         Array.Resize(ref result, result.Length + 2);
                         result[result.Length - 1] = i;
