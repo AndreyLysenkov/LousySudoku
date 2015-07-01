@@ -48,7 +48,7 @@ namespace Sudoku
         public static string Literalize(string value, Literal_Format literal_format)
         {
             string result = "";
-            for (int i = 0; i < Method.Length(value); i++)
+            for (int i = 0; i < value.Length; i++)
             {
                 result += String.Format(literal_format.ToString(), (int)(value[i]));
             }
@@ -60,7 +60,7 @@ namespace Sudoku
             List<string> replace_reque = new List<string> { literal_format.ToString() }; ///NNBB;
             replace_reque.AddRange(toReplace); ///NNBB; Check repeats;
             string output = value;
-            for (int i = 0; i < Method.Length(ref replace_reque); i++) ///NNBB; May cause troubles;
+            for (int i = 0; i < replace_reque.Count; i++) ///NNBB; May cause troubles;
             {
                 output = output.Replace(replace_reque[i], Literalize(replace_reque[i], new Literal_Format()));
             }
@@ -87,7 +87,7 @@ namespace Sudoku
             List<string> replace_reque = new List<string> { literal_format.ToString() }; ///NNBB;
             replace_reque.AddRange(wasReplace); ///NNBB; Check repeats;
             string result = value; ///"";
-            for (int i = Method.Length(ref replace_reque) - 1; i >= 0; i--) ///NNBB; May cause troubles;
+            for (int i = replace_reque.Count - 1; i >= 0; i--) ///NNBB; May cause troubles;
             {
                 result = result.Replace(Literalize(replace_reque[i], new Literal_Format()), replace_reque[i]);
                 Console.WriteLine(" replacing back {0} - {1}", i, result);
