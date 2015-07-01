@@ -34,10 +34,13 @@ namespace Sudoku
 
         Number[] block;
 
+        public Size size;
+
         public Sudoku()
         {
             number = new Number[0];
             block = new Number[0];
+            size = new Size(9, 9);
         }
 
 
