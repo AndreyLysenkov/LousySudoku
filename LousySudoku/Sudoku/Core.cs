@@ -9,14 +9,35 @@ namespace Sudoku
     public class Sudoku
     {
 
-        public Number[] number;
+        public class Size
+        {
+            int Length
+            {
+                public get;
+                private set;
+            }
 
-        public Number[] block;
+            int Height
+            {
+                public get;
+                private set;
+            }
+
+            public Size(int x, int y)
+            {
+                Length = x;
+                Height = y;
+            }
+        }
+
+        Number[] number;
+
+        Number[] block;
 
         public Sudoku()
         {
-            number = null;
-            block = null;
+            number = new Number[0];
+            block = new Number[0];
         }
 
 
