@@ -31,37 +31,62 @@ namespace WpfApplication1
             InitializeComponent();
         }
 
-        public void ColumnAdd(int column)
-        {
-            for (int i = 0; i < column; i++)
-            {
-                ColumnDefinition columnd = new ColumnDefinition();
-                sudokuGrid.ColumnDefinitions.Add(columnd);
-            }
-        }
 
-        public void RowAdd(int row)
-        {
-            for (int i = 0; i < row; i++) // деление сетки на строки и столбцы
-            {
-                RowDefinition rowd = new RowDefinition();
-                sudokuGrid.RowDefinitions.Add(rowd);
-            }
-        }
-
-        private MyTextBox TextBoxAdd(int row, int column)
+        private MyTextBox TextBox_9_9Add(int row, int column)
         {
             MyTextBox tb = new MyTextBox();
             tb.row = row; tb.column = column;
             tb.Name = "_" + Convert.ToString(row) + "_" + Convert.ToString(column);
             tb.TextAlignment = TextAlignment.Center;
             tb.FontSize = 30;
+            tb.Background = new SolidColorBrush(Colors.Transparent);
             tb.BorderBrush = new SolidColorBrush(Colors.Black);
-            tb.Margin = new Thickness(5, 5, 5, 5);
+            tb.BorderThickness = new Thickness(2);
+
+            if ((column +1) % 3 == 0)
+            {
+                tb.Margin = new Thickness(0, 0, 10, 0);
+            }
+            else if ((row + 1) % 3 == 0)
+                tb.Margin = new Thickness(0, 0, 0, 10);
+            if ((column +1) % 3 == 0 && ((row +1) % 3 == 0))
+                tb.Margin = new Thickness(0, 0, 10, 10);
+                
             tb.Text = "";
             tb.TextChanged += textChangedEventHandler;
             tb.LostFocus += lostFocus;
             sudokuGrid.Children.Add(tb);
+
+            Grid.SetColumn(tb, column);
+            Grid.SetRow(tb, row);
+            return tb;
+        }
+        
+        private MyTextBox TextBox_16_16Add(int row, int column)
+        {
+            MyTextBox tb = new MyTextBox();
+            tb.row = row; tb.column = column;
+            tb.Name = "_" + Convert.ToString(row) + "_" + Convert.ToString(column);
+            tb.TextAlignment = TextAlignment.Center;
+            tb.FontSize = 30;
+            tb.Background = new SolidColorBrush(Colors.Transparent);
+            tb.BorderBrush = new SolidColorBrush(Colors.Black);
+            tb.BorderThickness = new Thickness(2);
+
+            if ((column + 1) % 4 == 0)
+            {
+                tb.Margin = new Thickness(0, 0, 10, 0);
+            }
+            else if ((row + 1) % 4 == 0)
+                tb.Margin = new Thickness(0, 0, 0, 10);
+            if ((column + 1) % 4 == 0 && ((row + 1) % 4 == 0))
+                tb.Margin = new Thickness(0, 0, 10, 10);
+
+            tb.Text = "";
+            tb.TextChanged += textChangedEventHandler;
+            tb.LostFocus += lostFocus;
+            sudokuGrid.Children.Add(tb);
+
             Grid.SetColumn(tb, column);
             Grid.SetRow(tb, row);
             return tb;
@@ -79,8 +104,6 @@ namespace WpfApplication1
                 }
 
             }
-
-
         }
 
         private void lostFocus(object sender, RoutedEventArgs e)
@@ -120,13 +143,12 @@ namespace WpfApplication1
 
         private void _9x9_Click(object sender, RoutedEventArgs e)
         {
+            mainWindow.Height = 720 + 2 * 10;
+            mainWindow.Width = 750 + 2 * 10;
 
             sudokuGrid.Children.Clear();
-            sudokuGrid.ColumnDefinitions.Clear();
-            sudokuGrid.RowDefinitions.Clear();
-            
-            ColumnAdd(9);
-            RowAdd(9);
+            sudokuGrid.Columns = 9;
+            sudokuGrid.Rows = 9;
 
             if (AdmissibleValues.Count != 0)
                 AdmissibleValues.Clear();
@@ -141,7 +163,7 @@ namespace WpfApplication1
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    textBox.Add(TextBoxAdd(i, j));
+                    textBox.Add(TextBox_9_9Add(i, j));
                 }
             }
             ///////////////////////////////////////////////////////////
@@ -158,12 +180,13 @@ namespace WpfApplication1
 
         private void _16x16_Click(object sender, RoutedEventArgs e)
         {
-            sudokuGrid.Children.Clear();
-            sudokuGrid.ColumnDefinitions.Clear();
-            sudokuGrid.RowDefinitions.Clear();
+            mainWindow.Height = 700 + 4 * 10;
+            mainWindow.Width = 725 + 4 * 10;
 
-            ColumnAdd(16);
-            RowAdd(16);
+            sudokuGrid.Children.Clear();
+
+            sudokuGrid.Rows = 16;
+            sudokuGrid.Columns = 16;
 
             if (AdmissibleValues.Count != 0)
                 AdmissibleValues.Clear();
@@ -178,7 +201,7 @@ namespace WpfApplication1
             {
                 for (int j = 0; j < 16; j++)
                 {
-                    textBox.Add(TextBoxAdd(i, j));
+                    textBox.Add(TextBox_16_16Add(i, j));
                 }
             }
             ///////////////////////////////////////////////////////////////////////
@@ -192,6 +215,11 @@ namespace WpfApplication1
 
 
 
+        }
+
+        private void Exit(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
 
     }
