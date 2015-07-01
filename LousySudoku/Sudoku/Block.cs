@@ -25,6 +25,16 @@ namespace Sudoku
             return result;
         }
 
+        private bool[] GetValuesMask()
+        {
+            bool[] result = new bool[children.Length];
+            for (int i = 0; i < children.Length; i++)
+            {
+                result[i] = children[i].HasValue;
+            }
+            return result;
+        }
+
         public virtual int[] Check()
         {
             int[] result = new int[0];
