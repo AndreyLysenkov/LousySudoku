@@ -8,6 +8,21 @@ namespace Sudoku
 
     public class Number : IStringify
     {
+        public class Position
+        {
+
+            int x;
+
+            int y;
+
+            public Position()
+            {
+                x = 0;
+
+                y = 0;
+            }
+
+        }
 
         enum NumberType
         {
