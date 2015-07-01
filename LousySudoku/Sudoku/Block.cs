@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Sudoku
 {
-    public class Block
+    public class Block : IStringify
     {
 
         Number[] children;
@@ -57,6 +57,17 @@ namespace Sudoku
         {
             return Check(this.GetValues(), this.GetValuesMask());
         }
+
+        string IStringify.Stringify()
+        {
+            return null;
+        }
+
+        IStringify IStringify.Unstringify(string value)
+        {
+            return null;
+        }
+
 
     }
 }

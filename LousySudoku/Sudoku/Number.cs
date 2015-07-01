@@ -6,7 +6,7 @@ using System.Text;
 namespace Sudoku
 {
 
-    public class Number
+    public class Number : IStringify
     {
 
         enum NumberType
@@ -45,6 +45,16 @@ namespace Sudoku
                     default: return false;
                 }
             }
+        }
+
+        string IStringify.Stringify()
+        {
+            return null;
+        }
+
+        IStringify IStringify.Unstringify(string value)
+        {
+            return null;
         }
 
     }
