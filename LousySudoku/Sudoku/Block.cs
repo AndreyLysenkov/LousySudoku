@@ -10,9 +10,9 @@ namespace Sudoku
 
         Number[] children;
 
-        public Block()
+        public Block(Number[] children)
         {
-            children = null;
+            this.children = children;
         }
 
         private int[] GetValues()
@@ -57,8 +57,6 @@ namespace Sudoku
         {
             return Check(this.GetValues(), this.GetValuesMask());
         }
-
-        
 
     }
 }
