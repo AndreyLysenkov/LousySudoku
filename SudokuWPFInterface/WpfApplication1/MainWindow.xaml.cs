@@ -144,6 +144,16 @@ namespace WpfApplication1
                     textBox.Add(TextBoxAdd(i, j));
                 }
             }
+            ///////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
         }
 
         private void _16x16_Click(object sender, RoutedEventArgs e)
@@ -171,6 +181,17 @@ namespace WpfApplication1
                     textBox.Add(TextBoxAdd(i, j));
                 }
             }
+            ///////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
         }
 
     }
