@@ -31,6 +31,11 @@ namespace Sudoku
                 Y = 0;
             }
 
+            public bool IsSame(Position position)
+            {
+                return ((position.X == this.X) && (position.Y == this.Y));
+            }
+
         }
 
         public enum NumberType
