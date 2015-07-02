@@ -78,6 +78,25 @@ namespace Sudoku
             }
         }
 
+        public bool IsModified
+        {
+            get
+            {
+                switch (this.type)
+                {
+                    case NumberType.Unexists:
+                    case NumberType.Constant:
+                        return false;
+
+                    case NumberType.Modify:
+                    case NumberType.Empty:
+                        return true;
+
+                    default: return false;
+                }
+            }
+        }
+
         string IStringify.Stringify()
         {
 
