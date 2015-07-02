@@ -133,10 +133,11 @@ namespace Sudoku
 
         public bool Modify(int new_value)
         {
-
-
-
-            return false;
+            if (new_value == 0)
+                return this.Clear();
+            if (IsModified)
+                this.value = new_value;
+            return this.IsModified;
         }
 
         private bool Clear()
