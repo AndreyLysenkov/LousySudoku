@@ -96,5 +96,13 @@ namespace Sudoku
             return null;
         }
 
+        public bool Modify(int new_value)
+        {
+
+
+
+            return false;
+        }
+
     }
 }
