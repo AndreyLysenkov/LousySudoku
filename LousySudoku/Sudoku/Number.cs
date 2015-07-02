@@ -85,5 +85,10 @@ namespace Sudoku
             return null;
         }
 
+        bool IsRight()
+        {
+            return false;
+        }
+
     }
 }
