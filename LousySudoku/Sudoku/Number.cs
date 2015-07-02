@@ -95,5 +95,10 @@ namespace Sudoku
             return false;
         }
 
+        public bool IsSame(Number number)
+        {
+            return this.position.IsSame(number.position);
+        }
+
     }
 }
