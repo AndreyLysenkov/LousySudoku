@@ -90,7 +90,7 @@ namespace Sudoku
             return null;
         }
 
-        bool IsRight()
+        public bool IsRight()
         {
             bool result = true;
             for (int i = 0; i < parents.Length; i++ )
@@ -111,6 +111,8 @@ namespace Sudoku
         {
             return this.position.IsSame(number.position);
         }
+
+
 
     }
 }
