@@ -92,7 +92,19 @@ namespace Sudoku
 
         bool IsRight()
         {
-            return false;
+            bool result = true;
+            for (int i = 0; i < parents.Length; i++ )
+            {
+                Number[] wrong_number = parents[i].Check();
+                for (int j = 0; j < wrong_number.Length; j++)
+                {
+                    if (this.IsSame(wrong_number[j]))
+                    {
+                        return false;
+                    }
+                }
+            }
+            return result;
         }
 
         public bool IsSame(Number number)
