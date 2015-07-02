@@ -68,6 +68,10 @@ namespace Sudoku
             return null;
         }
 
-
+        public bool IsRight()
+        {
+            return (this.Check().Length == 0);
+        }
+    
     }
 }
