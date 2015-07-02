@@ -141,8 +141,9 @@ namespace Sudoku
 
         private bool Clear()
         {
-
-            return false;
+            if (this.IsModified)
+                this.value = 0;
+            return this.IsModified;
         }
 
     }
