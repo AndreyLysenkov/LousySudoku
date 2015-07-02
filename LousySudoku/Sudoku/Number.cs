@@ -112,7 +112,13 @@ namespace Sudoku
             return this.position.IsSame(number.position);
         }
 
+        public bool Modify(int new_value)
+        {
 
+
+
+            return false;
+        }
 
     }
 }
