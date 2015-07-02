@@ -120,5 +120,11 @@ namespace Sudoku
             return false;
         }
 
+        private bool Clear()
+        {
+
+            return false;
+        }
+
     }
 }
