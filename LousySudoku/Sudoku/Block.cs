@@ -53,9 +53,15 @@ namespace Sudoku
             return result;
         }
 
-        public int[] Check()
+        public Number[] Check()
         {
-            return Check(this.GetValues(), this.GetValuesMask());
+            int[] result_indexes = Check(this.GetValues(), this.GetValuesMask());
+            Number[] result = new Number[result_indexes.Length];
+            for (int i = 0; i < result_indexes.Length; i++)
+            {
+                result[i] = children[result_indexes[i]];
+            }
+            return result;
         }
 
         string IStringify.Stringify()
