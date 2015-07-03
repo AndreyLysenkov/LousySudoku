@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Block.cs" />
-    <Compile Include="Core.cs" />
+    <Compile Include="Sudoku.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="File.cs" />
     <Compile Include="Interface.cs" />
