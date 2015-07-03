@@ -88,7 +88,7 @@ namespace Sudoku
             {
                 for (int j = 0; j < size.Length; j++)
                 {
-                    number[i * size.Length + j] = new Number();
+                    number[i * size.Length + j] = new Number(mask[i, j], new Number.Position(i, j), value[i, j]);
                 }
             }
 
