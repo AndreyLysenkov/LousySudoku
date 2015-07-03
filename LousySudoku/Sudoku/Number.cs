@@ -126,9 +126,14 @@ namespace Sudoku
             return result;
         }
 
+        public bool IsSame(Position position)
+        {
+            return this.position.IsSame(position);
+        }
+
         public bool IsSame(Number number)
         {
-            return this.position.IsSame(number.position);
+            return this.IsSame(number.position);
         }
 
         public bool Modify(int new_value)
