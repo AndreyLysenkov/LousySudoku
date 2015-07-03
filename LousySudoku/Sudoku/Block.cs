@@ -13,6 +13,9 @@ namespace Sudoku
     public class Block : IStringify
     {
 
+        /// <summary>
+        /// Содержит ссылки на ячейки, принадлежащие блоку
+        /// </summary>
         Number[] children;
 
         public Block(Number[] children)
