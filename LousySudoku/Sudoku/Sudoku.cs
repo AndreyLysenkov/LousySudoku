@@ -75,14 +75,28 @@ namespace Sudoku
 
         Number[] number;
 
-        Number[] block;
+        Block[] block;
 
         public Size size;
 
-        public Sudoku()
+        public Sudoku(int[,] value, Number.NumberType[,] mask, Number.Position[,] block)
         {
-            
-            
+            size = new Size(value.Length, (int)(value.LongLength / value.Length));
+
+            number = new Number[value.LongLength];
+            for (int i = 0; i < size.Height; i++)
+            {
+                for (int j = 0; j < size.Length; j++)
+                {
+                    number[i * size.Length + j] = new Number();
+                }
+            }
+
+            this.block = new Block[block.Length];
+            for (int i = 0; i < block.Length; i++)
+            {
+
+            }
         }
         
         string IStringify.Stringify()
