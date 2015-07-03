@@ -95,7 +95,12 @@ namespace Sudoku
             this.block = new Block[block.Length];
             for (int i = 0; i < block.Length; i++)
             {
-
+                Number[] children = new Number[(int)(block.LongLength / block.Length)];
+                for (int j = 0; j < (int)(block.LongLength / block.Length); j++)
+                {
+                    children[j] = this.ReturnNumberByPosition(block[i, j]);
+                }
+                this.block[i] = new Block(children);
             }
         }
         
