@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>e83dea07-cef3-4b71-8c27-9cce588205f4</ProjectGuid>
+    <ProjectGuid>{9CDA839D-423E-4513-9C23-A7C03B634056}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Dbg_runner</RootNamespace>
@@ -43,6 +43,12 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sudoku\Sudoku.csproj">
+      <Project>{9c9271fb-bd2c-4179-ac30-c5b22e8177d2}</Project>
+      <Name>Sudoku</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
