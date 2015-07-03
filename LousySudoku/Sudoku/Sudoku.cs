@@ -9,27 +9,6 @@ namespace Sudoku
     public class Sudoku : IStringify
     {
 
-        public class Size
-        {
-            public int Length
-            {
-                get;
-                private set;
-            }
-
-            public int Height
-            {
-                get;
-                private set;
-            }
-
-            public Size(int x, int y)
-            {
-                Length = x;
-                Height = y;
-            }
-        }
-
         /// <summary>
         /// Содержит поля и методы для представления судоку на экране
         /// </summary>
@@ -39,22 +18,22 @@ namespace Sudoku
             int[,] mask;
             int[,] number;
 
-            public Size size;
+            public Number.Position size;
 
             public Visual (Sudoku sudoku)
             {
-                this.size = sudoku.size;
+                this.size = sudoku.Size;
                 this.Load(sudoku);
             }
 
             private void Load(Sudoku sudoku, int default_mask_value = 0)
             {
                 ///1st. Обнулить две матрицы;
-                mask = new int[size.Length, size.Height];
-                number = new int[size.Length, size.Height];
-                for (int i = 0; i < size.Length; i++ )
+                mask = new int[size.X, size.Y];
+                number = new int[size.X, size.Y];
+                for (int i = 0; i < size.Y; i++ )
                 {
-                    for (int j = 0; j < size.Height; j++)
+                    for (int j = 0; j < size.X; j++)
                     {
                         mask[i, j] = default_mask_value;
                         number[i, j] = 0;
@@ -77,18 +56,18 @@ namespace Sudoku
 
         Block[] block;
 
-        public Size size;
+        public Number.Position Size;
 
-        public Sudoku(int[,] value, Number.NumberType[,] mask, Number.Position[,] block)
+        public Sudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[,] block)
         {
-            size = new Size(value.Length, (int)(value.LongLength / value.Length));
+            size = new Number.Position(value.Length, (int)(value.LongLength / value.Length));
 
             number = new Number[value.LongLength];
-            for (int i = 0; i < size.Height; i++)
+            for (int i = 0; i < size.X; i++)
             {
-                for (int j = 0; j < size.Length; j++)
+                for (int j = 0; j < size.Y; j++)
                 {
-                    number[i * size.Length + j] = new Number(mask[i, j], new Number.Position(i, j), value[i, j]);
+                    number[i * size.Y + j] = new Number(mask[i, j], new Number.Position(i, j), value[i, j]);
                 }
             }
 

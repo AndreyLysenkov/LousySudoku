@@ -34,7 +34,7 @@ namespace Sudoku
             int[,] value = new int[9, 9];
             Number.NumberType[,] mask = new Number.NumberType[9, 9];
             Number.Position[,] block = new Number.Position[9, 9];
-            Sudoku sudoku = new Sudoku(value, mask, block);
+            Sudoku sudoku = new Sudoku(new Number.Position(9, 9), value, mask, block);
             ShowSudoku(sudoku, 9);
         }
     }
