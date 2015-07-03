@@ -54,6 +54,13 @@ namespace Sudoku
 
         public Position position;
 
+        public Number(NumberType type, Position position, int value = 0)
+        {
+            this.type = type;
+            this.position = position;
+            this.value = value;
+        }
+
         public int Value
         {
             get { return this.value; }
