@@ -6,6 +6,9 @@ using System.Text;
 namespace Sudoku
 {
 
+    /// <summary>
+    /// Предоставляет методы для записи объекта класса в строку и для восстановления объекта из строки
+    /// </summary>
     public interface IStringify
     {
 
