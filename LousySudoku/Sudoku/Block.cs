@@ -5,6 +5,11 @@ using System.Text;
 
 namespace Sudoku
 {
+
+    /// <summary>
+    /// Описывает блок чисел
+    /// Блок чисел - это массив чисел, подчиняющийся одному правилу (нет повторяющихся чисел)
+    /// </summary>
     public class Block : IStringify
     {
 
