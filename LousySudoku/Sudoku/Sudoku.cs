@@ -58,11 +58,9 @@ namespace Sudoku
 
         public Number.Position Size;
 
-        public Sudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[,] block)
+        public Sudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[][] block)
         {
-            size = new Number.Position(value.Length, (int)(value.LongLength / value.Length));
-
-            number = new Number[value.LongLength];
+            number = new Number[size.X * size.Y];
             for (int i = 0; i < size.X; i++)
             {
                 for (int j = 0; j < size.Y; j++)
@@ -74,10 +72,10 @@ namespace Sudoku
             this.block = new Block[block.Length];
             for (int i = 0; i < block.Length; i++)
             {
-                Number[] children = new Number[(int)(block.LongLength / block.Length)];
-                for (int j = 0; j < (int)(block.LongLength / block.Length); j++)
+                Number[] children = new Number[block[i].Length];
+                for (int j = 0; j < block[i].Length; j++)
                 {
-                    children[j] = this.ReturnNumberByPosition(block[i, j]);
+                    children[j] = this.ReturnNumberByPosition(block[i][j]);
                 }
                 this.block[i] = new Block(children);
             }
