@@ -82,6 +82,7 @@ namespace Sudoku
         public Sudoku()
         {
             
+            
         }
         
         string IStringify.Stringify()
