@@ -196,16 +196,6 @@ namespace WpfApplication1
             }
         }
 
-        private void _9x9_Click(object sender, RoutedEventArgs e)
-        {
-            CreateGrid_9x9();
-        }
-
-        private void _16x16_Click(object sender, RoutedEventArgs e)
-        {
-            CreateGrid_16x16();
-        }
-
         private void Exit(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
@@ -213,12 +203,21 @@ namespace WpfApplication1
 
         public void NewGame_Click(object sender, RoutedEventArgs e)
         {
-            string size = "";
             NewGame newGameWindow = new NewGame();
             newGameWindow.parent = this;
             newGameWindow.Owner = this;
             newGameWindow.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
             newGameWindow.Show();
+        }
+
+        public void Open_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        public void Save_Click(object sender, RoutedEventArgs e)
+        { 
+
         }
 
     }
