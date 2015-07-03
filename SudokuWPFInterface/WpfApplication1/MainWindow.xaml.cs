@@ -27,7 +27,7 @@ namespace WpfApplication1
 
         List<int> AdmissibleValues = new List<int> { }; // Содерждит колекцию допустимых значений
 
-        Sudoku.Sudoku sudoku = new Sudoku.Sudoku();
+        Sudoku.Sudoku sudoku = SudokuBuilder.GetStandart9(null);
 
         
 
