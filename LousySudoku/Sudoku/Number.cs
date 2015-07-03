@@ -24,11 +24,11 @@ namespace Sudoku
                 get;
             }
 
-            public Position()
+            public Position(int x, int y)
             {
-                X = 0;
+                this.X = x;
 
-                Y = 0;
+                this.Y = y;
             }
 
             public bool IsSame(Position position)
