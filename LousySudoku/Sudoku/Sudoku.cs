@@ -110,16 +110,8 @@ namespace Sudoku
 
         public bool ChangeNumber(Number.Position position, int value)
         {
-            Number temp = new Number();
-            temp.position = position;
-            for (int i = 0; i < number.Length; i++)
-            {
-                if (number[i].IsSame(temp))
-                {
-                    return number[i].Modify(value);
-                }
-            }
-            return false;
+            Number temp = this.ReturnNumberByPosition(position);
+            return temp.Modify(value);
         }
 
     }
