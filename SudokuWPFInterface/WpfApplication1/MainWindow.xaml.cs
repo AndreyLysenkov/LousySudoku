@@ -14,6 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
 using System.Xml.Linq;
+using Sudoku;
+
 namespace WpfApplication1
 {
     /// <summary>
@@ -24,6 +26,10 @@ namespace WpfApplication1
         List<MyTextBox> textBox = new List<MyTextBox>() { }; //коллекция коробок
 
         List<int> AdmissibleValues = new List<int> { }; // Содерждит колекцию допустимых значений
+
+        Sudoku.Sudoku sudoku = new Sudoku.Sudoku();
+
+        
 
         public MainWindow()
         {
@@ -138,6 +144,9 @@ namespace WpfApplication1
                     return;
                 }
             }
+
+            sudoku.ChangeNumber(new Number.Position(myTextBox.row, myTextBox.column), Convert.ToInt32(myTextBox.Text));
+
             myTextBox.PastText = myTextBox.Text;
         }
 
