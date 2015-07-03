@@ -16,5 +16,10 @@ namespace Sudoku
         {
             Console.Write("This just for... reasons unknown");
         }
+
+        public static void TestSudoku1()
+        {
+
+        }
     }
 }
