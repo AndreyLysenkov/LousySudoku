@@ -81,9 +81,7 @@ namespace Sudoku
 
         public Sudoku()
         {
-            number = new Number[0];
-            block = new Number[0];
-            size = new Size(9, 9);
+            
         }
         
         string IStringify.Stringify()
