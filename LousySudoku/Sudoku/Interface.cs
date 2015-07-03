@@ -13,9 +13,9 @@ namespace Sudoku
             return null;
         }
 
-        public static bool ChangeNumber(Sudoku sudoku, Number number)
+        public static bool ChangeNumber(Sudoku sudoku, Number.Position number_position, int value)
         {
-            return false;
+            return sudoku.ChangeNumber(number_position, value);
         }
 
     }
