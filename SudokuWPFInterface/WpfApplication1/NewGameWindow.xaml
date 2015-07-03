@@ -1,0 +1,11 @@
+﻿<Window x:Class="WpfApplication1.NewGameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="NewGameWindow" Height="150" Width="300">
+    <Grid>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="110,82,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label Content="Размер" HorizontalAlignment="Left" Margin="57,31,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.816,0.269"/>
+        <ComboBox HorizontalAlignment="Left" Margin="141,35,0,0" VerticalAlignment="Top" Width="120" RenderTransformOrigin="1.075,0.636"/>
+
+    </Grid>
+</Window>

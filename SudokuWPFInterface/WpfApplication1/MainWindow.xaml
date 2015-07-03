@@ -21,7 +21,7 @@
                 </LinearGradientBrush>
             </Menu.Background>
             <MenuItem Header="Судоку">
-                <MenuItem Header="Новое..."></MenuItem>
+                <MenuItem Header="Новая игра" Click="NewGame_Click"></MenuItem>
                 <MenuItem Header="Открыть..."></MenuItem>
                 <MenuItem Header="Сохранить..."></MenuItem>
                 <Separator></Separator>

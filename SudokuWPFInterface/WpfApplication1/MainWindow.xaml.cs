@@ -25,12 +25,12 @@ namespace WpfApplication1
 
         List<int> AdmissibleValues = new List<int> { }; // Содерждит колекцию допустимых значений
 
-
         public MainWindow()
         {
             InitializeComponent();
-        }
 
+            Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+        }
 
         private MyTextBox TextBox_9_9Add(int row, int column)
         {
@@ -141,7 +141,7 @@ namespace WpfApplication1
             myTextBox.PastText = myTextBox.Text;
         }
 
-        private void _9x9_Click(object sender, RoutedEventArgs e)
+        public void CreateGrid_9x9()
         {
             mainWindow.Height = 720 + 2 * 10;
             mainWindow.Width = 750 + 2 * 10;
@@ -155,7 +155,7 @@ namespace WpfApplication1
 
             for (int i = 1; i < 10; i++)
                 AdmissibleValues.Add(i);
-            
+
             foreach (TextBox tb in textBox)
                 sudokuGrid.Children.Remove(tb);
 
@@ -166,19 +166,9 @@ namespace WpfApplication1
                     textBox.Add(TextBox_9_9Add(i, j));
                 }
             }
-            ///////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
         }
 
-        private void _16x16_Click(object sender, RoutedEventArgs e)
+        public void CreateGrid_16x16()
         {
             mainWindow.Height = 700 + 4 * 10;
             mainWindow.Width = 725 + 4 * 10;
@@ -204,22 +194,31 @@ namespace WpfApplication1
                     textBox.Add(TextBox_16_16Add(i, j));
                 }
             }
-            ///////////////////////////////////////////////////////////////////////
+        }
 
+        private void _9x9_Click(object sender, RoutedEventArgs e)
+        {
+            CreateGrid_9x9();
+        }
 
-
-
-
-
-
-
-
-
+        private void _16x16_Click(object sender, RoutedEventArgs e)
+        {
+            CreateGrid_16x16();
         }
 
         private void Exit(object sender, RoutedEventArgs e)
         {
-            Close();
+            Environment.Exit(0);
+        }
+
+        public void NewGame_Click(object sender, RoutedEventArgs e)
+        {
+            string size = "";
+            NewGame newGameWindow = new NewGame();
+            newGameWindow.parent = this;
+            newGameWindow.Owner = this;
+            newGameWindow.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
+            newGameWindow.Show();
         }
 
     }
