@@ -4,6 +4,8 @@
 *.dll
 *.exe
 *.pdb
+*.exe.config
+*.exe.manifest
 
 # User-specific files
 *.suo
