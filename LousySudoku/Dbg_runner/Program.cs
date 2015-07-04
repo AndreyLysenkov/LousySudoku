@@ -12,6 +12,12 @@ namespace Dbg_runner
         {
             Sudoku.Sudoku sudoku = Debug.TestSudoku1();
 
+            Console.WriteLine("Change number");
+            sudoku.ChangeNumber(new Number.Position(2, 1), 9);
+
+            Console.WriteLine("Print sudoku");
+            Debug.ShowSudoku(sudoku, 9);
+
             Console.ReadLine();
         }
     }
