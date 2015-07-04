@@ -54,7 +54,7 @@ namespace Sudoku
 
         Number[] number;
 
-        Block[] block;
+        public Block[] block;
 
         public Number.Position Size;
 

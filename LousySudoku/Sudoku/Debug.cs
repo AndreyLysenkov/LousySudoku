@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Sudoku
 {
-    public class Debug : Block
+    public static class Debug
     {
         public static string TestString()
         {
@@ -98,7 +98,15 @@ namespace Sudoku
             return result;
         }
 
-
+        public static string PrintBlocks(Sudoku sudoku)
+        {
+            string result = "Printing.. ";
+            for (int i = 0; i < sudoku.block.Length; i++)
+            {
+                result += "#" + i.ToString() + " " + BlockToString(sudoku.block[i]);
+            }
+            return result;
+        }
 
     }
 
