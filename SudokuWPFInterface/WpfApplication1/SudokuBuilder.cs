@@ -13,7 +13,7 @@ namespace WpfApplication1
         {
 
 
-            Number.Position[,] block = new Number.Position[9 + 9 + 9 , 9];
+            Number.Position[,] block = new Number.Position[9 + 9 , 9];
 
             ///Добавление блоков (горизонтальные линии);
             for (int i = 0; i < 9; i++)
