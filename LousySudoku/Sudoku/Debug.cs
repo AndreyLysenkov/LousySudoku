@@ -78,9 +78,14 @@ namespace Sudoku
             return sudoku;
         }
 
-        public static string CoordinateTostring(Number.Position coordinates)
+        public static string CoordinateToString(Number.Position coordinates)
         {
             return coordinates.X + ";" + coordinates.Y;
+        }
+
+        public static string NumberToString(Number number)
+        {
+            return number.Value.ToString() + "|" + number.type + "|" + CoordinateToString(number.position);
         }
 
     }
