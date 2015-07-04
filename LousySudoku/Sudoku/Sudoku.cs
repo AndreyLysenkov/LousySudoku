@@ -79,6 +79,7 @@ namespace Sudoku
                 }
                 this.block[i] = new Block(children);
             }
+
         }
         
         string IStringify.Stringify()
