@@ -40,6 +40,13 @@ namespace Sudoku
             {
                 block[i] = new Number.Position[9];
             }
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    block[i][j] = new Number.Position(i , j);
+                }
+            }
             Console.WriteLine("temp vars initialized");
 
             Console.WriteLine("Call constructor Sufoku");
@@ -48,5 +55,6 @@ namespace Sudoku
             Console.WriteLine("Call method Debug.ShowSudoku");
             ShowSudoku(sudoku, 9);
         }
+
     }
 }
