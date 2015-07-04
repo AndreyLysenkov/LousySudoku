@@ -31,6 +31,8 @@ namespace Sudoku
 
         public static void TestSudoku1()
         {
+            Console.WriteLine("Starting TestSudoku1()");
+
             int[,] value = new int[9, 9];
             Number.NumberType[,] mask = new Number.NumberType[9, 9];
             Number.Position[][] block = new Number.Position[9][];
@@ -38,7 +40,12 @@ namespace Sudoku
             {
                 block[i] = new Number.Position[9];
             }
+            Console.WriteLine("temp vars initialized");
+
+            Console.WriteLine("Call constructor Sufoku");
             Sudoku sudoku = new Sudoku(new Number.Position(9, 9), value, mask, block);
+
+            Console.WriteLine("Call method Debug.ShowSudoku");
             ShowSudoku(sudoku, 9);
         }
     }
