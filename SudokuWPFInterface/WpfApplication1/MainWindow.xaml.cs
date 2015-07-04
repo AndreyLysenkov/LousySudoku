@@ -157,9 +157,8 @@ namespace WpfApplication1
                 valueText =  Convert.ToInt32(myTextBox.Text);
             
 
-            sudoku.ChangeNumber(new Number.Position(myTextBox.column, myTextBox.row), valueText);
-            
-
+            bool success = sudoku.ChangeNumber(new Number.Position(myTextBox.row, myTextBox.column), valueText);
+            Sudoku.Debug.ShowSudoku(sudoku, 9);
         }
 
         public void CreateGrid_9x9()
