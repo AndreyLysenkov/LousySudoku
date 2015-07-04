@@ -66,7 +66,7 @@ namespace WpfApplication1
             Grid.SetColumn(tb, column);
             Grid.SetRow(tb, row);
 
-            tb.Text = sudoku.ReturnNumberByPosition(new Number.Position(column, row)).Value.ToString();
+            tb.Text = sudoku.ReturnNumberByPosition(new Number.Position(row, column)).Value.ToString();
 
             ///Console.WriteLine(sudoku.ReturnNumberByPosition(new Number.Position(column, row)).Value);
 
