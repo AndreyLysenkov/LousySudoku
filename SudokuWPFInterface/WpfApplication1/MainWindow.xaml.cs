@@ -158,7 +158,9 @@ namespace WpfApplication1
             
 
             bool success = sudoku.ChangeNumber(new Number.Position(myTextBox.row, myTextBox.column), valueText);
+            
             Sudoku.Debug.ShowSudoku(sudoku, 9);
+            Sudoku.Debug.ShowSudokuRightness(sudoku, 9);
         }
 
         public void CreateGrid_9x9()
