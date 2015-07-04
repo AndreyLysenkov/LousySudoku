@@ -29,7 +29,7 @@ namespace Sudoku
             }
         }
 
-        public static void TestSudoku1()
+        public static Sudoku TestSudoku1()
         {
             Console.WriteLine("Starting TestSudoku1()");
 
@@ -54,6 +54,9 @@ namespace Sudoku
 
             Console.WriteLine("Call method Debug.ShowSudoku");
             ShowSudoku(sudoku, 9);
+
+            Console.WriteLine("Return sudoku. Method TestSudoku1() ends here");
+            return sudoku;
         }
 
     }

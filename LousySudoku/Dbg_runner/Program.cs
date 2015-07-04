@@ -10,7 +10,8 @@ namespace Dbg_runner
     {
         static void Main(string[] args)
         {
-            Debug.TestSudoku1();
+            Sudoku.Sudoku sudoku = Debug.TestSudoku1();
+
             Console.ReadLine();
         }
     }
