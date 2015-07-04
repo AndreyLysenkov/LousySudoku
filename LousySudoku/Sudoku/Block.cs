@@ -87,5 +87,13 @@ namespace Sudoku
             return (this.Check().Length == 0);
         }
     
+        public void AddReference()
+        {
+            for (int i = 0; i < children.Length; i++)
+            {
+                children[i].AddParent(this);
+            }
+        }
+
     }
 }
