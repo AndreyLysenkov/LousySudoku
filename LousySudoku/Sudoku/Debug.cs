@@ -35,6 +35,14 @@ namespace Sudoku
 
             int[,] value = new int[9, 9];
             Number.NumberType[,] mask = new Number.NumberType[9, 9];
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    mask[i, j] = Number.NumberType.Modify;
+                }
+            }
+
             Number.Position[][] block = new Number.Position[9][];
             for (int i = 0; i < 9; i++)
             {
