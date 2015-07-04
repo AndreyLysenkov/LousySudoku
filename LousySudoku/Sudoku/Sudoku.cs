@@ -78,8 +78,8 @@ namespace Sudoku
                     children[j] = this.ReturnNumberByPosition(block[i][j]);
                 }
                 this.block[i] = new Block(children);
+                this.block[i].AddReference();
             }
-
         }
         
         string IStringify.Stringify()
