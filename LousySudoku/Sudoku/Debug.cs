@@ -103,7 +103,7 @@ namespace Sudoku
             string result = "Printing.. ";
             for (int i = 0; i < sudoku.block.Length; i++)
             {
-                result += "#" + i.ToString() + " " + BlockToString(sudoku.block[i]);
+                result += "\n" + "#" + i.ToString() + " " + BlockToString(sudoku.block[i]);
             }
             return result;
         }
