@@ -44,7 +44,7 @@ namespace WpfApplication1
             tb.row = row; tb.column = column;
             tb.Name = "_" + Convert.ToString(row) + "_" + Convert.ToString(column);
             tb.TextAlignment = TextAlignment.Center;
-            tb.FontSize = 30;
+            tb.FontSize = 45;
             tb.Background = new SolidColorBrush(Colors.Transparent);
             tb.BorderBrush = new SolidColorBrush(Colors.Black);
             tb.BorderThickness = new Thickness(2);
