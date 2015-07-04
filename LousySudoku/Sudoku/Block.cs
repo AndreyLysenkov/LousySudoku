@@ -16,7 +16,7 @@ namespace Sudoku
         /// <summary>
         /// Содержит ссылки на ячейки, принадлежащие блоку
         /// </summary>
-        Number[] children;
+        public Number[] children;
 
         public Block(Number[] children)
         {

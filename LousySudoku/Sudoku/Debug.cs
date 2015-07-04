@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Sudoku
 {
-    public class Debug
+    public class Debug : Block
     {
         public static string TestString()
         {
@@ -87,6 +87,18 @@ namespace Sudoku
         {
             return number.Value.ToString() + "|" + number.type + "|" + CoordinateToString(number.position);
         }
+
+        public static string BlockToString(Block block)
+        {
+            string result = "BLOCK: ";
+            for (int i = 0; i < block.children.Length; i++)
+            {
+                result += " ++ " + NumberToString(block.children[i]);
+            }
+            return result;
+        }
+
+
 
     }
 
