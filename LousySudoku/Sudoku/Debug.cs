@@ -78,6 +78,11 @@ namespace Sudoku
             return sudoku;
         }
 
+        public static string CoordinateTostring(Number.Position coordinates)
+        {
+            return coordinates.X + ";" + coordinates.Y;
+        }
+
     }
 
 }
