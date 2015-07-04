@@ -38,7 +38,7 @@ namespace Sudoku
             {
                 for (int j = 0; j < size; j++)
                 {
-                    Console.Write("{0}   ", sudoku.ReturnNumberByPosition(new Number.Position(i, j)).IsRight());
+                    Console.Write("{0}   ", (sudoku.ReturnNumberByPosition(new Number.Position(i, j)).IsRight()) ? 1 : 0);
                 }
                 Console.WriteLine();
             }
