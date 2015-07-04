@@ -116,20 +116,18 @@ namespace WpfApplication1
                 }
 
             }
+            ///////////////
+            if (!sudoku.ReturnNumberByPosition(new Number.Position(myTextBox.row, myTextBox.column)).IsRight())
+                myTextBox.Background = new SolidColorBrush(Colors.Red);
+            else
+                myTextBox.Background = new SolidColorBrush(Colors.Transparent);
+
         }
 
         private void lostFocus(object sender, RoutedEventArgs e)
         {
             MyTextBox myTextBox = (MyTextBox)sender;
 
-            for(int i = 0; i < myTextBox.Text.Length; i++)
-            {
-                if (myTextBox.Text[i] < '1' || myTextBox.Text[i] > '9')
-                {
-                    myTextBox.Text = myTextBox.PastText;
-                    return;
-                }
-            }
             if (myTextBox.Text != "")
             {
                 bool IsAdmissibleValue = true;
@@ -153,7 +151,14 @@ namespace WpfApplication1
 
             myTextBox.PastText = myTextBox.Text;
             /////////////////////////////////////////
+            int valueText = 0;
 
+            if (myTextBox.Text != "")
+                valueText =  Convert.ToInt32(myTextBox.Text);
+            
+
+            sudoku.ChangeNumber(new Number.Position(myTextBox.column, myTextBox.row), valueText);
+            
 
         }
 
@@ -162,7 +167,7 @@ namespace WpfApplication1
             sudoku = SudokuBuilder.GetStandart9((new Debug()).matrix);
 
             mainWindow.Height = 720 + 2 * 10;
-            mainWindow.Width = 750 + 2 * 10;
+            mainWindow.Width = 745 + 2 * 10;
 
             sudokuGrid.Children.Clear();
             sudokuGrid.Columns = 9;
@@ -188,8 +193,8 @@ namespace WpfApplication1
 
         public void CreateGrid_16x16()
         {
-            mainWindow.Height = 700 + 4 * 10;
-            mainWindow.Width = 725 + 4 * 10;
+            mainWindow.Height = 700 + 3 * 10;
+            mainWindow.Width = 725 + 3 * 10;
 
             sudokuGrid.Children.Clear();
 
