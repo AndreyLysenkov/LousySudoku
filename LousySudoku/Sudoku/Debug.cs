@@ -27,6 +27,21 @@ namespace Sudoku
                 }
                 Console.WriteLine();
             }
+            Console.WriteLine(" / / / / / / AL");
+        }
+
+        public static void ShowSudokuRightness(Sudoku sudoku, int size)
+        {
+            Console.WriteLine(" - - - - - - - AL");
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    Console.Write("{0}   ", sudoku.ReturnNumberByPosition(new Number.Position(i, j)).IsRight());
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine(" / / / / / / AL");
         }
 
         public static Sudoku TestSudoku1()
