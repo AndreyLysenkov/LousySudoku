@@ -117,10 +117,14 @@ namespace WpfApplication1
 
             }
             ///////////////
-            if (!sudoku.ReturnNumberByPosition(new Number.Position(myTextBox.row, myTextBox.column)).IsRight())
-                myTextBox.Background = new SolidColorBrush(Colors.Red);
+            if (sudoku.ReturnNumberByPosition(new Number.Position(myTextBox.row, myTextBox.column)).IsRight())
+            {
+                myTextBox.Background = new SolidColorBrush(Colors.Blue);
+            }
             else
-                myTextBox.Background = new SolidColorBrush(Colors.Transparent);
+            {
+                myTextBox.Background = new SolidColorBrush(Colors.Red);
+            }
 
         }
 
