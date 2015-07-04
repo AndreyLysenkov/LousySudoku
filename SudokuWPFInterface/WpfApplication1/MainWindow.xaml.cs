@@ -68,7 +68,7 @@ namespace WpfApplication1
 
             tb.Text = sudoku.ReturnNumberByPosition(new Number.Position(column, row)).Value.ToString();
 
-            Console.WriteLine(sudoku.ReturnNumberByPosition(new Number.Position(column, row)).Value);
+            ///Console.WriteLine(sudoku.ReturnNumberByPosition(new Number.Position(column, row)).Value);
 
             return tb;
         }
