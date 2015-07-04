@@ -19,11 +19,12 @@ namespace Sudoku
 
         public static void ShowSudoku(Sudoku sudoku, int size)
         {
+            Console.WriteLine(" - - - - - - - AL");
             for (int i = 0; i < size; i++)
             {
                 for (int j = 0; j < size; j++)
                 {
-                    Console.Write(sudoku.ReturnNumberByPosition(new Number.Position(i, j)).Value);
+                    Console.Write("{0}   ", sudoku.ReturnNumberByPosition(new Number.Position(i, j)).Value);
                 }
                 Console.WriteLine();
             }
