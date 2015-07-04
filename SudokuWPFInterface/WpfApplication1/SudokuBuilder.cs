@@ -33,7 +33,7 @@ namespace WpfApplication1
                 }
             }
 
-            return null;
+            return Sudoku.Debug.TestSudoku1();
         }
     }
 }

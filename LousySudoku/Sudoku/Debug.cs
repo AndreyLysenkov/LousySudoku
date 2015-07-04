@@ -34,6 +34,17 @@ namespace Sudoku
             Console.WriteLine("Starting TestSudoku1()");
 
             int[,] value = new int[9, 9];
+            //////////////
+            Random rand = new Random();
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    value[i, j] = rand.Next(9);
+                }
+            }
+            ////////////////
+            
             Number.NumberType[,] mask = new Number.NumberType[9, 9];
             for (int i = 0; i < 9; i++)
             {

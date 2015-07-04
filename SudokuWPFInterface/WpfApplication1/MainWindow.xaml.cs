@@ -65,6 +65,11 @@ namespace WpfApplication1
 
             Grid.SetColumn(tb, column);
             Grid.SetRow(tb, row);
+
+            tb.Text = sudoku.ReturnNumberByPosition(new Number.Position(column, row)).Value.ToString();
+
+            Console.WriteLine(sudoku.ReturnNumberByPosition(new Number.Position(column, row)).Value);
+
             return tb;
         }
         
@@ -95,6 +100,7 @@ namespace WpfApplication1
 
             Grid.SetColumn(tb, column);
             Grid.SetRow(tb, row);
+
             return tb;
         }
 
@@ -145,13 +151,16 @@ namespace WpfApplication1
                 }
             }
 
-            sudoku.ChangeNumber(new Number.Position(myTextBox.row, myTextBox.column), Convert.ToInt32(myTextBox.Text));
-
             myTextBox.PastText = myTextBox.Text;
+            /////////////////////////////////////////
+
+
         }
 
         public void CreateGrid_9x9()
         {
+            sudoku = SudokuBuilder.GetStandart9((new Debug()).matrix);
+
             mainWindow.Height = 720 + 2 * 10;
             mainWindow.Width = 750 + 2 * 10;
 
