@@ -59,6 +59,7 @@ namespace Sudoku
             this.type = type;
             this.position = position;
             this.value = value;
+            this.parents = new Block[0];
         }
 
         public int Value
@@ -157,6 +158,12 @@ namespace Sudoku
             if (this.IsModified)
                 this.value = 0;
             return this.IsModified;
+        }
+
+        public void AddParent(Block new_parent)
+        {
+            Array.Resize(ref this.parents, this.parents.Length + 1);
+            this.parents[this.parents.Length - 1] = new_parent;
         }
 
     }
