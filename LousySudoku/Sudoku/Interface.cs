@@ -69,9 +69,8 @@ namespace Sudoku
 
                 return new Sudoku(new Number.Position(9, 9), value, mask, block);
             }
-        }
 
-        public static Sudoku GetStandart16(int[,] numbs)
+            public static Sudoku GetStandart16(int[,] numbs)
             {
 
                 Number.Position[][] block = new Number.Position[16 + 16][];
@@ -119,7 +118,9 @@ namespace Sudoku
 
                 return new Sudoku(new Number.Position(16, 16), value, mask, block);
             }
-        }
 
+
+        }
     }
+
 }
