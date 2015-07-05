@@ -141,7 +141,22 @@ namespace Sudoku
 
         IStringify IStringify.Unstringify(string value)
         {
-            return null;
+            string[] result = value.Split(new char[] {'|'});
+            Block block = new Block(new Number[0]);
+            block.Children = new Number[result.Length];
+            for (int i = 0; i < result.Length; i++)
+            {
+                if (result[i].Length != 0)
+                {
+                    block.Children[i] =
+                        new Number(
+                            0, 
+                            (Number.Position)((IStringify)(new Number.Position(0, 0))).Unstringify(result[i]),
+                            0
+                        );
+                }
+            }
+            return block;
         }
 
     }
