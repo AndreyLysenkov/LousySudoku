@@ -40,7 +40,7 @@ namespace Sudoku
             public static Sudoku GetStandart9(int[,] numbs)
             {
 
-                Number.Position[][] block = new Number.Position[9 + 9][];
+                Number.Position[][] block = new Number.Position[9 + 9 + 9][];
 
                 ///Добавление блоков (горизонтальные линии);
                 for (int i = 0; i < 9; i++)
@@ -62,28 +62,25 @@ namespace Sudoku
                     }
                 }
 
-                int[,] value = new int[9, 9];
-                //////////////
-                Random rand = new Random();
-                for (int i = 0; i < 9; i++)
+                ///Добавление квадратных блоков;
+                for (int i = 0; i < 9; i += 3)
                 {
-                    for (int j = 0; j < 9; j++)
+                    for (int j = 0; j < 9; j += 3)
                     {
-                        value[i, j] = rand.Next(9);
+
                     }
                 }
-                ////////////////
 
                 Number.NumberType[,] mask = new Number.NumberType[9, 9];
                 for (int i = 0; i < 9; i++)
                 {
                     for (int j = 0; j < 9; j++)
                     {
-                        mask[i, j] = Number.NumberType.Modify;
+                        mask[i, j] = (numbs[i, j] == 0) ? Number.NumberType.Modify : Number.NumberType.Constant;
                     }
                 }
 
-                return new Sudoku(new Number.Position(9, 9), value, mask, block);
+                return new Sudoku(new Number.Position(9, 9), numbs, mask, block);
             }
 
             public static Sudoku GetStandart16(int[,] numbs)
