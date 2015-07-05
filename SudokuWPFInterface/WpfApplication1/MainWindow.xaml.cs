@@ -118,6 +118,22 @@ namespace WpfApplication1
 
             }
             ///////////////
+            foreach (MyTextBox tb in textBox)
+            {
+                if (tb.Text != "")
+                {
+                    if (sudoku.ReturnNumberByPosition(new Number.Position(tb.row, tb.column)).IsRight())
+                    {
+                        tb.Background = new SolidColorBrush(Colors.Transparent);
+                    }
+                    else
+                    {
+                        tb.Background = new SolidColorBrush(Colors.Red);
+                    }
+                }
+                else
+                    tb.Background = new SolidColorBrush(Colors.Transparent);
+            }
 
         }
 
