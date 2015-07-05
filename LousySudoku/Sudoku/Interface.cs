@@ -8,9 +8,9 @@ namespace Sudoku
     public static class Interface
     {
 
-        public static Sudoku CreateSudoku()
+        public static Sudoku CreateSudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[][] block)
         {
-            return null;
+            return new Sudoku(size, value, mask, block);
         }
 
         public static bool ChangeNumber(Sudoku sudoku, Number.Position number_position, int value)
@@ -22,8 +22,6 @@ namespace Sudoku
         {
             return sudoku.ReturnNumberByPosition(position);
         }
-
-
 
         public static class SudokuBuilder
         {
@@ -219,6 +217,7 @@ namespace Sudoku
 
 
         }
+    
     }
 
 }
