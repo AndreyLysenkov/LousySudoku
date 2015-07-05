@@ -109,10 +109,9 @@ namespace Sudoku
                     );
             }
 
-            private static Sudoku GetStandart(int[,] numbs, Number.NumberType mask, int sudoku_size, int block_size)
+            private static Sudoku GetStandart(int[,] numbs, Number.NumberType[,] mask, int sudoku_size, int block_size)
             {
                 Number.Position[][] block = GetAllStandartBlock(new Number.Position(sudoku_size, sudoku_size), new Number.Position(block_size, block_size));
-
                 return new Sudoku(new Number.Position(sudoku_size, sudoku_size), numbs, mask, block);
             }
 
