@@ -21,20 +21,99 @@ namespace Sudoku
         public static class SudokuBuilder
         {
 
-            private static Block GetBlock(Sudoku sudoku, Number.Position start_position, Number.Position size)
+            private static Number.Position[] GetSquareBlock(Number.Position start_position, Number.Position size)
             {
-                Number[] result = new Number[size.X * size.Y];
+                Number.Position[] result = new Number.Position[size.X * size.Y];
                 for (int i = 0; i < size.X; i++ )
                 {
                     for (int j = 0; j < size.Y; j++)
                     {
-                        result[i * size.Y + j] =
-                            sudoku.ReturnNumberByPosition(
-                                new Number.Position(start_position.X + i, start_position.Y + j)
-                            );
+                        result[i * size.Y + j] = new Number.Position(start_position.X + i, start_position.Y + j);
+
                     }
                 }
-                return new Block(result);
+                return result;
+            }
+
+            private static Number.Position[][] GetAllSquareBlock(Number.Position sudoku_size, Number.Position block_size)
+            {
+                Number.Position[][] result = new Number.Position[0][];
+                for (int i = 0, k = 0; i < sudoku_size.X; i += block_size.X, k++)
+                {
+                    for (int j = 0; j < sudoku_size.Y; j += block_size.Y, k++)
+                    {
+                        result[k] = GetSquareBlock(new Number.Position(i, j), block_size);
+                    }
+                }
+                return result;
+            }
+
+            private static Number.Position[] GetLineBlock(Number.Position start_position, int length, bool isHorizontal)
+            {
+                Number.Position[] result = new Number.Position[length];
+                for (int i = 0; i < length; i++)
+                {
+                    result[i] = new Number.Position(
+                        start_position.X + ((isHorizontal) ? i : 0),
+                        start_position.Y + ((isHorizontal) ? 0 : i)
+                        );
+                }
+                return result;
+            }
+
+            private static Number.Position[][] GetAllLineBlock(Number.Position size, bool isHorizontal)
+            {
+                int length = (isHorizontal) ? size.X : size.Y;
+                int block_count = (isHorizontal) ? size.Y : size.X;
+                Number.Position[][] result = new Number.Position[block_count][];
+                for (int i = 0; i < block_count; i++)
+                {
+                    result[i] = 
+                        GetLineBlock(
+                            new Number.Position(
+                                (isHorizontal) ? 0 : i,
+                                (isHorizontal) ? i : 0
+                            ), 
+                            length, 
+                            isHorizontal
+                        );
+                }
+                return result;
+            }
+
+            private static void CombineArrays_WriteArray<item>(ref item[] array, int start_position, item[] array_a)
+            {
+                for (int i = 0; i < array_a.Length; i++)
+                {
+                    array[start_position + i] = array_a[i];
+                }
+            }
+
+            private static item[] CombineArrays<item>(item[] array_a, item[] array_b)
+            {
+                item[] result = new item[array_a.Length + array_b.Length];
+                CombineArrays_WriteArray(ref result, 0, array_a);
+                CombineArrays_WriteArray(ref result, array_a.Length, array_b);
+                return result;
+            }
+
+            private static Number.Position[][] GetAllStandartBlock(Number.Position sudoku_size, Number.Position block_size)
+            {
+                Number.Position[][] result_Horisontal = GetAllLineBlock(sudoku_size, true);
+                Number.Position[][] result_Vertical = GetAllLineBlock(sudoku_size, false);
+                Number.Position[][] result_Square = GetAllSquareBlock(sudoku_size, block_size);
+                return 
+                    CombineArrays(
+                        CombineArrays(result_Horisontal, result_Vertical),
+                        result_Square
+                    );
+            }
+
+            private static Sudoku GetStandart(int[,] numbs, Number.NumberType mask, int sudoku_size, int block_size)
+            {
+                Number.Position[][] block = GetAllStandartBlock(new Number.Position(sudoku_size, sudoku_size), new Number.Position(block_size, block_size));
+
+                return new Sudoku(new Number.Position(sudoku_size, sudoku_size), numbs, mask, block);
             }
 
             public static Sudoku GetStandart9(int[,] numbs)
