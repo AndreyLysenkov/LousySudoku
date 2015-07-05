@@ -105,19 +105,8 @@ namespace WpfApplication1
             return tb;
         }
 
-        private void textChangedEventHandler(object sender, TextChangedEventArgs args)
+        private void UpdateRightness()
         {
-            MyTextBox myTextBox = (MyTextBox)sender;
-            for (int i = 0; i < myTextBox.Text.Length; i++)
-            {
-                if (myTextBox.Text[i] < '1' || myTextBox.Text[i] > '9')
-                {
-                    myTextBox.Text = myTextBox.PastText;
-                    return;
-                }
-
-            }
-            ///////////////
             foreach (MyTextBox tb in textBox)
             {
                 if (tb.Text != "")
@@ -134,6 +123,31 @@ namespace WpfApplication1
                 else
                     tb.Background = new SolidColorBrush(Colors.Transparent);
             }
+        }
+
+        private void textChangedEventHandler(object sender, TextChangedEventArgs args)
+        {
+            MyTextBox myTextBox = (MyTextBox)sender;
+            for (int i = 0; i < myTextBox.Text.Length; i++)
+            {
+                if (myTextBox.Text[i] < '1' || myTextBox.Text[i] > '9')
+                {
+                    myTextBox.Text = myTextBox.PastText;
+                    return;
+                }
+
+            }
+            ///////////////
+
+            int valueText = 0;
+
+            if (myTextBox.Text != "")
+                valueText = Convert.ToInt32(myTextBox.Text);
+
+
+            bool success = sudoku.ChangeNumber(new Number.Position(myTextBox.row, myTextBox.column), valueText);
+
+            UpdateRightness();
 
         }
 
@@ -165,30 +179,9 @@ namespace WpfApplication1
 
             myTextBox.PastText = myTextBox.Text;
             /////////////////////////////////////////
-            int valueText = 0;
 
-            if (myTextBox.Text != "")
-                valueText =  Convert.ToInt32(myTextBox.Text);
-            
 
-            bool success = sudoku.ChangeNumber(new Number.Position(myTextBox.row, myTextBox.column), valueText);
-
-            foreach (MyTextBox tb in textBox)
-            {
-                if (tb.Text != "")
-                {
-                    if (sudoku.ReturnNumberByPosition(new Number.Position(tb.row, tb.column)).IsRight())
-                    {
-                        tb.Background = new SolidColorBrush(Colors.Transparent);
-                    }
-                    else
-                    {
-                        tb.Background = new SolidColorBrush(Colors.Red);
-                    }
-                }
-                else
-                    tb.Background = new SolidColorBrush(Colors.Transparent);
-            }
+            UpdateRightness();
 
             Sudoku.Debug.ShowSudoku(sudoku, 9);
             Sudoku.Debug.ShowSudokuRightness(sudoku, 9);
@@ -224,22 +217,7 @@ namespace WpfApplication1
                 }
             }
 
-            foreach (MyTextBox tb in textBox)
-            {
-                if (tb.Text != "")
-                {
-                    if (sudoku.ReturnNumberByPosition(new Number.Position(tb.row, tb.column)).IsRight())
-                    {
-                        tb.Background = new SolidColorBrush(Colors.Transparent);
-                    }
-                    else
-                    {
-                        tb.Background = new SolidColorBrush(Colors.Red);
-                    }
-                }
-                else
-                    tb.Background = new SolidColorBrush(Colors.Transparent);
-            }
+            UpdateRightness();
 
         }
 
