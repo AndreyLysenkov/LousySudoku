@@ -41,6 +41,30 @@ namespace Sudoku
             return sudoku.GetNumber(position);
         }
 
+        /// <summary>
+        /// Возвращает отобращение судоку
+        /// </summary>
+        /// <param name="sudoku">ссылка на экземпляр судоку</param>
+        /// <param name="number">матрица чисел</param>
+        /// <param name="mask">матрица маски чисел</param>
+        /// <param name="rightness">матрица правильности чисел</param>
+        public static void GetGrid(Sudoku sudoku, ref int[,] number, ref int[,] mask, ref bool[,] rightness)
+        {
+            number = new int[sudoku.Size.X, sudoku.Size.Y];
+            mask = new int[sudoku.Size.X, sudoku.Size.Y];
+            rightness = new bool[sudoku.Size.X, sudoku.Size.Y];
+            for (int i = 0; i < sudoku.Size.X; i++)
+            {
+                for (int j = 0; j < sudoku.Size.Y; j++)
+                {
+                    Number theNumber = sudoku.GetNumber(new Number.Position(i, j));
+                    number[i, j] = theNumber.Value;
+                    mask[i, j] = (int)theNumber.Type;
+                    rightness[i, j] = theNumber.IsRight();
+                }
+            }
+        }
+
         public static class SudokuBuilder
         {
 
