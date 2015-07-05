@@ -61,6 +61,21 @@ namespace Sudoku
                 return ((position.X == this.X) && (position.Y == this.Y));
             }
 
+            string IStringify.Stringify()
+            {
+                return this.X + "_" + this.Y;
+            }
+
+            IStringify IStringify.Unstringify(string value)
+            {
+                string[] result = value.Split(new char[] { '_' }, 2);
+                return
+                    new Position(
+                        Convert.ToInt32(result[0]),
+                        Convert.ToInt32(result[1])
+                    );
+            }
+
         }
 
         /// <summary>
