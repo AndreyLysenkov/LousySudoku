@@ -111,7 +111,7 @@ namespace Sudoku
          * Переопределенные методы и методы интерфейсов
          */
 
-        protected virtual static int[] Check(int[] value, bool[] mask)
+        protected virtual int[] Check(int[] value, bool[] mask)
         {
             int[] result = new int[0];
             for (int i = 0; i < value.Length; i++)

@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Sudoku
 {
+
     public static class Debug
     {
         public static string TestString()
@@ -24,7 +25,7 @@ namespace Sudoku
             {
                 for (int j = 0; j < size; j++)
                 {
-                    Console.Write("{0}   ", sudoku.ReturnNumberByPosition(new Number.Position(i, j)).Value);
+                    Console.Write("{0}   ", sudoku.GetNumber(new Number.Position(i, j)).Value);
                 }
                 Console.WriteLine();
             }
@@ -38,7 +39,7 @@ namespace Sudoku
             {
                 for (int j = 0; j < size; j++)
                 {
-                    Console.Write("{0}   ", (sudoku.ReturnNumberByPosition(new Number.Position(i, j)).IsRight()) ? 1 : 0);
+                    Console.Write("{0}   ", (sudoku.GetNumber(new Number.Position(i, j)).IsRight()) ? 1 : 0);
                 }
                 Console.WriteLine();
             }
@@ -101,15 +102,15 @@ namespace Sudoku
 
         public static string NumberToString(Number number)
         {
-            return number.Value.ToString() + "|" + number.type + "|" + CoordinateToString(number.position);
+            return number.Value.ToString() + "|" + number.Type + "|" + CoordinateToString(number.Coordinates);
         }
 
         public static string BlockToString(Block block)
         {
             string result = "BLOCK: ";
-            for (int i = 0; i < block.children.Length; i++)
+            for (int i = 0; i < block.Children.Length; i++)
             {
-                result += " ++ " + NumberToString(block.children[i]);
+                result += " ++ " + NumberToString(block.Children[i]);
             }
             return result;
         }
@@ -117,9 +118,9 @@ namespace Sudoku
         public static string PrintBlocks(Sudoku sudoku)
         {
             string result = "Printing.. ";
-            for (int i = 0; i < sudoku.block.Length; i++)
+            for (int i = 0; i < sudoku.Block.Length; i++)
             {
-                result += "\n" + "#" + i.ToString() + " " + BlockToString(sudoku.block[i]);
+                result += "\n" + "#" + i.ToString() + " " + BlockToString(sudoku.Block[i]);
             }
             return result;
         }
