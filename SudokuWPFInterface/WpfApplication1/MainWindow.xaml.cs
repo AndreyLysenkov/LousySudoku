@@ -68,6 +68,7 @@ namespace WpfApplication1
 
             tb.Text = sudoku.ReturnNumberByPosition(new Number.Position(row, column)).Value.ToString();
 
+
             ///Console.WriteLine(sudoku.ReturnNumberByPosition(new Number.Position(column, row)).Value);
 
             return tb;
@@ -117,14 +118,6 @@ namespace WpfApplication1
 
             }
             ///////////////
-            if (sudoku.ReturnNumberByPosition(new Number.Position(myTextBox.row, myTextBox.column)).IsRight())
-            {
-                myTextBox.Background = new SolidColorBrush(Colors.Blue);
-            }
-            else
-            {
-                myTextBox.Background = new SolidColorBrush(Colors.Red);
-            }
 
         }
 
@@ -151,6 +144,7 @@ namespace WpfApplication1
                     myTextBox.Text = myTextBox.PastText;
                     return;
                 }
+
             }
 
             myTextBox.PastText = myTextBox.Text;
@@ -162,7 +156,24 @@ namespace WpfApplication1
             
 
             bool success = sudoku.ChangeNumber(new Number.Position(myTextBox.row, myTextBox.column), valueText);
-            
+
+            foreach (MyTextBox tb in textBox)
+            {
+                if (tb.Text != "")
+                {
+                    if (sudoku.ReturnNumberByPosition(new Number.Position(tb.row, tb.column)).IsRight())
+                    {
+                        tb.Background = new SolidColorBrush(Colors.Transparent);
+                    }
+                    else
+                    {
+                        tb.Background = new SolidColorBrush(Colors.Red);
+                    }
+                }
+                else
+                    tb.Background = new SolidColorBrush(Colors.Transparent);
+            }
+
             Sudoku.Debug.ShowSudoku(sudoku, 9);
             Sudoku.Debug.ShowSudokuRightness(sudoku, 9);
         }
@@ -170,7 +181,7 @@ namespace WpfApplication1
         public void CreateGrid_9x9()
         {
             sudoku = SudokuBuilder.GetStandart9((new Debug()).matrix);
-
+            
             mainWindow.Height = 720 + 2 * 10;
             mainWindow.Width = 745 + 2 * 10;
 

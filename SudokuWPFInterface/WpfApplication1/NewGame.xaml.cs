@@ -20,6 +20,7 @@ namespace WpfApplication1
     public partial class NewGame : Window
     {
         public MainWindow parent = new MainWindow();
+
         public NewGame()
         {
             InitializeComponent();
