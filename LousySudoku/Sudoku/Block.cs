@@ -131,7 +131,12 @@ namespace Sudoku
 
         string IStringify.Stringify()
         {
-            return null;
+            string result = "";
+            for (int i = 0; i < this.Children.Length; i++)
+            {
+                result += ((IStringify)(this.Children[i].Coordinates)).Stringify() + "|";
+            }
+            return result;
         }
 
         IStringify IStringify.Unstringify(string value)
