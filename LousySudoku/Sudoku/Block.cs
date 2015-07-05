@@ -12,56 +12,106 @@ namespace Sudoku
     /// </summary>
     public class Block : IStringify
     {
-        /*
-         * Поля класса
-         */
-
-        /// <summary>
-        /// Содержит ссылки на ячейки, принадлежащие блоку
-        /// </summary>
-        Number[] children;
 
         /*
          * Свойства
          */
 
+        /// <summary>
+        /// Содержит ссылки на ячейки, принадлежащие блоку
+        /// </summary>
         public Number[] Children
         {
-            get { 
-            
-            }
-            private set
-            {
-
-            }
+            get;
+            private set;
         }
 
+        /*
+         * Конструкторы
+         */
+
+        /// <summary>
+        /// Создает блок  заданными "детьми" - ячейками, принадлежащие данному блоку
+        /// </summary>
+        /// <param name="children"></param>
         public Block(Number[] children)
         {
-            this.children = children;
+            this.Children = children;
         }
 
+       /*
+        * Методы
+        */
+
+        /// <summary>
+        /// Вощвращает правильность заполнености блока по методу Check()
+        /// </summary>
+        /// <returns></returns>
+        public bool IsRight()
+        {
+            return (this.Check().Length == 0);
+        }
+
+        /// <summary>
+        /// Добавляет всем числам блока ссылку на самого себя
+        /// </summary>
+        public void AddReference()
+        {
+            for (int i = 0; i < this.Children.Length; i++)
+            {
+                this.Children[i].AddParent(this);
+            }
+        }
+
+        /// <summary>
+        /// Возвращает все числа, которые не соответствуют правилу блока
+        /// </summary>
+        /// <returns></returns>
+        public Number[] Check()
+        {
+            int[] result_indexes = Check(this.GetValues(), this.GetValuesMask());
+            Number[] result = new Number[result_indexes.Length];
+
+            for (int i = 0; i < result_indexes.Length; i++)
+            {
+                result[i] = this.Children[result_indexes[i]];
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Возвращает все числа блока ввиде массива чисел
+        /// </summary>
+        /// <returns></returns>
         private int[] GetValues()
         {
-            int[] result = new int[children.Length];
-            for (int i = 0; i < children.Length; i++)
+            int[] result = new int[this.Children.Length];
+            for (int i = 0; i < this.Children.Length; i++)
             {
-                result[i] = children[i].Value;
+                result[i] = this.Children[i].Value;
             }
             return result;
         }
 
+        /// <summary>
+        /// Возвращает boolean массив, указывающий содержит ли соответствующая ячейка значение в свойстве Children
+        /// </summary>
+        /// <returns></returns>
         private bool[] GetValuesMask()
         {
-            bool[] result = new bool[children.Length];
-            for (int i = 0; i < children.Length; i++)
+            bool[] result = new bool[this.Children.Length];
+            for (int i = 0; i < this.Children.Length; i++)
             {
-                result[i] = children[i].HasValue;
+                result[i] = this.Children[i].HasValue;
             }
             return result;
         }
 
-        protected virtual int[] Check(int[] value, bool[] mask)
+        /*
+         * Переопределенные методы и методы интерфейсов
+         */
+
+        protected virtual static int[] Check(int[] value, bool[] mask)
         {
             int[] result = new int[0];
             for (int i = 0; i < value.Length; i++)
@@ -79,17 +129,6 @@ namespace Sudoku
             return result;
         }
 
-        public Number[] Check()
-        {
-            int[] result_indexes = Check(this.GetValues(), this.GetValuesMask());
-            Number[] result = new Number[result_indexes.Length];
-            for (int i = 0; i < result_indexes.Length; i++)
-            {
-                result[i] = children[result_indexes[i]];
-            }
-            return result;
-        }
-
         string IStringify.Stringify()
         {
             return null;
@@ -98,19 +137,6 @@ namespace Sudoku
         IStringify IStringify.Unstringify(string value)
         {
             return null;
-        }
-
-        public bool IsRight()
-        {
-            return (this.Check().Length == 0);
-        }
-    
-        public void AddReference()
-        {
-            for (int i = 0; i < children.Length; i++)
-            {
-                children[i].AddParent(this);
-            }
         }
 
     }
