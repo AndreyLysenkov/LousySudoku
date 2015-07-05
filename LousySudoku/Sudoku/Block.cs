@@ -39,9 +39,9 @@ namespace Sudoku
             this.Children = children;
         }
 
-       /*
-        * Методы
-        */
+        /*
+         * Методы
+         */
 
         /// <summary>
         /// Вощвращает правильность заполнености блока по методу Check()
@@ -140,4 +140,5 @@ namespace Sudoku
         }
 
     }
+
 }

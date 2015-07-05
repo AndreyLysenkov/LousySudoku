@@ -6,70 +6,66 @@ using System.Text;
 namespace Sudoku
 {
 
+    /// <summary>
+    /// Описывает поле судоку и взаимосвязи ячеек поля
+    /// </summary>
     public class Sudoku : IStringify
     {
 
+        /*
+         * Свойства
+         */
+
         /// <summary>
-        /// Содержит поля и методы для представления судоку на экране
+        /// Содержит все числа судоку
         /// </summary>
-        public class Visual
+        public Number[] Number
         {
-
-            int[,] mask;
-            int[,] number;
-
-            public Number.Position size;
-
-            public Visual (Sudoku sudoku)
-            {
-                this.size = sudoku.Size;
-                this.Load(sudoku);
-            }
-
-            private void Load(Sudoku sudoku, int default_mask_value = 0)
-            {
-                ///1st. Обнулить две матрицы;
-                mask = new int[size.X, size.Y];
-                number = new int[size.X, size.Y];
-                for (int i = 0; i < size.Y; i++ )
-                {
-                    for (int j = 0; j < size.X; j++)
-                    {
-                        mask[i, j] = default_mask_value;
-                        number[i, j] = 0;
-                    }
-                }
-
-                ///Transfering itself;
-                for (int i = 0; i < sudoku.number.Length; i++)
-                {
-                    Number numb = sudoku.number[i];
-                    mask[numb.Position.X, numb.Position.Y] = (int)numb.Type; ///Fix in need
-                    if (numb.HasValue)
-                        number[numb.Position.X, numb.Position.Y] = sudoku.number[i].Value;
-                }
-            }
-
+            get;
+            private set;
         }
 
-        Number[] number;
+        /// <summary>
+        /// Содержит все блоки судоку
+        /// </summary>
+        public Block[] Block
+        {
+            get;
+            private set;
+        }
 
-        public Block[] block;
+        /// <summary>
+        /// Размер судоку
+        /// </summary>
+        public Number.Position Size
+        {
+            get;
+            private set;
+        }
 
-        public Number.Position Size;
+        /*
+         * Конструкторы
+         */
 
         public Sudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[][] block)
         {
-            number = new Number[size.X * size.Y];
+            ///Заполнение всех чисел
+            this.Number = new Number[size.X * size.Y];
             for (int i = 0; i < size.X; i++)
             {
                 for (int j = 0; j < size.Y; j++)
                 {
-                    number[i * size.Y + j] = new Number(mask[i, j], new Number.Position(i, j), value[i, j]);
+                    this.Number[i * size.Y + j] = 
+                        new Number(
+                            mask[i, j], 
+                            new Number.Position(i, j), 
+                            value[i, j]
+                        );
                 }
             }
 
-            this.block = new Block[block.Length];
+            ///Заполнение всех блоков
+            this.Block = new Block[block.Length];
             for (int i = 0; i < block.Length; i++)
             {
                 Number[] children = new Number[block[i].Length];
@@ -77,11 +73,48 @@ namespace Sudoku
                 {
                     children[j] = this.ReturnNumberByPosition(block[i][j]);
                 }
-                this.block[i] = new Block(children);
-                this.block[i].AddReference();
+                this.Block[i] = new Block(children);
+                this.Block[i].AddReference();
             }
         }
-        
+
+        /*
+         * Методы
+         */
+
+        /// <summary>
+        /// Возвращает число по его позиции
+        /// Если такого числа не существует, возвращает пустую ссылку null
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        public Number GetNumber(Number.Position position)
+        {
+            for (int i = 0; i < this.Number.Length; i++)
+            {
+                if (this.Number[i].IsSame(position))
+                {
+                    return this.Number[i];
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Изменяет значение числа в ячейке 
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool ChangeNumber(Number.Position position, int value)
+        {
+            return this.GetNumber(position).Modify(value);
+        }
+
+         /*
+          * Переопределенные методы и методы интерфейсов
+          */
+
         string IStringify.Stringify()
         {
             return null;
@@ -91,24 +124,7 @@ namespace Sudoku
         {
             return null;
         }
-
-        public Number ReturnNumberByPosition(Number.Position position)
-        {
-            for (int i = 0; i < number.Length; i++)
-            {
-                if (number[i].IsSame(position))
-                {
-                    return number[i];
-                }
-            }
-            return null;
-        }
-
-        public bool ChangeNumber(Number.Position position, int value)
-        {
-            Number temp = this.ReturnNumberByPosition(position);
-            return temp.Modify(value);
-        }
-
+    
     }
+
 }

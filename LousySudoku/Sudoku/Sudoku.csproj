@@ -50,7 +50,6 @@
     <Compile Include="Block.cs" />
     <Compile Include="Sudoku.cs" />
     <Compile Include="Debug.cs" />
-    <Compile Include="File.cs" />
     <Compile Include="Interface.cs" />
     <Compile Include="IStringify.cs" />
     <Compile Include="Number.cs" />
