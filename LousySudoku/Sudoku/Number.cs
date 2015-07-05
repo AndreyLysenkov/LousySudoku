@@ -306,7 +306,13 @@ namespace Sudoku
 
         IStringify IStringify.Unstringify(string value)
         {
-            return null;
+            string[] result = value.Split(new char[]{'.'}, 3);
+            return
+                new Number(
+                    (NumberType)Convert.ToInt32(result[1]), 
+                    (Number.Position)((IStringify)(new Position(0, 0))).Unstringify(result[2]), 
+                    Convert.ToInt32(result[0])
+                );
         }
 
     }
