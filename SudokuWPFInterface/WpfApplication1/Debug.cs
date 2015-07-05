@@ -8,19 +8,40 @@ namespace WpfApplication1
 {
     public class Debug
     {
-        public int[,] matrix = new int[9, 9];
+        public int[,] matrix;
 
-        public Debug()
+        public Debug(string type)
         {
-            Random rand = new Random();
-            for(int i = 0; i<9; i++)
+            switch (type)
             {
-                for(int j = 0; j<9; j++)
-                {
-                    matrix[i, j] = rand.Next(9);
-                }
+                case "9x9":
+                    {
+                        matrix = new int[9, 9];
+                        Random rand = new Random();
+                        for (int i = 0; i < 9; i++)
+                        {
+                            for (int j = 0; j < 9; j++)
+                            {
+                                matrix[i, j] = rand.Next(9);
+                            }
+                        }
+                        break;
+                    }
+                case "16x16":
+                    {
+                        matrix = new int[16, 16];
+                        Random rand = new Random();
+                        for (int i = 0; i < 16; i++)
+                        {
+                            for (int j = 0; j < 16; j++)
+                            {
+                                matrix[i, j] = rand.Next(16);
+                            }
+                        }
+                        break;
+                    }
             }
-        }
+       }
 
     }
 }

@@ -29,7 +29,7 @@ namespace WpfApplication1
 
         Sudoku.Sudoku sudoku = SudokuBuilder.GetStandart9(null);
 
-        
+        string currenType;
 
         public MainWindow()
         {
@@ -80,7 +80,7 @@ namespace WpfApplication1
             tb.row = row; tb.column = column;
             tb.Name = "_" + Convert.ToString(row) + "_" + Convert.ToString(column);
             tb.TextAlignment = TextAlignment.Center;
-            tb.FontSize = 30;
+            tb.FontSize = 25;
             tb.Background = new SolidColorBrush(Colors.Transparent);
             tb.BorderBrush = new SolidColorBrush(Colors.Black);
             tb.BorderThickness = new Thickness(2);
@@ -101,6 +101,8 @@ namespace WpfApplication1
 
             Grid.SetColumn(tb, column);
             Grid.SetRow(tb, row);
+
+            tb.Text = sudoku.ReturnNumberByPosition(new Number.Position(row, column)).Value.ToString();
 
             return tb;
         }
@@ -128,27 +130,57 @@ namespace WpfApplication1
         private void textChangedEventHandler(object sender, TextChangedEventArgs args)
         {
             MyTextBox myTextBox = (MyTextBox)sender;
-            for (int i = 0; i < myTextBox.Text.Length; i++)
-            {
-                if (myTextBox.Text[i] < '1' || myTextBox.Text[i] > '9')
-                {
-                    myTextBox.Text = myTextBox.PastText;
-                    return;
-                }
-
-            }
-            ///////////////
 
             int valueText = 0;
 
-            if (myTextBox.Text != "")
-                valueText = Convert.ToInt32(myTextBox.Text);
+            bool success;
+
+            switch (currenType)
+            { 
+                case "9x9":
+                    for (int i = 0; i < myTextBox.Text.Length; i++)
+                    {
+                        if (myTextBox.Text[i] < '1' || myTextBox.Text[i] > '9')
+                        {
+                            myTextBox.Text = myTextBox.PastText;
+                            return;
+                        }
+
+                    }
+                    ///////////////
+
+                    
+
+                    if (myTextBox.Text != "")
+                        valueText = Convert.ToInt32(myTextBox.Text);
 
 
-            bool success = sudoku.ChangeNumber(new Number.Position(myTextBox.row, myTextBox.column), valueText);
+                    success = sudoku.ChangeNumber(new Number.Position(myTextBox.row, myTextBox.column), valueText);
 
-            UpdateRightness();
+                    UpdateRightness();
+                    break;
+                case "16x16":
+                    for (int i = 0; i < myTextBox.Text.Length; i++)
+                    {
+                        if (myTextBox.Text[i] < '1' || myTextBox.Text[i] > '9')
+                        {
+                            myTextBox.Text = myTextBox.PastText;
+                            return;
+                        }
 
+                    }
+                    ///////////////
+
+
+                    if (myTextBox.Text != "")
+                        valueText = Convert.ToInt32(myTextBox.Text);
+
+
+                    success = sudoku.ChangeNumber(new Number.Position(myTextBox.row, myTextBox.column), valueText);
+
+                    UpdateRightness();
+                    break;
+            }
         }
 
         private void lostFocus(object sender, RoutedEventArgs e)
@@ -189,8 +221,8 @@ namespace WpfApplication1
 
         public void CreateGrid_9x9()
         {
-            sudoku = SudokuBuilder.GetStandart9((new Debug()).matrix);
-
+            sudoku = SudokuBuilder.GetStandart9((new Debug("9x9")).matrix);
+            currenType = "9x9";
             
             
             mainWindow.Height = 720 + 2 * 10;
@@ -223,8 +255,12 @@ namespace WpfApplication1
 
         public void CreateGrid_16x16()
         {
-            mainWindow.Height = 700 + 3 * 10;
-            mainWindow.Width = 725 + 3 * 10;
+            sudoku = SudokuBuilder.GetStandart16((new Debug("16x16")).matrix);
+
+            currenType = "16x16";
+
+            mainWindow.Height = 800 + 2 * 10;
+            mainWindow.Width = 825 + 2 * 10;
 
             sudokuGrid.Children.Clear();
 
@@ -247,6 +283,8 @@ namespace WpfApplication1
                     textBox.Add(TextBox_16_16Add(i, j));
                 }
             }
+
+            UpdateRightness();
         }
 
         private void Exit(object sender, RoutedEventArgs e)
