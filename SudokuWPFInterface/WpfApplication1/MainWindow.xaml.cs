@@ -181,6 +181,8 @@ namespace WpfApplication1
         public void CreateGrid_9x9()
         {
             sudoku = SudokuBuilder.GetStandart9((new Debug()).matrix);
+
+            
             
             mainWindow.Height = 720 + 2 * 10;
             mainWindow.Width = 745 + 2 * 10;
@@ -205,6 +207,24 @@ namespace WpfApplication1
                     textBox.Add(TextBox_9_9Add(i, j));
                 }
             }
+
+            foreach (MyTextBox tb in textBox)
+            {
+                if (tb.Text != "")
+                {
+                    if (sudoku.ReturnNumberByPosition(new Number.Position(tb.row, tb.column)).IsRight())
+                    {
+                        tb.Background = new SolidColorBrush(Colors.Transparent);
+                    }
+                    else
+                    {
+                        tb.Background = new SolidColorBrush(Colors.Red);
+                    }
+                }
+                else
+                    tb.Background = new SolidColorBrush(Colors.Transparent);
+            }
+
         }
 
         public void CreateGrid_16x16()
