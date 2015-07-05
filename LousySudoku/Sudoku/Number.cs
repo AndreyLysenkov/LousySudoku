@@ -112,7 +112,10 @@ namespace Sudoku
         /// </summary>
         public int Value
         {
-            get { return this.value; }
+            get
+            {
+                return this.value;
+            }
         }
 
         /// <summary>
@@ -132,7 +135,8 @@ namespace Sudoku
                     case NumberType.Constant:
                         return true;
 
-                    default: return false;
+                    default:
+                        return false;
                 }
             }
         }
@@ -154,7 +158,8 @@ namespace Sudoku
                     case NumberType.Empty:
                         return true;
 
-                    default: return false;
+                    default:
+                        return false;
                 }
             }
         }
@@ -181,19 +186,18 @@ namespace Sudoku
         /// <returns>правильно ли записанно число в ячейке</returns>
         public bool IsRight()
         {
-            bool result = true;
             for (int i = 0; i < parents.Length; i++ )
             {
-                Number[] wrong_number = parents[i].Check();
-                for (int j = 0; j < wrong_number.Length; j++)
+                Number[] wrongNumber = parents[i].Check();
+                for (int j = 0; j < wrongNumber.Length; j++)
                 {
-                    if (this.IsSame(wrong_number[j]))
+                    if (this.IsSame(wrongNumber[j]))
                     {
                         return false;
                     }
                 }
             }
-            return result;
+            return true;
         }
 
         /// <summary>
@@ -226,10 +230,17 @@ namespace Sudoku
         public bool Modify(int new_value)
         {
             if (new_value == 0)
+            {
                 return this.Clear();
+            }
+
             if (IsModified)
+            {
                 this.value = new_value;
-            return this.IsModified;
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -240,8 +251,11 @@ namespace Sudoku
         private bool Clear()
         {
             if (this.IsModified)
+            {
                 this.value = 0;
-            return this.IsModified;
+                return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -251,7 +265,10 @@ namespace Sudoku
         /// <param name="new_parent">новый родительский блок</param>
         public bool AddParent(Block new_parent)
         {
-            Array.Resize(ref this.parents, this.parents.Length + 1);
+            Array.Resize(
+                ref this.parents, 
+                this.parents.Length + 1
+            );
             this.parents[this.parents.Length - 1] = new_parent;
             return true;
         }
@@ -262,8 +279,6 @@ namespace Sudoku
 
         string IStringify.Stringify()
         {
-
-
             return null;
         }
 
