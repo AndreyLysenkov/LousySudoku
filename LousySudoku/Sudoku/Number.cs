@@ -19,7 +19,7 @@ namespace Sudoku
         /// <summary>
         /// Описывает позицию числа в судоку
         /// </summary>
-        public class Position
+        public class Position : IStringify
         {
 
             /// <summary>
