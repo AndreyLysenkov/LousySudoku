@@ -301,7 +301,7 @@ namespace Sudoku
 
         string IStringify.Stringify()
         {
-            return null;
+            return this.Value + "." + (int)this.Type + "." + ((IStringify)(this.Coordinates)).Stringify();
         }
 
         IStringify IStringify.Unstringify(string value)
