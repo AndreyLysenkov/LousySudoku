@@ -18,6 +18,13 @@ namespace Sudoku
             return sudoku.ChangeNumber(number_position, value);
         }
 
+        public static Number GetNumber(Sudoku sudoku, Number.Position position)
+        {
+            return sudoku.ReturnNumberByPosition(position);
+        }
+
+
+
         public static class SudokuBuilder
         {
 
