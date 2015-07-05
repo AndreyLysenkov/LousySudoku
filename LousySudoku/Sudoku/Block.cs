@@ -12,11 +12,29 @@ namespace Sudoku
     /// </summary>
     public class Block : IStringify
     {
+        /*
+         * Поля класса
+         */
 
         /// <summary>
         /// Содержит ссылки на ячейки, принадлежащие блоку
         /// </summary>
-        public Number[] children;
+        Number[] children;
+
+        /*
+         * Свойства
+         */
+
+        public Number[] Children
+        {
+            get { 
+            
+            }
+            private set
+            {
+
+            }
+        }
 
         public Block(Number[] children)
         {

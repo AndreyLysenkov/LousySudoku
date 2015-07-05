@@ -44,9 +44,9 @@ namespace Sudoku
                 for (int i = 0; i < sudoku.number.Length; i++)
                 {
                     Number numb = sudoku.number[i];
-                    mask[numb.position.X, numb.position.Y] = (int)numb.type; ///Fix in need
+                    mask[numb.Position.X, numb.Position.Y] = (int)numb.Type; ///Fix in need
                     if (numb.HasValue)
-                        number[numb.position.X, numb.position.Y] = sudoku.number[i].Value;
+                        number[numb.Position.X, numb.Position.Y] = sudoku.number[i].Value;
                 }
             }
 

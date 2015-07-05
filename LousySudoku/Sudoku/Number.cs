@@ -83,28 +83,22 @@ namespace Sudoku
          */
 
         /// <summary>
-        /// Сообщает о типе ячейки
-        /// </summary>
-        NumberType type;
-
-        /// <summary>
-        /// Хранит число, записанное в ячейку
-        /// </summary>
-        int value;
-
-        /// <summary>
         /// Содержит ссылки на блоки, которым принадлежит ячейка
         /// </summary>
         Block[] parents;
 
-        /// <summary>
-        /// Отображает позицию ячейки на поле
-        /// </summary>
-        Position position;
-
         /*
          * Свойства
          */
+
+        /// <summary>
+        /// Содержит инфо о типе ячейки
+        /// </summary>
+        public NumberType Type
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Возвращает значение,  записанное в ячейке.
@@ -112,10 +106,17 @@ namespace Sudoku
         /// </summary>
         public int Value
         {
-            get
-            {
-                return this.value;
-            }
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// Отображает позицию ячейки на поле
+        /// </summary>
+        public Position Coordinates
+        {
+            get;
+            private set;
         }
 
         /// <summary>
@@ -125,7 +126,7 @@ namespace Sudoku
         {
             get
             {
-                switch (this.type)
+                switch (this.Type)
                 {
                     case NumberType.Unexists:
                     case NumberType.Empty:
@@ -148,7 +149,7 @@ namespace Sudoku
         {
             get
             {
-                switch (this.type)
+                switch (this.Type)
                 {
                     case NumberType.Unexists:
                     case NumberType.Constant:
@@ -168,11 +169,17 @@ namespace Sudoku
          * Конструкторы
          */
 
+        /// <summary>
+        /// Создает объект класса по его типу, позиции, значению
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="position"></param>
+        /// <param name="value"></param>
         public Number(NumberType type, Position position, int value = 0)
         {
-            this.type = type;
-            this.position = position;
-            this.value = value;
+            this.Type = type;
+            this.Coordinates = position;
+            this.Value = value;
             this.parents = new Block[0];
         }
 
@@ -207,7 +214,7 @@ namespace Sudoku
         /// <returns>совпадают ли данные координаты с координатами этой ячейки</returns>
         public bool IsSame(Position position)
         {
-            return this.position.IsSame(position);
+            return this.Coordinates.IsSame(position);
         }
 
         /// <summary>
@@ -218,7 +225,7 @@ namespace Sudoku
         /// <returns>совпадают ли данное число с этим</returns>
         public bool IsSame(Number number)
         {
-            return this.IsSame(number.position);
+            return this.IsSame(number.Coordinates);
         }
 
         /// <summary>
@@ -236,7 +243,7 @@ namespace Sudoku
 
             if (IsModified)
             {
-                this.value = new_value;
+                this.Value = new_value;
                 return true;
             }
 
@@ -252,7 +259,7 @@ namespace Sudoku
         {
             if (this.IsModified)
             {
-                this.value = 0;
+                this.Value = 0;
                 return true;
             }
             return false;
