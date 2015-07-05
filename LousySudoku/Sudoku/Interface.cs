@@ -21,6 +21,22 @@ namespace Sudoku
         public static class SudokuBuilder
         {
 
+            private static Block GetBlock(Sudoku sudoku, Number.Position start_position, Number.Position size)
+            {
+                Number[] result = new Number[size.X * size.Y];
+                for (int i = 0; i < size.X; i++ )
+                {
+                    for (int j = 0; j < size.Y; j++)
+                    {
+                        result[i * size.Y + j] =
+                            sudoku.ReturnNumberByPosition(
+                                new Number.Position(start_position.X + i, start_position.Y + j)
+                            );
+                    }
+                }
+                return new Block(result);
+            }
+
             public static Sudoku GetStandart9(int[,] numbs)
             {
 
