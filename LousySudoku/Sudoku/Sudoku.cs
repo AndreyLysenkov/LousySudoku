@@ -111,6 +111,27 @@ namespace Sudoku
             return this.GetNumber(position).Modify(value);
         }
 
+        /// <summary>
+        /// Возвращает судоку ввиде матрицы чисел и матрицы их типов;
+        /// </summary>
+        /// <param name="numbers"></param>
+        /// <param name="mask"></param>
+        public void GetGrid(ref int[,] numbers, ref int[,] mask, ref bool[,] rightness)
+        {
+            numbers = new int[this.Size.X, this.Size.Y];
+            mask = new int[this.Size.X, this.Size.Y];
+            for (int i = 0; i < Size.X; i++)
+            {
+                for (int j = 0; j < Size.Y; j++)
+                {
+                    Number number = this.GetNumber(new Number.Position(i, j));
+                    numbers[i, j] = number.Value;
+                    mask[i, j] = (int)number.Type;
+                    rightness[i, j] = number.IsRight();
+                }
+            }
+        }
+
          /*
           * Переопределенные методы и методы интерфейсов
           */
