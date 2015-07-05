@@ -138,11 +138,30 @@ namespace Sudoku
 
         string IStringify.Stringify()
         {
-            return null;
+            string result = ((IStringify)(this.Size)).Stringify() + "&" + this.Number.Length + "&";
+            for (int i = 0; i < this.Number.Length; i++)
+            {
+                result += ((IStringify)(this.Number[i])).Stringify() + "&";
+            }
+            result += this.Block.Length + "&";
+            for (int j = 0; j < this.Block.Length; j++)
+            {
+                result += ((IStringify)(this.Block[j])).Stringify() + "&";
+            }
+            return result;
         }
 
         IStringify IStringify.Unstringify(string value)
         {
+            string[] result = value.Split(new char[] { '&' });
+            Number.Position size = (Number.Position)((IStringify)(new Number.Position(0, 0))).Unstringify(result[0]);
+            int numberLength = Convert.ToInt32(result[1]);
+            Number[] number = new Number[numberLength];
+            int stringCount = 1;
+            for (int i = 0; i < numberLength; i++, stringCount++)
+            {
+                number[i] = (Number)((IStringify)(new Number((Number.NumberType)0, new Number.Position(0, 0)))).Unstringify(result[stringCount]);
+            }
             return null;
         }
     
