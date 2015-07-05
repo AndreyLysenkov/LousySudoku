@@ -5,6 +5,10 @@ using System.Text;
 
 namespace Sudoku
 {
+
+    /// <summary>
+    /// Предоставляет методы для пользовательского интерфейса
+    /// </summary>
     public static class Interface
     {
 
@@ -13,14 +17,28 @@ namespace Sudoku
             return new Sudoku(size, value, mask, block);
         }
 
+        /// <summary>
+        /// Изменяет число в ячейке судоку
+        /// Возвращает успех операции
+        /// </summary>
+        /// <param name="sudoku">судоку</param>
+        /// <param name="number_position">позиция ячейки</param>
+        /// <param name="value">новое значение</param>
+        /// <returns></returns>
         public static bool ChangeNumber(Sudoku sudoku, Number.Position number_position, int value)
         {
             return sudoku.ChangeNumber(number_position, value);
         }
 
+        /// <summary>
+        /// Возвращает ячейку судоку по заданной позиции
+        /// </summary>
+        /// <param name="sudoku">судоку</param>
+        /// <param name="position">позиция ячейки</param>
+        /// <returns></returns>
         public static Number GetNumber(Sudoku sudoku, Number.Position position)
         {
-            return sudoku.ReturnNumberByPosition(position);
+            return sudoku.GetNumber(position);
         }
 
         public static class SudokuBuilder
@@ -214,7 +232,6 @@ namespace Sudoku
 
                 return new Sudoku(new Number.Position(16, 16), value, mask, block);
             }
-
 
         }
     

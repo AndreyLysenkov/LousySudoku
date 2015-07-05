@@ -71,7 +71,7 @@ namespace Sudoku
                 Number[] children = new Number[block[i].Length];
                 for (int j = 0; j < block[i].Length; j++)
                 {
-                    children[j] = this.ReturnNumberByPosition(block[i][j]);
+                    children[j] = this.GetNumber(block[i][j]);
                 }
                 this.Block[i] = new Block(children);
                 this.Block[i].AddReference();

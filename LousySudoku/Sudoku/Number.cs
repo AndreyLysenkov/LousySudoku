@@ -270,13 +270,13 @@ namespace Sudoku
         /// Возвращает успех операции
         /// </summary>
         /// <param name="new_parent">новый родительский блок</param>
-        public bool AddParent(Block new_parent)
+        public bool AddParent(Block newParent)
         {
             Array.Resize(
                 ref this.parents, 
                 this.parents.Length + 1
             );
-            this.parents[this.parents.Length - 1] = new_parent;
+            this.parents[this.parents.Length - 1] = newParent;
             return true;
         }
 
