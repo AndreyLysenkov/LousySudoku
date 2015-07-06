@@ -66,7 +66,7 @@ namespace WpfApplication1
             Grid.SetColumn(tb, column);
             Grid.SetRow(tb, row);
 
-            tb.Text = sudoku.ReturnNumberByPosition(new Number.Position(row, column)).Value.ToString();
+            tb.Text = Interface.GetNumber(sudoku, new Number.Position(row, column)).Value.ToString();
 
 
             ///Console.WriteLine(sudoku.ReturnNumberByPosition(new Number.Position(column, row)).Value);
@@ -102,7 +102,7 @@ namespace WpfApplication1
             Grid.SetColumn(tb, column);
             Grid.SetRow(tb, row);
 
-            tb.Text = sudoku.ReturnNumberByPosition(new Number.Position(row, column)).Value.ToString();
+            tb.Text = Interface.GetNumber(sudoku, new Number.Position(row, column)).Value.ToString();
 
             return tb;
         }
@@ -113,7 +113,7 @@ namespace WpfApplication1
             {
                 if (tb.Text != "")
                 {
-                    if (sudoku.ReturnNumberByPosition(new Number.Position(tb.row, tb.column)).IsRight())
+                    if (Interface.GetNumber(sudoku, new Number.Position(tb.row, tb.column)).IsRight())
                     {
                         tb.Background = new SolidColorBrush(Colors.Transparent);
                     }
@@ -155,7 +155,7 @@ namespace WpfApplication1
                         valueText = Convert.ToInt32(myTextBox.Text);
 
 
-                    success = sudoku.ChangeNumber(new Number.Position(myTextBox.row, myTextBox.column), valueText);
+                    success = Interface.ChangeNumber(sudoku, new Number.Position(myTextBox.row, myTextBox.column), valueText);
 
                     UpdateRightness();
                     break;
