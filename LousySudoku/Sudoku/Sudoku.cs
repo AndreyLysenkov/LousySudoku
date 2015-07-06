@@ -147,6 +147,23 @@ namespace LousySudoku
             }
             return true;
         }
+
+        /// <summary>
+        /// Возвращает все ли поля заполнены в судоку
+        /// </summary>
+        /// <returns></returns>
+        public bool IsFilled()
+        {
+            for (int i = 0; i < this.Number.Length ; i++)
+            {
+                if (this.Number[i].Type == LousySudoku.Number.NumberType.Empty)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
          /*
           * Переопределенные методы и методы интерфейсов
           */
