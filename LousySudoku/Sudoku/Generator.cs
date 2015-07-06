@@ -15,13 +15,16 @@ namespace LousySudoku
             this.random = new Random();
         }
 
-        private int ReturnRandomFromArray(int[] number)
+        private int ReturnRandomFromArray(List<int> number)
         {
-            if (number.Length == 0)
+            if (number.Count == 0)
             {
                 return -1;
             }
-            return random.Next(number.Length);
+            int index = random.Next(number.Count);
+            int result = number[index];
+            number.RemoveAt(index);
+            return result;
         }
 
         private bool FillSudoku(Sudoku sudoku)
