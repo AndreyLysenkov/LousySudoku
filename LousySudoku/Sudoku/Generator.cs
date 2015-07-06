@@ -27,10 +27,19 @@ namespace LousySudoku
             return result;
         }
 
-        private bool FillSudoku(Sudoku sudoku)
+        private bool FillCell(Number cell, int maxValue)
         {
-            bool success = true;
-            
+            List<int> number = new List<int> {};
+            for (int i = 1; i <= maxValue; i++)
+            {
+                number.Add(i);
+            }
+            do
+            {
+                cell.Modify(ReturnRandomFromArray(number));
+            } while (cell.IsRight() || (number.Count != 0));
+            return cell.IsRight();
+        }
 
             return success;
         }
