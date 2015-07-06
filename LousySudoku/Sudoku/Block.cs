@@ -69,7 +69,7 @@ namespace LousySudoku
         /// <returns></returns>
         public Number[] Check()
         {
-            int[] result_indexes = Check(this.GetValues(), this.GetValuesMask());
+            int[] result_indexes = this.Check(this.GetValues(), this.GetValuesMask());
             Number[] result = new Number[result_indexes.Length];
 
             for (int i = 0; i < result_indexes.Length; i++)
