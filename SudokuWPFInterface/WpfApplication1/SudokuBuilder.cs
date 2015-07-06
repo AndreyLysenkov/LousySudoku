@@ -74,7 +74,7 @@ namespace WpfApplication1
                 }
             }
 
-            return new Sudoku(new Number.Position(9, 9), value, mask, block);
+            return new Sudoku(new Number.Position(9, 9), value, mask, block, 9);
         }
 
         public static Sudoku GetStandart16(int[,] numbs)
@@ -142,7 +142,7 @@ namespace WpfApplication1
                 }
             }
 
-            return new Sudoku(new Number.Position(16, 16), value, mask, block);
+            return new Sudoku(new Number.Position(16, 16), value, mask, block, 16);
         }
     }
 }

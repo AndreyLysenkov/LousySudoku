@@ -86,7 +86,7 @@ namespace LousySudoku
             Console.WriteLine("temp vars initialized");
 
             Console.WriteLine("Call constructor Sufoku");
-            Sudoku sudoku = new Sudoku(new Number.Position(9, 9), value, mask, block);
+            Sudoku sudoku = new Sudoku(new Number.Position(9, 9), value, mask, block, 9);
 
             Console.WriteLine("Call method Debug.ShowSudoku");
             ShowSudoku(sudoku, 9);

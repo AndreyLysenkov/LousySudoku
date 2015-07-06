@@ -43,11 +43,20 @@ namespace LousySudoku
             private set;
         }
 
+        /// <summary>
+        /// Наибольшее значение, которое может быть записано в ячейке
+        /// </summary>
+        public int MaxValue
+        {
+            get;
+            private set;
+        }
+
         /*
          * Конструкторы
          */
 
-        public Sudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[][] block)
+        public Sudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[][] block, int maxValue)
         {
             ///Заполнение всех чисел
             this.Number = new Number[size.X * size.Y];
@@ -76,6 +85,8 @@ namespace LousySudoku
                 this.Block[i] = new Block(children);
                 this.Block[i].AddReference();
             }
+
+            this.MaxValue = maxValue;
         }
 
         /*

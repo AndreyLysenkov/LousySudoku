@@ -12,9 +12,9 @@ namespace LousySudoku
     public static class Interface
     {
 
-        public static Sudoku CreateSudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[][] block)
+        public static Sudoku CreateSudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[][] block, int maxValue)
         {
-            return new Sudoku(size, value, mask, block);
+            return new Sudoku(size, value, mask, block, maxValue);
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace LousySudoku
             private static Sudoku GetStandart(int[,] numbs, Number.NumberType[,] mask, int sudoku_size, int block_size)
             {
                 Number.Position[][] block = GetAllStandartBlock(new Number.Position(sudoku_size, sudoku_size), new Number.Position(block_size, block_size));
-                return new Sudoku(new Number.Position(sudoku_size, sudoku_size), numbs, mask, block);
+                return new Sudoku(new Number.Position(sudoku_size, sudoku_size), numbs, mask, block, sudoku_size);
             }
 
             public static Sudoku GetStandart9(int[,] numbs)
@@ -205,7 +205,7 @@ namespace LousySudoku
                     }
                 }
 
-                return new Sudoku(new Number.Position(9, 9), numbs, mask, block);
+                return new Sudoku(new Number.Position(9, 9), numbs, mask, block, 9);
             }
 
             public static Sudoku GetStandart16(int[,] numbs)
@@ -254,7 +254,7 @@ namespace LousySudoku
                     }
                 }
 
-                return new Sudoku(new Number.Position(16, 16), value, mask, block);
+                return new Sudoku(new Number.Position(16, 16), value, mask, block, 16);
             }
 
         }
