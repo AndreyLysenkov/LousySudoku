@@ -15,5 +15,14 @@ namespace Sudoku
             this.random = new Random();
         }
 
+        private int ReturnRandomFromArray(int[] number)
+        {
+            if (number.Length == 0)
+            {
+                return -1;
+            }
+            return random.Next(number.Length);
+        }
+
     }
 }
