@@ -103,6 +103,24 @@ namespace WpfApplication1
                 }
             }
 
+            ///Добавление блоков 4x4;
+            int blockIndex = 16 + 16;
+            for (int i = 0; i < 16; i += 4)
+            {
+                for (int j = 0; j < 16; j += 4, blockIndex++)
+                {
+                    block[blockIndex] = new Number.Position[16];
+                    int cellIndex = 0;
+                    for (int k = 0; k < 4; k++)
+                    {
+                        for (int l = 0; l < 4; l++, cellIndex++)
+                        {
+                            block[blockIndex][cellIndex] = new Number.Position(i + k, j + l);
+                        }
+                    }
+                }
+            }
+
             int[,] value = new int[16, 16];
             //////////////
             Random rand = new Random();
