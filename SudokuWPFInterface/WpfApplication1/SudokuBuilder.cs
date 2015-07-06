@@ -13,7 +13,7 @@ namespace WpfApplication1
         {
 
 
-            Number.Position[][] block = new Number.Position[9 + 9][];
+            Number.Position[][] block = new Number.Position[9 + 9 + 9][];
 
             ///Добавление блоков (горизонтальные линии);
             for (int i = 0; i < 9; i++)
@@ -32,6 +32,24 @@ namespace WpfApplication1
                 for (int j = 0; j < 9; j++)
                 {
                     block[9 + i][j] = new Number.Position(j, i);
+                }
+            }
+
+            ///Добавление блоков 3x3;
+            int blockIndex = 9 + 9;
+            for (int i = 0; i < 9; i += 3)
+            {
+                for (int j = 0; j < 9; j += 3, blockIndex++)
+                {
+                    block[blockIndex] = new Number.Position[9];
+                    int cellIndex = 0;
+                    for (int k = 0; k < 3; k++)
+                    {
+                        for (int l = 0; l < 3; l++, cellIndex++)
+                        {
+                            block[blockIndex][cellIndex] = new Number.Position(i + k, j + l);
+                        }
+                    }
                 }
             }
 
