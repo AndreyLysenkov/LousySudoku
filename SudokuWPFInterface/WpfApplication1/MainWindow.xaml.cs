@@ -27,7 +27,7 @@ namespace WpfApplication1
 
         List<int> AdmissibleValues = new List<int> { }; // Содерждит колекцию допустимых значений
 
-        Sudoku.Sudoku sudoku = SudokuBuilder.GetStandart9(null);
+        Sudoku.Sudoku sudoku = SudokuDebug.GetStandart9(null);
 
         string currenType;
 
@@ -221,7 +221,7 @@ namespace WpfApplication1
 
         public void CreateGrid_9x9()
         {
-            sudoku = SudokuBuilder.GetStandart9((new Debug("9x9")).matrix);
+            sudoku = SudokuDebug.GetStandart9((new Debug("9x9")).matrix);
             currenType = "9x9";
             
             
@@ -255,7 +255,7 @@ namespace WpfApplication1
 
         public void CreateGrid_16x16()
         {
-            sudoku = SudokuBuilder.GetStandart16((new Debug("16x16")).matrix);
+            sudoku = SudokuDebug.GetStandart16((new Debug("16x16")).matrix);
 
             currenType = "16x16";
 

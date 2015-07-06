@@ -7,7 +7,7 @@ using Sudoku;
 
 namespace WpfApplication1
 {
-    public static class SudokuBuilder
+    public static class SudokuDebug
     {
         public static Sudoku.Sudoku GetStandart9(int[,] numbs)
         {
