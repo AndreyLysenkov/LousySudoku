@@ -38,8 +38,8 @@ namespace LousySudoku
             do
             {
                 cell.Modify(ReturnRandomFromArray(number));
-            } while (cell.IsRight() || (number.Count != 0));
                 Console.WriteLine("Number random length: {0}, success: {1}", number.Count, cell.IsRight()); ///NNBB! Debug;
+            } while (cell.IsRight() && (number.Count != 0));
             return cell.IsRight();
         }
 
