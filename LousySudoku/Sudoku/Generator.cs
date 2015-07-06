@@ -8,6 +8,8 @@ namespace Sudoku
     public class Generator
     {
 
+        private Random random;
+
 
     }
 }
