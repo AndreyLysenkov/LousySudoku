@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 
 namespace LousySudoku
 {
@@ -259,6 +260,30 @@ namespace LousySudoku
             }
 
             return new Sudoku(new Number.Position(16, 16), value, mask, block, 16);
+        }
+
+        public static void TestGeneration()
+        {
+            int[,] numbs = new int[25, 25];
+
+            Sudoku sudoku9 = GetStandart9(numbs);
+            Stopwatch time9 = new Stopwatch();
+            time9.Start();
+            Console.WriteLine((new Generator()).FillSudoku(sudoku9, 1));
+            time9.Stop();
+            ShowSudoku(sudoku9, 9);
+
+            Sudoku sudoku16 = GetStandart16(numbs);
+            Stopwatch time16 = new Stopwatch();
+            time16.Start();
+            Console.WriteLine((new Generator()).FillSudoku(sudoku16, 1));
+            time16.Stop();
+            ShowSudoku(sudoku16, 16);
+
+            Console.WriteLine();
+            Console.WriteLine();
+
+            Console.WriteLine("{0}x9 against {1}x16", time9.Elapsed, time16.Elapsed);
         }
 
     }

@@ -10,13 +10,15 @@ namespace Dbg_runner
     {
         static void Main(string[] args)
         {
-            LousySudoku.Sudoku sudoku = Debug.TestSudoku1();
+            //LousySudoku.Sudoku sudoku = Debug.TestSudoku1();
 
-            Console.WriteLine("Change number");
-            sudoku.ChangeNumber(new Number.Position(2, 1), 9);
+            //Console.WriteLine("Change number");
+            //sudoku.ChangeNumber(new Number.Position(2, 1), 9);
 
-            Console.WriteLine("Print sudoku");
-            Debug.ShowSudoku(sudoku, 9);
+            //Console.WriteLine("Print sudoku");
+            //Debug.ShowSudoku(sudoku, 9);
+
+            Debug.TestGeneration();
 
             Console.ReadLine();
         }
