@@ -280,10 +280,7 @@ namespace LousySudoku
             time16.Stop();
             ShowSudoku(sudoku16, 16);
 
-            Console.WriteLine();
-            Console.WriteLine();
-
-            Console.WriteLine("{0}x9 against {1}x16", time9.Elapsed, time16.Elapsed);
+            Console.WriteLine("\n \n {0}x9 against {1}x16", time9.Elapsed, time16.Elapsed);
         }
 
     }
