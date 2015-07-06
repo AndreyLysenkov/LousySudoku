@@ -81,7 +81,7 @@ namespace WpfApplication1
         {
 
 
-            Number.Position[][] block = new Number.Position[16 + 16][];
+            Number.Position[][] block = new Number.Position[16 + 16 + 16][];
 
             ///Добавление блоков (горизонтальные линии);
             for (int i = 0; i < 16; i++)
