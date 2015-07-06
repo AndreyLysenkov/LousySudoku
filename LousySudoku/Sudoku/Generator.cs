@@ -54,7 +54,7 @@ namespace LousySudoku
             return true;
         }
 
-        private bool FillSudoku(Sudoku sudoku, int attempts = 100)
+        public bool FillSudoku(Sudoku sudoku, int attempts = 100)
         {
             for (int i = 0; i < attempts; i++)
             {
