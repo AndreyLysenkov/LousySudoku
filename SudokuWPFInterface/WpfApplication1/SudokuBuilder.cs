@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Sudoku;
+using LousySudoku;
 
 namespace WpfApplication1
 {
     public static class SudokuDebug
     {
-        public static Sudoku.Sudoku GetStandart9(int[,] numbs)
+        public static Sudoku GetStandart9(int[,] numbs)
         {
 
 
@@ -74,10 +74,10 @@ namespace WpfApplication1
                 }
             }
 
-            return new Sudoku.Sudoku(new Number.Position(9, 9), value, mask, block);
+            return new Sudoku(new Number.Position(9, 9), value, mask, block);
         }
 
-        public static Sudoku.Sudoku GetStandart16(int[,] numbs)
+        public static Sudoku GetStandart16(int[,] numbs)
         {
 
 
@@ -142,7 +142,7 @@ namespace WpfApplication1
                 }
             }
 
-            return new Sudoku.Sudoku(new Number.Position(16, 16), value, mask, block);
+            return new Sudoku(new Number.Position(16, 16), value, mask, block);
         }
     }
 }

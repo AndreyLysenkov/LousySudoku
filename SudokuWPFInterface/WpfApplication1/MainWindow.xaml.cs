@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
 using System.Xml.Linq;
-using Sudoku;
+using LousySudoku;
 
 namespace WpfApplication1
 {
@@ -27,7 +27,7 @@ namespace WpfApplication1
 
         List<int> AdmissibleValues = new List<int> { }; // Содерждит колекцию допустимых значений
 
-        Sudoku.Sudoku sudoku = SudokuDebug.GetStandart9(null);
+        Sudoku sudoku = SudokuDebug.GetStandart9(null);
 
         string currenType;
 
@@ -215,8 +215,8 @@ namespace WpfApplication1
 
             UpdateRightness();
 
-            Sudoku.Debug.ShowSudoku(sudoku, 9);
-            Sudoku.Debug.ShowSudokuRightness(sudoku, 9);
+            LousySudoku.Debug.ShowSudoku(sudoku, 9);
+            LousySudoku.Debug.ShowSudokuRightness(sudoku, 9);
         }
 
         public void CreateGrid_9x9()

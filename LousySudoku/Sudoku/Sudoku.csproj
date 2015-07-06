@@ -7,7 +7,7 @@
     <ProjectGuid>{9C9271FB-BD2C-4179-AC30-C5B22E8177D2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sudoku</RootNamespace>
+    <RootNamespace>LousySudoku</RootNamespace>
     <AssemblyName>Sudoku</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
