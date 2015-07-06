@@ -172,12 +172,11 @@ namespace LousySudoku
 
             int[,] value = new int[9, 9];
             //////////////
-            Random rand = new Random();
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    value[i, j] = rand.Next(9);
+                    value[i, j] = 0;
                 }
             }
             ////////////////
@@ -240,12 +239,11 @@ namespace LousySudoku
 
             int[,] value = new int[16, 16];
             //////////////
-            Random rand = new Random();
             for (int i = 0; i < 16; i++)
             {
                 for (int j = 0; j < 16; j++)
                 {
-                    value[i, j] = rand.Next(16);
+                    value[i, j] = 0;
                 }
             }
             ////////////////
@@ -265,18 +263,21 @@ namespace LousySudoku
         public static void TestGeneration()
         {
             int[,] numbs = new int[25, 25];
+            for (int i = 0; i < 25; i++)
+                for (int j = 0; j < 25; j++)
+                    numbs[i, j] = 0;
 
             Sudoku sudoku9 = GetStandart9(numbs);
             Stopwatch time9 = new Stopwatch();
             time9.Start();
-            Console.WriteLine((new Generator()).FillSudoku(sudoku9, 1));
+            Console.WriteLine((new Generator()).FillSudoku(sudoku9, 10000));
             time9.Stop();
             ShowSudoku(sudoku9, 9);
 
             Sudoku sudoku16 = GetStandart16(numbs);
             Stopwatch time16 = new Stopwatch();
             time16.Start();
-            Console.WriteLine((new Generator()).FillSudoku(sudoku16, 1));
+            Console.WriteLine((new Generator()).FillSudoku(sudoku16, 10000));
             time16.Stop();
             ShowSudoku(sudoku16, 16);
 
