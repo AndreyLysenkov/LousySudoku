@@ -184,6 +184,17 @@ namespace LousySudoku
             return this.IsFilled() && this.IsRight();
         }
 
+        /// <summary>
+        /// Очищает все ячейки судоку
+        /// </summary>
+        public void Clear()
+        {
+            for (int i = 0; i < this.Number.Length; i++ )
+            {
+                this.Number[i].Clear();
+            }
+        }
+
          /*
           * Переопределенные методы и методы интерфейсов
           */
