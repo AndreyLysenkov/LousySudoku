@@ -55,12 +55,11 @@ namespace WpfApplication1
 
             int[,] value = new int[9, 9];
             //////////////
-            Random rand = new Random();
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    value[i, j] = rand.Next(9);
+                    value[i, j] = 0;
                 }
             }
             ////////////////
@@ -75,7 +74,7 @@ namespace WpfApplication1
             }
 
             Sudoku sudoku = new Sudoku(new Number.Position(9, 9), value, mask, block, 9);
-            ///(new Generator()).FillSudoku(sudoku);
+            (new Generator()).FillSudoku(sudoku);
             return sudoku;
         }
 
