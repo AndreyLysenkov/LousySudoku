@@ -243,6 +243,19 @@ namespace LousySudoku
             return this.IsSame(number.Coordinates);
         }
 
+        private void UpdateTypeAccordingValue()
+        {
+            switch(this.Value)
+            {
+                case 0 :
+                    this.Type = NumberType.Empty;
+                    break;
+                default :
+                    this.Type = NumberType.Modify;
+                    break;
+            }
+        }
+
         /// <summary>
         /// Изменяет, если возможно, значение ячейки
         /// Возвращает успех операции
@@ -259,6 +272,7 @@ namespace LousySudoku
             if (IsModified)
             {
                 this.Value = new_value;
+                this.UpdateTypeAccordingValue();
                 return true;
             }
 
