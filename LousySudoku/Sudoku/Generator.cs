@@ -10,6 +10,10 @@ namespace Sudoku
 
         private Random random;
 
+        public Generator()
+        {
+            this.random = new Random();
+        }
 
     }
 }
