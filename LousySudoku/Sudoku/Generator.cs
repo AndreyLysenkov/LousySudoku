@@ -34,11 +34,9 @@ namespace LousySudoku
             {
                 number.Add(i);
             }
-            Console.WriteLine("Starting number right value searching"); ///NNBB! Debug;
             do
             {
                 cell.Modify(ReturnRandomFromArray(number));
-                Console.WriteLine("Number random length: {0}, success: {1}", number.Count, cell.IsRight()); ///NNBB! Debug;
             } while (cell.IsRight() && (number.Count != 0));
             return cell.IsRight();
         }
@@ -47,9 +45,7 @@ namespace LousySudoku
         {
             for (int i = 0; i < sudoku.Number.Length; i++)
             {
-                Console.WriteLine("Starting fill cell #{0}", i); ///NNBB! Debug;
                 bool success = FillCell(sudoku.Number[i], sudoku.MaxValue);
-                Console.WriteLine("Filled cell #{0} with {1}", i, success); ///NNBB! Debug;
                 if (!success)
                 {
                     return false;
@@ -62,12 +58,9 @@ namespace LousySudoku
         {
             for (int i = 0; i < attempts; i++)
             {
-                Console.WriteLine("Starting attempt #{0}", i); ///NNBB! Debug;
                 bool success = FillSudokuOneAttempt(sudoku);
-                Console.WriteLine("Ended attempt #{0} with {1}", i, success); ///NNBB! Debug;
                 if (success)
                 {
-                    Console.WriteLine("Total #{0} attempts", i); ///NNBB! Debug;
                     return true;
                 }
                 else
