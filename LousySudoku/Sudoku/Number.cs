@@ -270,7 +270,7 @@ namespace LousySudoku
         /// Возвращает успех операции
         /// </summary>
         /// <returns></returns>
-        private bool Clear()
+        public bool Clear()
         {
             if (this.IsModified)
             {
