@@ -76,7 +76,7 @@ namespace WpfApplication1
 
             int[,] number = new int[9, 9];
             Sudoku sudoku = new Sudoku(new Number.Position(9, 9), number, mask, block, 9);
-            (new Generator()).FillSudoku(sudoku, 10);
+            (new Generator()).FillSudoku(sudoku);
             return sudoku;
         }
 
@@ -147,7 +147,7 @@ namespace WpfApplication1
 
             int[,] number = new int[16, 16];
             Sudoku sudoku = new Sudoku(new Number.Position(16, 16), number, mask, block, 16);
-            (new Generator()).FillSudoku(sudoku, 16);
+            (new Generator()).FillSudoku(sudoku);
             return sudoku;
         }
     }
