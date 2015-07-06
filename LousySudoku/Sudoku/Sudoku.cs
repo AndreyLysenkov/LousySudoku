@@ -132,6 +132,21 @@ namespace LousySudoku
             }
         }
 
+        /// <summary>
+        /// Возвращает все ли в судоку числа заполнены правильно
+        /// </summary>
+        /// <returns></returns>
+        public bool IsRight()
+        {
+            for (int i = 0; i < this.Number.Length; i++)
+            {
+                if (!this.Number[i].IsRight())
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
          /*
           * Переопределенные методы и методы интерфейсов
           */
