@@ -102,6 +102,8 @@ namespace LousySudoku
         /// </summary>
         Block[] parents;
 
+        int value;
+
         /*
          * Свойства
          */
@@ -121,8 +123,15 @@ namespace LousySudoku
         /// </summary>
         public int Value
         {
-            get;
-            private set;
+            get
+            {
+                return this.value;
+            }
+            private set
+            {
+                this.value = value;
+                this.UpdateTypeAccordingValue();
+            }
         }
 
         /// <summary>
@@ -272,7 +281,6 @@ namespace LousySudoku
             if (IsModified)
             {
                 this.Value = new_value;
-                this.UpdateTypeAccordingValue();
                 return true;
             }
 
