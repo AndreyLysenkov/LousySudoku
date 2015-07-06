@@ -24,5 +24,13 @@ namespace Sudoku
             return random.Next(number.Length);
         }
 
+        private bool FillSudoku(Sudoku sudoku)
+        {
+            bool success = true;
+            
+
+            return success;
+        }
+
     }
 }
