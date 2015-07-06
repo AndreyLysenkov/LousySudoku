@@ -41,7 +41,18 @@ namespace LousySudoku
             return cell.IsRight();
         }
 
-            return success;
+        private bool FillSudokuOneAttempt(Sudoku sudoku)
+        {
+            for (int i = 0; i < sudoku.Number.Length; i++)
+            {
+                bool success = FillCell(sudoku.Number[i], sudoku.MaxValue);
+                if (!success)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
         }
 
     }
