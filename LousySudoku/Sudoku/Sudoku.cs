@@ -164,6 +164,15 @@ namespace LousySudoku
             return true;
         }
 
+        /// <summary>
+        /// Возвращает заполненно все судоку полностью и правильно
+        /// </summary>
+        /// <returns></returns>
+        public bool IsCompleted()
+        {
+            return this.IsFilled() && this.IsRight();
+        }
+
          /*
           * Переопределенные методы и методы интерфейсов
           */
