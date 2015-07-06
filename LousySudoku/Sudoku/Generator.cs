@@ -36,8 +36,10 @@ namespace LousySudoku
             }
             do
             {
+                Console.WriteLine("0: {0};{1}, type: {2}, value: {3}", cell.Coordinates.X, cell.Coordinates.Y, cell.Type, cell.Value); ///NNBB Debug;
                 cell.Modify(ReturnRandomFromArray(number));
-            } while (cell.IsRight() && (number.Count != 0));
+                Console.WriteLine("1: {0};{1}, type: {2}, value: {3}", cell.Coordinates.X, cell.Coordinates.Y, cell.Type, cell.Value); ///NNBB Debug;
+            } while (!cell.IsRight() && (number.Count != 0));
             return cell.IsRight();
         }
 
