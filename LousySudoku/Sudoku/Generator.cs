@@ -53,6 +53,22 @@ namespace LousySudoku
             }
             return true;
         }
+
+        private bool FillSudoku(Sudoku sudoku, int attempts = 100)
+        {
+            for (int i = 0; i < attempts; i++)
+            {
+                bool success = FillSudokuOneAttempt(sudoku);
+                if (success)
+                {
+                    return true;
+                }
+                else
+                {
+                    sudoku.Clear();
+                }
+            }
+            return false;
         }
 
     }
