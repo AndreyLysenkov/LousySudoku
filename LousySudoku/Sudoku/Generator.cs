@@ -92,14 +92,15 @@ namespace LousySudoku
 
         public item[] MixItems<item>(item[] array)
         {
-            item[] result = new item[array.Length];
+            int length = array.Length;
+            item[] result = new item[length];
             List<int> index = new List<int> { };
-            for (int i = 0; i < index.Count; i++)
+            for (int i = 0; i < length; i++)
             {
                 index.Add(i);
             }
 
-            for (int j = 0; j < result.Length; j++ )
+            for (int j = 0; j < length; j++ )
             {
                 int fillIndex = ReturnRandomFromArray(index);
                 result[j] = array[fillIndex];
