@@ -28,9 +28,9 @@ namespace LousySudoku
                 this.Load(filename, methodname);
             }
 
-            public int[] Run(Sudoku sudoku, int[] value, bool[] mask)
+            public int[] Run(int[] value, bool[] mask)
             {
-                return (int[])(this.method.Invoke((object)sudoku, new object[2] { (object)value, (object)mask }));
+                return (int[])(this.method.Invoke(null, new object[2] { (object)value, (object)mask }));
             }
 
             private MethodInfo[][] GetAssembleyMethods(Assembly assembly)
