@@ -270,19 +270,20 @@ namespace LousySudoku
 
             Sudoku sudoku9 = GetStandart9(numbs);
             Stopwatch time9 = new Stopwatch();
+            Generator generator9 = new Generator(sudoku9, 100);
             time9.Start();
-            Console.WriteLine((new Generator()).FillSudoku(sudoku9, 10000));
+            ///Console.WriteLine(generator9.FillSudoku());
             time9.Stop();
             ShowSudoku(sudoku9, 9);
 
             Sudoku sudoku16 = GetStandart16(numbs);
             Stopwatch time16 = new Stopwatch();
             time16.Start();
-            Console.WriteLine((new Generator()).FillSudoku(sudoku16, 10000));
+            Console.WriteLine(generator16.FillSudokuOneAttempt());
             time16.Stop();
             ShowSudoku(sudoku16, 16);
 
-            Console.WriteLine("\n \n {0}x9 against {1}x16", time9.Elapsed, time16.Elapsed);
+            Console.WriteLine("\n \n {0}x9x{2} against {1}x16x{3}", time9.Elapsed, time16.Elapsed, generator9.AttemptsRemain, generator16.AttemptsRemain);
         }
 
         public static void TryLoadDll(string filename = "block.dll", string methodname = "Debug_DllMethod")
