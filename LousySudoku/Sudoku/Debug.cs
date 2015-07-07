@@ -284,6 +284,11 @@ namespace LousySudoku
             Console.WriteLine("\n \n {0}x9 against {1}x16", time9.Elapsed, time16.Elapsed);
         }
 
+        public static void TryLoadDll(string filename = "block.dll")
+        {
+
+        }
+
     }
 
 }
