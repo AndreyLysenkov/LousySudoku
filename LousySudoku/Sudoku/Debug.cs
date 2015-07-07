@@ -27,7 +27,7 @@ namespace LousySudoku
             {
                 for (int j = 0; j < size; j++)
                 {
-                    Console.Write("{0}   ", sudoku.GetNumber(new Number.Position(i, j)).Value);
+                    Console.Write("{0:00}  ", sudoku.GetNumber(new Number.Position(i, j)).Value);
                 }
                 Console.WriteLine();
             }
@@ -271,14 +271,18 @@ namespace LousySudoku
             Sudoku sudoku9 = GetStandart9(numbs);
             Stopwatch time9 = new Stopwatch();
             Generator generator9 = new Generator(sudoku9, 100);
+            Console.WriteLine(generator9.AttemptsRemain);
             time9.Start();
-            ///Console.WriteLine(generator9.FillSudoku());
+            Console.WriteLine(generator9.FillSudoku());
             time9.Stop();
             ShowSudoku(sudoku9, 9);
 
             Sudoku sudoku16 = GetStandart16(numbs);
             Stopwatch time16 = new Stopwatch();
-            Generator generator16 = new Generator(sudoku16, 1000);
+            Generator generator16 = new Generator(sudoku16, 10);
+            ///sudoku16.MixNumbers();
+            Console.WriteLine("Sudoku. Разбор полетов и template: \n {0}", SudokuCoordinates(sudoku16));
+            Console.WriteLine(generator16.AttemptsRemain);
             time16.Start();
             Console.WriteLine(generator16.FillSudokuOneAttempt());
             time16.Stop();
@@ -308,6 +312,26 @@ namespace LousySudoku
                 }
             }
             
+        }
+
+        public static string BlockCoordinates(Block block)
+        {
+            string result = "";
+            for (int i = 0; i < block.Children.Length; i++)
+            {
+                result += "    " + CoordinateToString(block.Children[i].Coordinates);
+            }
+            return result;
+        }
+
+        public static string SudokuCoordinates(Sudoku sudoku)
+        {
+            string result = "";
+            for(int i = 0; i < sudoku.Block.Length; i++)
+            {
+                result += String.Format("Block #{0} : {1} \n", i, BlockCoordinates(sudoku.Block[i]));
+            }
+            return result;
         }
 
     }

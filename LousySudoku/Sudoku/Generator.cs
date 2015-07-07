@@ -48,7 +48,7 @@ namespace LousySudoku
             } while (!cell.IsRight() && (number.Count != 0));
             if (!cell.IsRight())
             {
-                Console.WriteLine(" position {0};{1} ", cell.Coordinates.X, cell.Coordinates.Y);
+                ///Console.WriteLine(" position {0};{1} ", cell.Coordinates.X, cell.Coordinates.Y);
             }
             return cell.IsRight();
         }
@@ -61,7 +61,7 @@ namespace LousySudoku
                 bool success = FillCell(sudoku.Number[i], sudoku.MaxValue);
                 if (!success)
                 {
-                    Debug.ShowSudoku(this.sudoku, this.sudoku.Size.X);
+                    ///Debug.ShowSudoku(this.sudoku, this.sudoku.Size.X);
                     return false;
                 }
             }
