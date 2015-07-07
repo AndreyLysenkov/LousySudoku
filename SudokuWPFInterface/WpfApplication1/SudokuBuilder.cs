@@ -74,7 +74,7 @@ namespace WpfApplication1
             }
 
             Sudoku sudoku = new Sudoku(new Number.Position(9, 9), value, mask, block, 9);
-            (new Generator()).FillSudoku(sudoku);
+            Interface.GenerateSudoku(sudoku);
             return sudoku;
         }
 
@@ -144,7 +144,7 @@ namespace WpfApplication1
             }
 
             Sudoku sudoku = new Sudoku(new Number.Position(16, 16), value, mask, block, 16);
-            ///(new Generator()).FillSudoku(sudoku);
+            Interface.GenerateSudoku(sudoku);
             return sudoku;
         }
     }

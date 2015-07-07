@@ -17,6 +17,12 @@ namespace LousySudoku
             return new Sudoku(size, value, mask, block, maxValue);
         }
 
+        public static void GenerateSudoku(Sudoku sudoku, int attemptsNumber = Generator.AttemptsNumberDefault)
+        {
+            Generator generator = new Generator(sudoku, attemptsNumber);
+            generator.FillSudoku();
+        }
+
         /// <summary>
         /// Изменяет число в ячейке судоку
         /// Возвращает успех операции
