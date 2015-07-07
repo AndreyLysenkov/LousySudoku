@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace LousySudoku
 {
@@ -12,6 +13,20 @@ namespace LousySudoku
     /// </summary>
     public class Block : IStringify
     {
+
+        public class ExternalCheck
+        {
+
+            public const string FileNameDefault = "data\\block\\standart.dll";
+
+            public const string MethodNameDefault = "check";
+
+            MethodInfo method;
+
+            public ExternalCheck(string filename = FileNameDefault, string methodname = MethodNameDefault)
+            {
+            }
+        }
 
         /*
          * Свойства
