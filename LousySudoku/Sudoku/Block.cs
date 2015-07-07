@@ -82,7 +82,11 @@ namespace LousySudoku
             private set;
         }
 
-        public ExternalCheck CheckMethod;
+        public ExternalCheck CheckMethod
+        {
+            get;
+            private set;
+        }
 
         /*
          * Конструкторы
