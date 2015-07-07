@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace LousySudoku
 {
@@ -286,7 +287,13 @@ namespace LousySudoku
 
         public static void TryLoadDll(string filename = "block.dll")
         {
-
+            Assembly block_dll = Assembly.LoadFrom(filename);
+            Type[] type = block_dll.GetTypes();
+            foreach (Type item in type)
+            {
+                Console.WriteLine("Extracted: {0}", item.Name);
+            }
+            
         }
 
     }

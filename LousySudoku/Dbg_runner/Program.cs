@@ -18,6 +18,10 @@ namespace Dbg_runner
             //Console.WriteLine("Print sudoku");
             //Debug.ShowSudoku(sudoku, 9);
 
+            Debug.TryLoadDll();
+
+            Console.ReadLine();
+
             Debug.TestGeneration();
 
             Console.ReadLine();
