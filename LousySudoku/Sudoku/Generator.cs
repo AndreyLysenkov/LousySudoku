@@ -8,18 +8,19 @@ namespace LousySudoku
     public class Generator
     {
 
+        public const int AttemptsNumberDefault = 200;
+
         private Random random;
 
-        public int AttemptsRemain
-        {
-            get;
-            private set;
-        }
+        private Sudoku sudoku;
 
-        public Generator(int attemptsCount = 10000)
+        public int AttemptsRemain;
+
+        public Generator(Sudoku sudoku, int attemptsNumber = AttemptsNumberDefault)
         {
             this.random = new Random();
-            this.AttemptsRemain = attemptsCount;
+            this.sudoku = sudoku;
+            this.AttemptsRemain = this.GetAttempts(attemptsNumber);
         }
 
         private int ReturnRandomFromArray(List<int> number)
@@ -48,8 +49,9 @@ namespace LousySudoku
             return cell.IsRight();
         }
 
-        private bool FillSudokuOneAttempt(Sudoku sudoku)
+        public bool FillSudokuOneAttempt()
         {
+            this.AttemptsRemain--;
             for (int i = 0; i < sudoku.Number.Length; i++)
             {
                 bool success = FillCell(sudoku.Number[i], sudoku.MaxValue);
@@ -61,11 +63,11 @@ namespace LousySudoku
             return true;
         }
 
-        public bool FillSudoku(Sudoku sudoku)
+        public bool FillSudoku()
         {
-            for (; this.AttemptsRemain > 0; this.AttemptsRemain--)
+            for (; this.AttemptsRemain > 0; )
             {
-                bool success = FillSudokuOneAttempt(sudoku);
+                bool success = this.FillSudokuOneAttempt();
                 if (success)
                 {
                     return true;
