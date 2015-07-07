@@ -144,7 +144,7 @@ namespace WpfApplication1
             }
 
             Sudoku sudoku = new Sudoku(new Number.Position(16, 16), value, mask, block, 16);
-            Interface.GenerateSudoku(sudoku);
+            ///Interface.GenerateSudoku(sudoku);
             return sudoku;
         }
     }
