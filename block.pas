@@ -1,4 +1,4 @@
-library filereader;
+library block;
 
 procedure Standart(number : array of integer; var indexes : array of integer);
 begin
