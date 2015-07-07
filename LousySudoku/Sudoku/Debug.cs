@@ -291,7 +291,7 @@ namespace LousySudoku
             Console.WriteLine("\n \n {0}x9x{2} against {1}x16x{3}", time9.Elapsed, time16.Elapsed, generator9.AttemptsRemain, generator16.AttemptsRemain);
         }
 
-        public static void TryLoadDll(string filename = "block.dll", string methodname = "Debug_DllMethod")
+        public static void TryLoadDll(string filename = "data\\block\\standart.dll", string methodname = "Debug_DllMethod")
         {
             Assembly block_dll = Assembly.LoadFrom(filename);
             Type[] type = block_dll.GetTypes();
