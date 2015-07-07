@@ -25,6 +25,7 @@ namespace LousySudoku
 
             public ExternalCheck(string filename = FileNameDefault, string methodname = MethodNameDefault)
             {
+                this.Load(filename, methodname);
             }
 
             public int[] Run(Sudoku sudoku, int[] value, bool[] mask)
