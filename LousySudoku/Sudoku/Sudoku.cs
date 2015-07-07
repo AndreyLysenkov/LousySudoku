@@ -87,6 +87,8 @@ namespace LousySudoku
             }
 
             this.MaxValue = maxValue;
+
+            this.Size = size;
         }
 
         /*
