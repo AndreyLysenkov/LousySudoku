@@ -100,9 +100,8 @@ namespace LousySudoku
         /// </summary>
         /// <param name="children"></param>
         public Block(Number[] children)
-        {
-            this.Children = children;
-        }
+            : this(children, new ExternalCheck())
+        { }
 
         /*
          * Методы
