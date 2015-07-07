@@ -10,9 +10,16 @@ namespace LousySudoku
 
         private Random random;
 
-        public Generator()
+        public int AttemptsRemain
+        {
+            get;
+            private set;
+        }
+
+        public Generator(int attemptsCount = 10000)
         {
             this.random = new Random();
+            this.AttemptsRemain = attemptsCount;
         }
 
         private int ReturnRandomFromArray(List<int> number)
@@ -54,9 +61,9 @@ namespace LousySudoku
             return true;
         }
 
-        public bool FillSudoku(Sudoku sudoku, int attempts = 100)
+        public bool FillSudoku(Sudoku sudoku)
         {
-            for (int i = 0; i < attempts; i++)
+            for (; this.AttemptsRemain > 0; this.AttemptsRemain--)
             {
                 bool success = FillSudokuOneAttempt(sudoku);
                 if (success)
