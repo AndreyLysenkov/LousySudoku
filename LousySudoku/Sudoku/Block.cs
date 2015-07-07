@@ -88,6 +88,13 @@ namespace LousySudoku
          * Конструкторы
          */
 
+        public Block(Number[] children, ExternalCheck method)
+        {
+            this.Children = children;
+            this.AddReference();
+            this.CheckMethod = method;
+        }
+
         /// <summary>
         /// Создает блок  заданными "детьми" - ячейками, принадлежащие данному блоку
         /// </summary>
