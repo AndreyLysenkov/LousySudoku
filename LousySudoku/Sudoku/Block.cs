@@ -48,7 +48,7 @@ namespace LousySudoku
             private void Load(string filename, string methodname)
             {
                 bool IsFounded = false;
-                Assembly assembly = Assembly.Load(filename);
+                Assembly assembly = Assembly.LoadFrom(filename);
                 MethodInfo[][] method = this.GetAssembleyMethods(assembly);
                 for (int i = 0; (i < method.Length) && !IsFounded; i++)
                 {
