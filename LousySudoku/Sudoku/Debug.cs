@@ -292,6 +292,11 @@ namespace LousySudoku
             foreach (Type item in type)
             {
                 Console.WriteLine("Extracted: {0}", item.Name);
+                MethodInfo[] methods = item.GetMethods();
+                foreach (MemberInfo method in methods)
+                {
+                    Console.WriteLine("   Include: {0}", method.Name);
+                }
             }
             
         }
