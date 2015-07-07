@@ -28,8 +28,13 @@ namespace LousySudoku
                 this.Load(filename, methodname);
             }
 
-            public int[] Run(int[] value, bool[] mask)
+            public int[] Run(Block block, int[] value, bool[] mask)
             {
+                if (method == null)
+                {
+                    Console.WriteLine("Debug.... Not founded Check Method to call");
+                    return block.CheckOnDefault(value, mask);
+                }
                 return (int[])(this.method.Invoke(null, new object[2] { (object)value, (object)mask }));
             }
 
@@ -179,23 +184,27 @@ namespace LousySudoku
          * Переопределенные методы и методы интерфейсов
          */
 
-        protected virtual int[] Check(int[] value, bool[] mask)
+        private int[] Check(int[] value, bool[] mask)
         {
-            //int[] result = new int[0];
-            //for (int i = 0; i < value.Length; i++)
-            //{
-            //    for (int j = i + 1; (j < value.Length) && (mask[i]); j++)
-            //    {
-            //        if ((mask[j]) && (value[i] == value[j]))
-            //        {
-            //            Array.Resize(ref result, result.Length + 2);
-            //            result[result.Length - 1] = i;
-            //            result[result.Length - 2] = j;
-            //        }
-            //    }
-            //}
-            //return result;
-            return this.CheckMethod.Run(value, mask);
+            return this.CheckMethod.Run(this, value, mask);
+        }
+
+        private int[] CheckOnDefault(int[] value, bool[] mask)
+        {
+            int[] result = new int[0];
+            for (int i = 0; i < value.Length; i++)
+            {
+                for (int j = i + 1; (j < value.Length) && (mask[i]); j++)
+                {
+                    if ((mask[j]) && (value[i] == value[j]))
+                    {
+                        Array.Resize(ref result, result.Length + 2);
+                        result[result.Length - 1] = i;
+                        result[result.Length - 2] = j;
+                    }
+                }
+            }
+            return result;
         }
 
         string IStringify.Stringify()
