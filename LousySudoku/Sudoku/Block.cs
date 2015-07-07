@@ -26,6 +26,11 @@ namespace LousySudoku
             public ExternalCheck(string filename = FileNameDefault, string methodname = MethodNameDefault)
             {
             }
+
+            public int[] Run(Sudoku sudoku, int[] value, bool[] mask)
+            {
+                return (int[])(this.method.Invoke((object)sudoku, new object[2] { (object)value, (object)mask }));
+            }
         }
 
         /*
