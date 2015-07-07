@@ -197,6 +197,12 @@ namespace LousySudoku
             }
         }
 
+        public void MixNumbers()
+        {
+            Generator generator = new Generator(this);
+            this.Number = generator.MixItems(this.Number);
+        }
+
          /*
           * Переопределенные методы и методы интерфейсов
           */
