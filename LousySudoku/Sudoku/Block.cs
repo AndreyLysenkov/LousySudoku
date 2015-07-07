@@ -19,7 +19,7 @@ namespace LousySudoku
 
             public const string FileNameDefault = "data\\block\\standart.dll";
 
-            public const string MethodNameDefault = "check";
+            public const string MethodNameDefault = "Check";
 
             MethodInfo method;
 
