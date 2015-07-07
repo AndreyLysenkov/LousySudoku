@@ -31,6 +31,18 @@ namespace LousySudoku
             {
                 return (int[])(this.method.Invoke((object)sudoku, new object[2] { (object)value, (object)mask }));
             }
+
+            private MethodInfo[][] GetAssembleyMethods(Assembly assembly)
+            {
+                Type[] type = assembly.GetTypes();
+                int length = type.Length;
+                MethodInfo[][] result = new MethodInfo[length][];
+                for (int i = 0; i < length; i++)
+                {
+                    result[i] = type[i].GetMethods();
+                }
+                return result;
+            }
         }
 
         /*
