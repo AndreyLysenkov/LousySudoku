@@ -46,6 +46,10 @@ namespace LousySudoku
             {
                 cell.Modify(ReturnRandomFromArray(number));
             } while (!cell.IsRight() && (number.Count != 0));
+            if (!cell.IsRight())
+            {
+                Console.WriteLine(" position {0};{1} ", cell.Coordinates.X, cell.Coordinates.Y);
+            }
             return cell.IsRight();
         }
 
@@ -57,6 +61,7 @@ namespace LousySudoku
                 bool success = FillCell(sudoku.Number[i], sudoku.MaxValue);
                 if (!success)
                 {
+                    Debug.ShowSudoku(this.sudoku, this.sudoku.Size.X);
                     return false;
                 }
             }
@@ -78,6 +83,29 @@ namespace LousySudoku
                 }
             }
             return false;
+        }
+
+        public int GetAttempts(int attemptsNumber = AttemptsNumberDefault)
+        {
+            return sudoku.Size.X * sudoku.Size.Y * attemptsNumber;
+        }
+
+        public item[] MixItems<item>(item[] array)
+        {
+            item[] result = new item[array.Length];
+            List<int> index = new List<int> { };
+            for (int i = 0; i < index.Count; i++)
+            {
+                index.Add(i);
+            }
+
+            for (int j = 0; j < result.Length; j++ )
+            {
+                int fillIndex = ReturnRandomFromArray(index);
+                result[j] = array[fillIndex];
+            }
+            
+            return result;
         }
 
     }
