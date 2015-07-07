@@ -205,7 +205,7 @@ namespace LousySudoku
 
         IStringify IStringify.Unstringify(string value)
         {
-            string[] result = value.Split(new char[] {'|'});
+            string[] result = value.Split(new char[] { '|' });
             Block block = new Block(new Number[0]);
             block.Children = new Number[result.Length];
             for (int i = 0; i < result.Length; i++)
@@ -214,7 +214,7 @@ namespace LousySudoku
                 {
                     block.Children[i] =
                         new Number(
-                            0, 
+                            0,
                             (Number.Position)((IStringify)(new Number.Position(0, 0))).Unstringify(result[i]),
                             0
                         );
