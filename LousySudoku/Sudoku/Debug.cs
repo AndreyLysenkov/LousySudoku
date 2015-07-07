@@ -278,6 +278,7 @@ namespace LousySudoku
 
             Sudoku sudoku16 = GetStandart16(numbs);
             Stopwatch time16 = new Stopwatch();
+            Generator generator16 = new Generator(sudoku16, 1000);
             time16.Start();
             Console.WriteLine(generator16.FillSudokuOneAttempt());
             time16.Stop();
