@@ -285,7 +285,7 @@ namespace LousySudoku
             Console.WriteLine("\n \n {0}x9 against {1}x16", time9.Elapsed, time16.Elapsed);
         }
 
-        public static void TryLoadDll(string filename = "block.dll")
+        public static void TryLoadDll(string filename = "block.dll", string methodname = "Debug_DllMethod")
         {
             Assembly block_dll = Assembly.LoadFrom(filename);
             Type[] type = block_dll.GetTypes();
@@ -293,9 +293,16 @@ namespace LousySudoku
             {
                 Console.WriteLine("Extracted: {0}", item.Name);
                 MethodInfo[] methods = item.GetMethods();
-                foreach (MemberInfo method in methods)
+                foreach (MethodInfo method in methods)
                 {
                     Console.WriteLine("   Include: {0}", method.Name);
+                    ParameterInfo[] parametr = method.GetParameters();
+                    ///bool isCorrect = (parametr.Length >= 2) && (parametr[0].);
+                    if (method.Name == methodname)
+                    {
+                        Console.WriteLine("--------------------------------");
+                        method.Invoke(null, new object[0]);
+                    }
                 }
             }
             
