@@ -22,6 +22,10 @@ namespace Dbg_runner
 
             Console.ReadLine();
 
+            Debug.TryLoadDll("Sudoku.dll");
+
+            Console.ReadLine();
+
             Debug.TestGeneration();
 
             Console.ReadLine();
