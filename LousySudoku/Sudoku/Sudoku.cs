@@ -53,6 +53,8 @@ namespace LousySudoku
         }
 
         public delegate void SudokuEvent (Sudoku sudoku);
+
+        public event SudokuEvent OnCompleted;
         /*
          * Конструкторы
          */
