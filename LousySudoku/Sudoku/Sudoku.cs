@@ -270,7 +270,38 @@ namespace LousySudoku
 
         IStringify IStringify.Unstringify(string value, List<char> separator)
         {
-            return null;
+            char deviderLevel4 = Stringify_Help.GetSeparator(separator);
+            string[] result4 = value.Split(new char[] { deviderLevel4 }, 3);
+            char devider = Stringify_Help.GetSeparator(separator);
+            string[] result = result4[0].Split(new char[] { devider }, 2);
+            Number.Position size = (Number.Position)((IStringify)(new Number.Position(0, 0))).Unstringify(result[0], separator);
+            char deviderLevel1 = Stringify_Help.GetSeparator(separator);
+            char deviderLevel2 = Stringify_Help.GetSeparator(separator);
+            char deviderLevel3 = Stringify_Help.GetSeparator(separator);
+            int[,] number = new int[this.Size.X, this.Size.Y];
+            Number.NumberType[,] mask = new Number.NumberType[this.Size.X, this.Size.Y];
+            string[] resultLevel3 = result[1].Split(new char[] { deviderLevel3 }, this.Size.X + 1);
+            for (int i = 0; i < this.Size.X; i++)
+            {
+                string[] resultLevel2 = resultLevel3[i].Split(new char[] { deviderLevel2 }, this.Size.Y + 1);
+                for (int j = 0; j < this.Size.Y; j++)
+                {
+                    string[] resultLevel1 = resultLevel2[j].Split(new char[] { deviderLevel1 }, 2);
+                    number[i, j] = Convert.ToInt32(resultLevel1[0]);
+                    mask[i, j] = (Number.NumberType)(Convert.ToInt32(resultLevel1[1]));
+                }
+            }
+            Number[] numberNumber = GetNumbers(size, number, mask);
+            IStringify[] temp = Stringify_Help.ArrayFromString(new Block(null), result4[1], separator);
+            Block[] block = new Block[temp.Length];
+            Number.Position[][] blockPosition = new Number.Position[temp.Length][];
+            for (int i = 0; i < temp.Length; i++)
+            {
+                block[i] = (Block)temp[i];
+                blockPosition[i] = block[i].GetPositions();
+            }
+            int maxValue = Convert.ToInt32(result4[2]);
+            return new Sudoku(size, number, mask, blockPosition, maxValue);
         }
 
     }
