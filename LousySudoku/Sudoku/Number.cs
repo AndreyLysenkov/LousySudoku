@@ -329,9 +329,9 @@ namespace LousySudoku
          * Переопределенные методы и методы интерфейсов
          */
 
-        string IStringify.Stringify()
+        string IStringify.Stringify(List<char> separator)
         {
-            return this.Value + "." + (int)this.Type + "." + ((IStringify)(this.Coordinates)).Stringify();
+            return this.Value.ToString() + Stringify_Help.GetSeparator(separator) + ((int)this.Type).ToString();
         }
 
         IStringify IStringify.Unstringify(string value)
