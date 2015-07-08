@@ -98,6 +98,13 @@ namespace LousySudoku
             return false;
         }
 
+        private int CountNumbersToDelete()
+        {
+            int numberCount = this.sudoku.GetNumberCount();
+            int numberStay = (int)(numberCount * this.Fillness);
+            return numberCount - numberStay;
+        }
+
         public int GetAttempts(int attemptsNumber = AttemptsNumberDefault)
         {
             return sudoku.Size.X * sudoku.Size.Y * attemptsNumber;
