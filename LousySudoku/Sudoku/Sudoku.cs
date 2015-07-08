@@ -58,6 +58,8 @@ namespace LousySudoku
 
         public Sudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[][] block, int maxValue)
         {
+            if (size == null)
+                return;
             ///Заполнение всех чисел
             this.Number = new Number[size.X * size.Y];
             for (int i = 0; i < size.X; i++)
@@ -278,13 +280,13 @@ namespace LousySudoku
             char deviderLevel1 = Stringify_Help.GetSeparator(separator);
             char deviderLevel2 = Stringify_Help.GetSeparator(separator);
             char deviderLevel3 = Stringify_Help.GetSeparator(separator);
-            int[,] number = new int[this.Size.X, this.Size.Y];
-            Number.NumberType[,] mask = new Number.NumberType[this.Size.X, this.Size.Y];
-            string[] resultLevel3 = result[1].Split(new char[] { deviderLevel3 }, this.Size.X + 1);
-            for (int i = 0; i < this.Size.X; i++)
+            int[,] number = new int[size.X, size.Y];
+            Number.NumberType[,] mask = new Number.NumberType[size.X, size.Y];
+            string[] resultLevel3 = result[1].Split(new char[] { deviderLevel3 }, size.X + 1);
+            for (int i = 0; i < size.X; i++)
             {
-                string[] resultLevel2 = resultLevel3[i].Split(new char[] { deviderLevel2 }, this.Size.Y + 1);
-                for (int j = 0; j < this.Size.Y; j++)
+                string[] resultLevel2 = resultLevel3[i].Split(new char[] { deviderLevel2 }, size.Y + 1);
+                for (int j = 0; j < size.Y; j++)
                 {
                     string[] resultLevel1 = resultLevel2[j].Split(new char[] { deviderLevel1 }, 2);
                     number[i, j] = Convert.ToInt32(resultLevel1[0]);
