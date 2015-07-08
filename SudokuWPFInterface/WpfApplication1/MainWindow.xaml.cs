@@ -27,7 +27,7 @@ namespace WpfApplication1
 
         List<int> AdmissibleValues = new List<int> { }; // Содерждит колекцию допустимых значений
 
-        Sudoku sudoku = SudokuDebug.GetStandart9(null);
+        Sudoku sudoku = SudokuDebug.GetStandart16(null);
 
         string currenType;
 
@@ -49,15 +49,15 @@ namespace WpfApplication1
             tb.BorderBrush = new SolidColorBrush(Colors.Black);
             tb.BorderThickness = new Thickness(2);
 
-            if ((column +1) % 3 == 0)
+            if ((column + 1) % 3 == 0)
             {
                 tb.Margin = new Thickness(0, 0, 10, 0);
             }
             else if ((row + 1) % 3 == 0)
                 tb.Margin = new Thickness(0, 0, 0, 10);
-            if ((column +1) % 3 == 0 && ((row +1) % 3 == 0))
+            if ((column + 1) % 3 == 0 && ((row + 1) % 3 == 0))
                 tb.Margin = new Thickness(0, 0, 10, 10);
-                
+
             tb.Text = "";
             tb.TextChanged += textChangedEventHandler;
             tb.LostFocus += lostFocus;
@@ -73,7 +73,7 @@ namespace WpfApplication1
 
             return tb;
         }
-        
+
         private MyTextBox TextBox_16_16Add(int row, int column)
         {
             MyTextBox tb = new MyTextBox();
@@ -136,7 +136,7 @@ namespace WpfApplication1
             bool success;
 
             switch (currenType)
-            { 
+            {
                 case "9x9":
                     for (int i = 0; i < myTextBox.Text.Length; i++)
                     {
@@ -149,7 +149,7 @@ namespace WpfApplication1
                     }
                     ///////////////
 
-                    
+
 
                     if (myTextBox.Text != "")
                         valueText = Convert.ToInt32(myTextBox.Text);
@@ -219,9 +219,10 @@ namespace WpfApplication1
             LousySudoku.Debug.ShowSudokuRightness(sudoku, 9);
         }
 
-        public void CreateGrid_9x9()
+        public void CreateGrid_9x9(bool generate = true)
         {
-            sudoku = SudokuDebug.GetStandart9((new Debug("9x9")).matrix);
+            if (generate)
+                sudoku = SudokuDebug.GetStandart9((new Debug("9x9")).matrix);
             currenType = "9x9";
             
             
@@ -253,10 +254,10 @@ namespace WpfApplication1
 
         }
 
-        public void CreateGrid_16x16()
+        public void CreateGrid_16x16(bool generate = true)
         {
-            sudoku = SudokuDebug.GetStandart16((new Debug("16x16")).matrix);
-
+            if (generate)
+                sudoku = SudokuDebug.GetStandart16((new Debug("16x16")).matrix);
             currenType = "16x16";
 
             mainWindow.Height = 800 + 2 * 10;
