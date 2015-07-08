@@ -25,6 +25,10 @@ namespace LousySudoku
     {
 
         public static string ArrayToString(IStringify[] array, string separator = ".") 
+        public const char SeparatorDefault = ' ';
+
+        public static List<char> SeparatorListDefault = new List<char> { '_', '.', ';', '+', '-', '=', '&' };
+
         {
             string result;
             result = array.Length.ToString() + separator;
