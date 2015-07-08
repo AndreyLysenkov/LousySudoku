@@ -129,7 +129,12 @@ namespace LousySudoku
         /// <returns></returns>
         public bool ChangeNumber(Number.Position position, int value)
         {
-            return this.GetNumber(position).Modify(value);
+            bool success = this.GetNumber(position).Modify(value);
+            if (success)
+            {
+                this.IsCompleted();
+            }
+            return success;
         }
 
         /// <summary>
