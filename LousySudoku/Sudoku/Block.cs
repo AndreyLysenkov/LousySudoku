@@ -14,6 +14,10 @@ namespace LousySudoku
     public class Block : IStringify
     {
 
+        public class BlockType
+        {
+        }
+
         public class ExternalCheck
         {
 
