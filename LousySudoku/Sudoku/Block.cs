@@ -33,6 +33,15 @@ namespace LousySudoku
                 this.AssembleyPath = assembleyPath;
                 this.MethodName = methodName;
             }
+
+            public BlockType(string parametr, char separator = ' ')
+                : this(StringToParametrs(parametr, separator)[1], StringToParametrs(parametr, separator)[0])
+            { }
+
+            private static string[] StringToParametrs(string parametr, char separator)
+            {
+                return parametr.Split(new char[1] { separator }, 2);
+            }
         }
 
         public class ExternalCheck
