@@ -10,6 +10,8 @@ namespace LousySudoku
 
         public const int AttemptsNumberDefault = 200;
 
+        public const double FillnessDefault = 0.27;
+
         private Random random;
 
         private Sudoku sudoku;
@@ -21,11 +23,12 @@ namespace LousySudoku
             private set;
         }
 
-        public Generator(Sudoku sudoku, int attemptsNumber = AttemptsNumberDefault)
+        public Generator(Sudoku sudoku, int attemptsNumber = AttemptsNumberDefault, double fillness = FillnessDefault)
         {
             this.random = new Random();
             this.sudoku = sudoku;
             this.AttemptsRemain = this.GetAttempts(attemptsNumber);
+            this.Fillness = FillnessDefault;
         }
 
         private int ReturnRandomFromArray(List<int> number)
