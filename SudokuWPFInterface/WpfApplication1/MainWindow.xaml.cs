@@ -224,8 +224,8 @@ namespace WpfApplication1
             if (generate)
                 sudoku = SudokuDebug.GetStandart9((new Debug("9x9")).matrix);
             currenType = "9x9";
-            
-            
+
+
             mainWindow.Height = 720 + 2 * 10;
             mainWindow.Width = 745 + 2 * 10;
 
@@ -304,7 +304,22 @@ namespace WpfApplication1
 
         public void Open_Click(object sender, RoutedEventArgs e)
         {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.FileName = "*";
+            dlg.DefaultExt = ".txt";
 
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                string filename = dlg.FileName;
+                sudoku = Interface.LoadSudoku(filename);
+            }
+
+            if (sudoku.Size.X == 9)
+                CreateGrid_9x9(false);
+            else
+                CreateGrid_16x16(false);
         }
 
         public void Save_Click(object sender, RoutedEventArgs e)
@@ -323,4 +338,5 @@ namespace WpfApplication1
         }
 
     }
- }
+
+}
