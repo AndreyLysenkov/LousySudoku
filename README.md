@@ -1,6 +1,7 @@
 # LousySudoku
 
-### [Download](https://github.com/AndreyLysenkov/LousySudoku)
+### [Download](https://github.com/AndreyLysenkov/LousySudoku/releases)
+
 
 Lousy sudoku is introdiced by lazy 1st year students of Bauman Moscow State University Kaluga brunch
 
