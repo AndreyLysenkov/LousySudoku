@@ -22,6 +22,15 @@ namespace LousySudoku
             System.IO.File.WriteAllText(filename, ((IStringify)(sudoku)).Stringify(Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault)));
         }
 
+        public static Sudoku GenerateFromTemplate(string filename, double fillness = Generator.FillnessDefault)
+        {
+            Sudoku sudoku = LoadSudoku(filename);
+            sudoku.Clear();
+            Generator generator = new Generator(sudoku, fillness: fillness);
+            generator.Generate();
+            return sudoku;
+        }
+
         public static Sudoku CreateSudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[][] block, int maxValue)
         {
             return new Sudoku(size, value, mask, block, maxValue);
