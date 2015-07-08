@@ -246,7 +246,7 @@ namespace LousySudoku
             return result;
         }
 
-        private Number.Position[] GetPositions()
+        public Number.Position[] GetPositions()
         {
             Number.Position[] result = new Number.Position[this.Children.Length];
             for (int i = 0; i < result.Length; i++)
@@ -300,8 +300,6 @@ namespace LousySudoku
 
             result += ((IStringify)(this.blockType)).Stringify(separator) + devider;
 
-            char deviderNumber = Stringify_Help.GetSeparator(separator);
-
             result += Stringify_Help.ArrayToString(this.GetPositions(), separator);
 
             return result;
@@ -313,7 +311,12 @@ namespace LousySudoku
 
             BlockType blockType = (BlockType)((IStringify)(this.blockType)).Unstringify(result[0], separator);
 
-            Number.Position[] number = (Number.Position[])(Stringify_Help.ArrayFromString(result[1], separator));
+            IStringify[] temp = (Stringify_Help.ArrayFromString(new Number.Position(0,0), result[1], separator));
+            Number.Position[] number = new Number.Position[temp.Length];
+            for (int i = 0; i < temp.Length;  i++)
+            {
+                number[i] = (Number.Position)temp[i];
+            }
 
             return new Block(Block.GetNumbers(number), blockType);
         }
