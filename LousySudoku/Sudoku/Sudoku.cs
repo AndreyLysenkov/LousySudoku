@@ -232,6 +232,7 @@ namespace LousySudoku
         string IStringify.Stringify(List<char> separator)
         {
             string result = "";
+            char deviderLevel4 = Stringify_Help.GetSeparator(separator);
             char devider = Stringify_Help.GetSeparator(separator);
             result += ((IStringify)(this.Size)).Stringify(separator) + devider;
             int[,] value = new int[this.Size.X, this.Size.Y];
@@ -248,6 +249,21 @@ namespace LousySudoku
                     result += value[i, j].ToString() + deviderLevel1 + mask[i, j].ToString() + deviderLevel2;
                 }
                 result += deviderLevel3;
+            }
+            result += deviderLevel4 + Stringify_Help.ArrayToString(this.Block, separator);
+            result += deviderLevel4 + this.MaxValue.ToString();
+            return result;
+        }
+
+        private static Number[] GetNumbers(Number.Position size, int[,] number, Number.NumberType[,] mask)
+        {
+            Number[] result = new Number[size.X * size.Y];
+            for (int i = 0; i < size.X; i++)
+            {
+                for (int j = 0; j < size.Y; j++)
+                {
+                    result[i * size.X + j] = new Number(mask[i, j], new Number.Position(i, j), number[i, j]);
+                }
             }
             return result;
         }
