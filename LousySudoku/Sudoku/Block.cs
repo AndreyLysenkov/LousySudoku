@@ -304,24 +304,15 @@ namespace LousySudoku
             return result;
         }
 
-        IStringify IStringify.Unstringify(string value)
+        IStringify IStringify.Unstringify(string value, List<char> separator)
         {
-            string[] result = value.Split(new char[] { '|' });
-            Block block = new Block(new Number[0]);
-            block.Children = new Number[result.Length];
-            for (int i = 0; i < result.Length; i++)
-            {
-                if (result[i].Length != 0)
-                {
-                    block.Children[i] =
-                        new Number(
-                            0,
-                            (Number.Position)((IStringify)(new Number.Position(0, 0))).Unstringify(result[i]),
-                            0
-                        );
-                }
-            }
-            return block;
+            string[] result = value.Split(new char[] { Stringify_Help.GetSeparator(separator) });
+
+            BlockType blockType = (BlockType)((IStringify)(this.blockType)).Unstringify(result[0], separator);
+
+            Number.Position[] number = (Number.Position[])(Stringify_Help.ArrayFromString(result[1], separator));
+
+            return new Block(Block.GetNumbers(number), blockType);
         }
 
     }
