@@ -105,6 +105,14 @@ namespace LousySudoku
             return numberCount - numberStay;
         }
 
+        public bool Generate()
+        {
+            bool success = this.FillSudoku();
+            int numberDelete = this.CountNumbersToDelete();
+            this.sudoku.DeleteNumbers(numberDelete);
+            return success;
+        }
+
         public int GetAttempts(int attemptsNumber = AttemptsNumberDefault)
         {
             return sudoku.Size.X * sudoku.Size.Y * attemptsNumber;
