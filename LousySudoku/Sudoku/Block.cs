@@ -193,6 +193,9 @@ namespace LousySudoku
         /// </summary>
         public void AddReference()
         {
+            if (this.Children == null)
+                return;
+
             for (int i = 0; i < this.Children.Length; i++)
             {
                 this.Children[i].AddParent(this);
