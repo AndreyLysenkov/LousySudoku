@@ -308,8 +308,18 @@ namespace WpfApplication1
         }
 
         public void Save_Click(object sender, RoutedEventArgs e)
-        { 
+        {
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "sudoku";
+            dlg.DefaultExt = ".txt";
 
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                string filename = dlg.FileName;
+                Interface.SaveSudoku(filename, sudoku);
+            }
         }
 
     }
