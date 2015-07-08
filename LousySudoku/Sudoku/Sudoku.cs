@@ -64,6 +64,9 @@ namespace LousySudoku
 
         public Sudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[][] block, int maxValue)
         {
+            this.OnFilled = EmptySudokuEventHandler;
+            this.OnCompleted = EmptySudokuEventHandler;
+
             if (size == null)
                 return;
             ///Заполнение всех чисел
@@ -243,6 +246,9 @@ namespace LousySudoku
                 this.Number[i].Clear();
             }
         }
+
+        private void EmptySudokuEventHandler(Sudoku sudoku)
+        {  }
 
         /*
          * Переопределенные методы и методы интерфейсов
