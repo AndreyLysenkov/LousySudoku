@@ -51,12 +51,15 @@ namespace LousySudoku
 
         public static string ArrayToString(IStringify[] array, List<char> separator)
         {
+            List<char> deviderList = CopyList(separator);
             string result;
-            char devider = Stringify_Help.GetSeparator(separator);
+            char devider = Stringify_Help.GetSeparator(deviderList);
             result = array.Length.ToString() + devider;
             for (int i = 0; i < array.Length; i++)
             {
-                result += array[i].Stringify(separator) + devider;
+                result += array[i].Stringify(CopyList(deviderList));
+                if (i != array.Length - 1)
+                    result += devider;
             }
             return result;
         }
