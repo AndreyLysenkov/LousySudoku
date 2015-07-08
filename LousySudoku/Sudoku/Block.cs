@@ -53,6 +53,8 @@ namespace LousySudoku
 
             string IStringify.Stringify(List<char> separator)
             {
+                char devider = Stringify_Help.GetSeparator(separator);
+                return this.MethodName + devider + this.AssembleyPath;
             }
 
             IStringify IStringify.Unstringify(string value, List<char> separator)
