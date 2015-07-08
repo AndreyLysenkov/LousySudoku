@@ -52,6 +52,7 @@ namespace LousySudoku
             private set;
         }
 
+        public delegate void SudokuEvent (Sudoku sudoku);
         /*
          * Конструкторы
          */
