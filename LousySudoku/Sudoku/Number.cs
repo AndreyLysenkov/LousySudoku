@@ -61,9 +61,9 @@ namespace LousySudoku
                 return ((position.X == this.X) && (position.Y == this.Y));
             }
 
-            string IStringify.Stringify()
+            string IStringify.Stringify(List<char> separator)
             {
-                return this.X + "_" + this.Y;
+                return this.X.ToString() + Stringify_Help.GetSeparator(separator) + this.Y.ToString();
             }
 
             IStringify IStringify.Unstringify(string value)
