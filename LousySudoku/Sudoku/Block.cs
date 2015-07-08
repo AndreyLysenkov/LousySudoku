@@ -138,6 +138,10 @@ namespace LousySudoku
             this.CheckMethod = method;
         }
 
+        public Block(Number[] children, BlockType type)
+            : this(children, new ExternalCheck(type))
+        { }
+
         /// <summary>
         /// Создает блок  заданными "детьми" - ячейками, принадлежащие данному блоку
         /// </summary>
