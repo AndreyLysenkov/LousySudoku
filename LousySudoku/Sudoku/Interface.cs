@@ -17,10 +17,10 @@ namespace LousySudoku
             return new Sudoku(size, value, mask, block, maxValue);
         }
 
-        public static void GenerateSudoku(Sudoku sudoku, int attemptsNumber = Generator.AttemptsNumberDefault)
+        public static void GenerateSudoku(Sudoku sudoku, int attemptsNumber = Generator.AttemptsNumberDefault, double fillness = Generator.FillnessDefault)
         {
-            Generator generator = new Generator(sudoku, attemptsNumber);
-            generator.FillSudoku();
+            Generator generator = new Generator(sudoku, attemptsNumber, fillness);
+            generator.Generate();
         }
 
         /// <summary>
