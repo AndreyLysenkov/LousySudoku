@@ -339,6 +339,25 @@ namespace LousySudoku
             return result;
         }
 
+        public static void SudokuEventTestSubscriber1(Sudoku sudoku)
+        {
+            Console.WriteLine("{0} congrats, completed", 5);
+        }
+
+        public static void SudokuEventTestSubscriber2(Sudoku sudoku)
+        {
+            Console.WriteLine("{0} congrats, completed", 0);
+        }
+
+        public static Sudoku SudokuEventTest(Sudoku sudoku)
+        {
+            Generator generator = new Generator(sudoku, fillness: 0.85);
+            generator.Generate();
+            sudoku.OnCompleted += SudokuEventTestSubscriber1;
+            sudoku.OnFilled += SudokuEventTestSubscriber2;
+            return sudoku;
+        }
+
     }
 
 }

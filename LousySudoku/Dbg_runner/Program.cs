@@ -28,6 +28,8 @@ namespace Dbg_runner
 
             Debug.TestGeneration();
 
+            Debug.ShowSudoku(Debug.SudokuEventTest(Debug.GetStandart9(null)), 9);
+
             Console.ReadLine();
         }
     }
