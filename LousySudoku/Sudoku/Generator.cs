@@ -35,7 +35,7 @@ namespace LousySudoku
             ///NNBB temp Debug;
             //((IStringify)(this.sudoku)).Unstringify((((IStringify)(this.sudoku)).Stringify(Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault))), Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault));
             this.AttemptsRemain = this.GetAttempts(attemptsNumber);
-            this.Fillness = FillnessDefault;
+            this.Fillness = fillness;
         }
 
         private int ReturnRandomFromArray(List<int> number)
