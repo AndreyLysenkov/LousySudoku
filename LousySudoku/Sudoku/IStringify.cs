@@ -65,15 +65,27 @@ namespace LousySudoku
         }
 
         public static IStringify[] ArrayFromString(string value, List<char> separator)
+        public static List<item> CopyList<item>(List<item> list)
         {
-            char devider = GetSeparator(separator);
+            List<item> result = new List<item> { };
+            foreach (item x in list)
+            {
+                result.Add(x);
+            }
+            return result;
+        }
+
+        public static IStringify[] ArrayFromString(IStringify example, string value, List<char> separator)
+        {
+            List<char> deviderList = CopyList(separator);
+            char devider = GetSeparator(deviderList);
             string[] resultString = value.Split(new char[] {devider}, 2);
             int length = Convert.ToInt32(resultString[0]);
-            string[] arrayString = value.Split(new char[] { devider }, length);
+            string[] arrayString = resultString[1].Split(new char[] { devider }, length);
             IStringify[] result = new IStringify[length];
             for (int i = 0; i < length; i++)
             {
-                result[i] = result[i].Unstringify(arrayString[i], separator);
+                result[i] = ((IStringify)(example)).Unstringify(arrayString[i], CopyList(deviderList));
             }
             return result;
         }
