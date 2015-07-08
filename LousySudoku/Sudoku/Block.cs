@@ -141,11 +141,12 @@ namespace LousySudoku
          * Конструкторы
          */
 
-        public Block(Number[] children, ExternalCheck method)
+        public Block(Number[] children, BlockType type)
         {
             this.Children = children;
             this.AddReference();
-            this.CheckMethod = method;
+            this.blockType = type;
+            this.CheckMethod = new ExternalCheck(type);
         }
 
         public Block(Number[] children, BlockType type)
