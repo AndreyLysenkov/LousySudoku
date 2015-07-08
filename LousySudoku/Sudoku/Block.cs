@@ -59,6 +59,9 @@ namespace LousySudoku
 
             IStringify IStringify.Unstringify(string value, List<char> separator)
             {
+                char devider = Stringify_Help.GetSeparator(separator);
+                string[] parametr = value.Split(new char[] {devider}, 2);
+                return new BlockType(parametr[1], parametr[0]);
             }
 
         }
