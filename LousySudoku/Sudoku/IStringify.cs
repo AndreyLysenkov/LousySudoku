@@ -26,7 +26,7 @@ namespace LousySudoku
 
         public const char SeparatorDefault = ' ';
 
-        public static List<char> SeparatorListDefault = new List<char> { '_', '.', ';', '+', '-', '=', '&' };
+        public static List<char> SeparatorListDefault = new List<char> { '_', '*', ';', '+', '-', '=', '&', '(', ')', '{', '}', '\n' };
 
         public static char GetSeparator(List<char> separator)
         {
