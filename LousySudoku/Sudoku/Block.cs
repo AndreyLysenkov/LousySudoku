@@ -290,13 +290,17 @@ namespace LousySudoku
             return result;
         }
 
-        string IStringify.Stringify()
+        string IStringify.Stringify(List<char> separator)
         {
+            char devider = Stringify_Help.GetSeparator(separator);
             string result = "";
-            for (int i = 0; i < this.Children.Length; i++)
-            {
-                result += ((IStringify)(this.Children[i].Coordinates)).Stringify() + "|";
-            }
+
+            result += ((IStringify)(this.blockType)).Stringify(separator) + devider;
+
+            char deviderNumber = Stringify_Help.GetSeparator(separator);
+
+            result += Stringify_Help.ArrayToString(this.GetPositions(), separator);
+
             return result;
         }
 
