@@ -16,7 +16,12 @@ namespace LousySudoku
 
         private Sudoku sudoku;
 
-        public int AttemptsRemain;
+        public int AttemptsRemain
+        {
+            get;
+            private set;
+        }
+
         public double Fillness
         {
             get;
