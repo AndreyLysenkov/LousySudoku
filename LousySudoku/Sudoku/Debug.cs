@@ -276,7 +276,7 @@ namespace LousySudoku
             Console.WriteLine(generator9.FillSudoku());
             time9.Stop();
             ShowSudoku(sudoku9, 9);
-
+            Console.WriteLine(((IStringify)(sudoku9)).Stringify(Stringify_Help.SeparatorListDefault));
             Sudoku sudoku16 = GetStandart16(numbs);
             Stopwatch time16 = new Stopwatch();
             Generator generator16 = new Generator(sudoku16, 10);
