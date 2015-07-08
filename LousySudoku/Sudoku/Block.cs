@@ -149,8 +149,8 @@ namespace LousySudoku
             this.CheckMethod = new ExternalCheck(type);
         }
 
-        public Block(Number[] children, BlockType type)
-            : this(children, new ExternalCheck(type))
+        public Block(Number[] children, string BlockTypeParametrs)
+        : this(children, new BlockType(BlockTypeParametrs))
         { }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace LousySudoku
         /// </summary>
         /// <param name="children"></param>
         public Block(Number[] children)
-            : this(children, new ExternalCheck())
+            : this(children, new BlockType(BlockType.ParametrDefault))
         { }
 
         /*
