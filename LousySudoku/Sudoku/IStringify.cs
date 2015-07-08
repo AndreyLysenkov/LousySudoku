@@ -24,7 +24,6 @@ namespace LousySudoku
     public static class Stringify_Help
     {
 
-        public static string ArrayToString(IStringify[] array, string separator = ".") 
         public const char SeparatorDefault = ' ';
 
         public static List<char> SeparatorListDefault = new List<char> { '_', '.', ';', '+', '-', '=', '&' };
@@ -50,16 +49,18 @@ namespace LousySudoku
             return result;
         }
 
+        public static string ArrayToString(IStringify[] array, List<char> separator)
         {
             string result;
-            result = array.Length.ToString() + separator;
+            char devider = Stringify_Help.GetSeparator(separator);
+            result = array.Length.ToString() + devider;
             for (int i = 0; i < array.Length; i++)
             {
-                result += array[i].Stringify() + separator;
+                result += array[i].Stringify(separator) + devider;
             }
             return result;
         }
-        
+
     }
 
 }
