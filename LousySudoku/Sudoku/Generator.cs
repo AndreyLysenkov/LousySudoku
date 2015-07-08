@@ -15,6 +15,11 @@ namespace LousySudoku
         private Sudoku sudoku;
 
         public int AttemptsRemain;
+        public double Fillness
+        {
+            get;
+            private set;
+        }
 
         public Generator(Sudoku sudoku, int attemptsNumber = AttemptsNumberDefault)
         {
