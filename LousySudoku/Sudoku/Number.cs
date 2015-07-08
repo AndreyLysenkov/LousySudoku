@@ -189,6 +189,14 @@ namespace LousySudoku
             }
         }
 
+        public bool IsExist
+        {
+            get
+            {
+                return !(this.Type == NumberType.Unexists);
+            }
+        }
+
         /*
          * Конструкторы
          */
