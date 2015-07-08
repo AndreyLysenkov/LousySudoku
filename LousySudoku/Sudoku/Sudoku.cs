@@ -206,6 +206,18 @@ namespace LousySudoku
          /*
           * Переопределенные методы и методы интерфейсов
           */
+        public int GetNumberCount()
+        {
+            int result = 0;
+            foreach (Number number in this.Number)
+            {
+                if (number.IsExist)
+                {
+                    result++;
+                }
+            }
+            return result;
+        }
 
         string IStringify.Stringify()
         {
