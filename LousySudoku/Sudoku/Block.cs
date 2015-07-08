@@ -16,6 +16,17 @@ namespace LousySudoku
 
         public class BlockType
         {
+            public string MethodName
+            {
+                get;
+                private set;
+            }
+
+            public string AssembleyPath
+            {
+                get;
+                private set;
+            }
         }
 
         public class ExternalCheck
