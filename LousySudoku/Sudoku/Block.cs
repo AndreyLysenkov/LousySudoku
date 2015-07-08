@@ -58,6 +58,10 @@ namespace LousySudoku
                 this.Load(filename, methodname);
             }
 
+            public ExternalCheck(BlockType type)
+                : this(type.AssembleyPath, type.MethodName)
+            { }
+
             public int[] Run(Block block, int[] value, bool[] mask)
             {
                 if (method == null)
