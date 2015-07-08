@@ -66,9 +66,9 @@ namespace LousySudoku
                 return this.X.ToString() + Stringify_Help.GetSeparator(separator) + this.Y.ToString();
             }
 
-            IStringify IStringify.Unstringify(string value)
+            IStringify IStringify.Unstringify(string value, List<char> separator)
             {
-                string[] result = value.Split(new char[] { '_' }, 2);
+                string[] result = value.Split(new char[] { Stringify_Help.GetSeparator(separator) }, 2);
                 return
                     new Position(
                         Convert.ToInt32(result[0]),
