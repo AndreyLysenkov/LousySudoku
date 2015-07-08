@@ -229,17 +229,25 @@ namespace LousySudoku
          * Переопределенные методы и методы интерфейсов
          */
 
-        string IStringify.Stringify()
+        string IStringify.Stringify(List<char> separator)
         {
-            string result = ((IStringify)(this.Size)).Stringify() + "&" + this.Number.Length + "&";
-            for (int i = 0; i < this.Number.Length; i++)
+            string result = "";
+            char devider = Stringify_Help.GetSeparator(separator);
+            result += ((IStringify)(this.Size)).Stringify(separator) + devider;
+            int[,] value = new int[this.Size.X, this.Size.Y];
+            int[,] mask = new int[this.Size.X, this.Size.Y];
+            bool[,] rightness = new bool[this.Size.X, this.Size.Y];
+            this.GetGrid(ref value, ref mask, ref rightness);
+            char deviderLevel1 = Stringify_Help.GetSeparator(separator);
+            char deviderLevel2 = Stringify_Help.GetSeparator(separator);
+            char deviderLevel3 = Stringify_Help.GetSeparator(separator);
+            for (int i = 0; i < this.Size.X; i++)
             {
-                result += ((IStringify)(this.Number[i])).Stringify() + "&";
-            }
-            result += this.Block.Length + "&";
-            for (int j = 0; j < this.Block.Length; j++)
-            {
-                result += ((IStringify)(this.Block[j])).Stringify() + "&";
+                for (int j = 0; j < this.Size.Y; j++)
+                {
+                    result += value[i, j] + deviderLevel1 + mask[i, j] + deviderLevel2;
+                }
+                result += deviderLevel3;
             }
             return result;
         }
