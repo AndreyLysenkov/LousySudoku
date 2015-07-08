@@ -29,6 +29,14 @@ namespace LousySudoku
             }
 
             public BlockType(string assembleyPath = ExternalCheck.FileNameDefault, string methodName = ExternalCheck.MethodNameDefault)
+            public static string ParametrDefault
+            {
+                get
+                {
+                    return ExternalCheck.MethodNameDefault + ' ' + ExternalCheck.FileNameDefault;
+                }
+            }
+
             {
                 this.AssembleyPath = assembleyPath;
                 this.MethodName = methodName;
