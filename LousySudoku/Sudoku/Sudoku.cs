@@ -245,7 +245,7 @@ namespace LousySudoku
             {
                 for (int j = 0; j < this.Size.Y; j++)
                 {
-                    result += value[i, j] + deviderLevel1 + mask[i, j] + deviderLevel2;
+                    result += value[i, j].ToString() + deviderLevel1 + mask[i, j].ToString() + deviderLevel2;
                 }
                 result += deviderLevel3;
             }
