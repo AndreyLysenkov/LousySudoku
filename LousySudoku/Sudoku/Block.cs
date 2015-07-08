@@ -243,6 +243,26 @@ namespace LousySudoku
             return result;
         }
 
+        private Number.Position[] GetPositions()
+        {
+            Number.Position[] result = new Number.Position[this.Children.Length];
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = this.Children[i].Coordinates;
+            }
+            return result;
+        }
+
+        private static Number[] GetNumbers(Number.Position[] array)
+        {
+            Number[] result = new Number[array.Length];
+            for (int i = 0; i < array.Length; i++)
+            {
+                result[i] = new Number(Number.NumberType.Empty, array[i]);
+            }
+            return result;
+        }
+
         /*
          * Переопределенные методы и методы интерфейсов
          */
