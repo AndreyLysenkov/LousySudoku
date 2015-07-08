@@ -351,10 +351,11 @@ namespace LousySudoku
 
         public static Sudoku SudokuEventTest(Sudoku sudoku)
         {
-            Generator generator = new Generator(sudoku, fillness: 0.85);
+            Generator generator = new Generator(sudoku, fillness: 1);
             generator.Generate();
             sudoku.OnCompleted += SudokuEventTestSubscriber1;
             sudoku.OnFilled += SudokuEventTestSubscriber2;
+            sudoku.ChangeNumber(new Number.Position(0, 0), sudoku.GetNumber(new Number.Position(0, 0)).Value);
             return sudoku;
         }
 
