@@ -12,9 +12,9 @@ namespace LousySudoku
     public interface IStringify
     {
 
-        string Stringify();
+        string Stringify(List<char> separator);
 
-        IStringify Unstringify(string value);
+        IStringify Unstringify(string value, List<char> separator);
 
     }
 
