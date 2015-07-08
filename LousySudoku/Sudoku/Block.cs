@@ -14,7 +14,7 @@ namespace LousySudoku
     public class Block : IStringify
     {
 
-        public class BlockType
+        public class BlockType : IStringify
         {
             public string MethodName
             {
@@ -50,6 +50,15 @@ namespace LousySudoku
             {
                 return parametr.Split(new char[1] { separator }, 2);
             }
+
+            string IStringify.Stringify(List<char> separator)
+            {
+            }
+
+            IStringify IStringify.Unstringify(string value, List<char> separator)
+            {
+            }
+
         }
 
         public class ExternalCheck
