@@ -64,10 +64,10 @@ namespace LousySudoku
             {
                 for (int j = 0; j < size.Y; j++)
                 {
-                    this.Number[i * size.Y + j] = 
+                    this.Number[i * size.Y + j] =
                         new Number(
-                            mask[i, j], 
-                            new Number.Position(i, j), 
+                            mask[i, j],
+                            new Number.Position(i, j),
                             value[i, j]
                         );
                 }
@@ -167,7 +167,7 @@ namespace LousySudoku
         /// <returns></returns>
         public bool IsFilled()
         {
-            for (int i = 0; i < this.Number.Length ; i++)
+            for (int i = 0; i < this.Number.Length; i++)
             {
                 if (this.Number[i].Type == LousySudoku.Number.NumberType.Empty)
                 {
@@ -191,7 +191,7 @@ namespace LousySudoku
         /// </summary>
         public void Clear()
         {
-            for (int i = 0; i < this.Number.Length; i++ )
+            for (int i = 0; i < this.Number.Length; i++)
             {
                 this.Number[i].Clear();
             }
@@ -235,7 +235,7 @@ namespace LousySudoku
             }
             return null;
         }
-    
+
     }
 
 }
