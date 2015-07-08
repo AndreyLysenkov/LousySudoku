@@ -334,13 +334,13 @@ namespace LousySudoku
             return this.Value.ToString() + Stringify_Help.GetSeparator(separator) + ((int)this.Type).ToString();
         }
 
-        IStringify IStringify.Unstringify(string value)
+        IStringify IStringify.Unstringify(string value, List<char> separator)
         {
-            string[] result = value.Split(new char[]{'.'}, 3);
+            string[] result = value.Split(new char[]{ Stringify_Help.GetSeparator(separator) }, 2);
             return
                 new Number(
                     (NumberType)Convert.ToInt32(result[1]), 
-                    (Number.Position)((IStringify)(new Position(0, 0))).Unstringify(result[2]), 
+                    new Number.Position(0, 0), 
                     Convert.ToInt32(result[0])
                 );
         }
