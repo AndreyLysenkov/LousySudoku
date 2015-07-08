@@ -28,7 +28,6 @@ namespace LousySudoku
                 private set;
             }
 
-            public BlockType(string assembleyPath = ExternalCheck.FileNameDefault, string methodName = ExternalCheck.MethodNameDefault)
             public static string ParametrDefault
             {
                 get
@@ -37,6 +36,7 @@ namespace LousySudoku
                 }
             }
 
+            private BlockType(string assembleyPath = ExternalCheck.FileNameDefault, string methodName = ExternalCheck.MethodNameDefault)
             {
                 this.AssembleyPath = assembleyPath;
                 this.MethodName = methodName;
