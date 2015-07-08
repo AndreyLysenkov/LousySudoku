@@ -17,6 +17,11 @@ namespace LousySudoku
             return (Sudoku)((IStringify)(new Sudoku(null, null, null, null, 0))).Unstringify(System.IO.File.ReadAllText(filename), Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault));
         }
 
+        public static void SaveSudoku(string filename, Sudoku sudoku)
+        {
+            System.IO.File.WriteAllText(filename, ((IStringify)(sudoku)).Stringify(Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault)));
+        }
+
         public static Sudoku CreateSudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[][] block, int maxValue)
         {
             return new Sudoku(size, value, mask, block, maxValue);
