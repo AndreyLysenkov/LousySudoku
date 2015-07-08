@@ -12,6 +12,11 @@ namespace LousySudoku
     public static class Interface
     {
 
+        public static Sudoku LoadSudoku(string filename)
+        {
+            return (Sudoku)((IStringify)(new Sudoku(null, null, null, null, 0))).Unstringify(System.IO.File.ReadAllText(filename), Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault));
+        }
+
         public static Sudoku CreateSudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[][] block, int maxValue)
         {
             return new Sudoku(size, value, mask, block, maxValue);
