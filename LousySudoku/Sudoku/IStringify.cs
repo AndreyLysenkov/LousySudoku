@@ -61,6 +61,20 @@ namespace LousySudoku
             return result;
         }
 
+        public static IStringify[] ArrayFromString(string value, List<char> separator)
+        {
+            char devider = GetSeparator(separator);
+            string[] resultString = value.Split(new char[] {devider}, 2);
+            int length = Convert.ToInt32(resultString[0]);
+            string[] arrayString = value.Split(new char[] { devider }, length);
+            IStringify[] result = new IStringify[length];
+            for (int i = 0; i < length; i++)
+            {
+                result[i] = result[i].Unstringify(arrayString[i], separator);
+            }
+            return result;
+        }
+
     }
 
 }
