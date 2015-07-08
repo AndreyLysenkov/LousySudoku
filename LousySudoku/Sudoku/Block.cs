@@ -135,6 +135,8 @@ namespace LousySudoku
             private set;
         }
 
+        private BlockType blockType;
+
         /*
          * Конструкторы
          */
