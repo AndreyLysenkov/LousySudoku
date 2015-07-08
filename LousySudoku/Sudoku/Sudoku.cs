@@ -203,9 +203,6 @@ namespace LousySudoku
             this.Number = generator.MixItems(this.Number);
         }
 
-         /*
-          * Переопределенные методы и методы интерфейсов
-          */
         public int GetNumberCount()
         {
             int result = 0;
@@ -218,6 +215,19 @@ namespace LousySudoku
             }
             return result;
         }
+
+        public void DeleteNumbers(int count)
+        {
+            this.MixNumbers();
+            for (int i = 0; i < count; i++)
+            {
+                this.Number[i].Clear();
+            }
+        }
+
+        /*
+         * Переопределенные методы и методы интерфейсов
+         */
 
         string IStringify.Stringify()
         {
