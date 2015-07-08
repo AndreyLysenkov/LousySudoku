@@ -187,6 +187,7 @@ namespace LousySudoku
                     return false;
                 }
             }
+            OnFilled(this);
             return true;
         }
 
