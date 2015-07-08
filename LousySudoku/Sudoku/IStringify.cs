@@ -64,7 +64,6 @@ namespace LousySudoku
             return result;
         }
 
-        public static IStringify[] ArrayFromString(string value, List<char> separator)
         public static List<item> CopyList<item>(List<item> list)
         {
             List<item> result = new List<item> { };
