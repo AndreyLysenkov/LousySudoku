@@ -29,6 +29,27 @@ namespace LousySudoku
 
         public static List<char> SeparatorListDefault = new List<char> { '_', '.', ';', '+', '-', '=', '&' };
 
+        public static char GetSeparator(List<char> separator)
+        {
+            char result;
+
+            if (separator.Count == 0)
+            {
+                result = SeparatorDefault;
+            }
+            else
+            {
+                result = separator[0];
+            }
+
+            if (separator.Count > 1)
+            {
+                separator.RemoveAt(0);
+            }
+
+            return result;
+        }
+
         {
             string result;
             result = array.Length.ToString() + separator;
