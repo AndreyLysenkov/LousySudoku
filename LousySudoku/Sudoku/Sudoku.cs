@@ -197,7 +197,12 @@ namespace LousySudoku
         /// <returns></returns>
         public bool IsCompleted()
         {
-            return this.IsFilled() && this.IsRight();
+            bool result = this.IsFilled() && this.IsRight();
+            if (result)
+            {
+                OnCompleted(this);
+            }
+            return result;
         }
 
         /// <summary>
