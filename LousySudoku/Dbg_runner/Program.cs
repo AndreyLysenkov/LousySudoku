@@ -31,9 +31,9 @@ namespace Dbg_runner
             //(new Generator(sudoku, 10, 1)).Generate();
             //Debug.ShowSudoku(sudoku, 25);
 
-            Debug.TestSudokuFiles();
+            ///Debug.TestGeneration();
 
-            Debug.TestGeneration();
+            Debug.TestSudokuFiles();
 
             Console.ReadLine();
         }
