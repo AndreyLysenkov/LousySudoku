@@ -493,41 +493,17 @@ namespace LousySudoku
             return sudoku;
         }
 
-        public static void TestSudokuFiles()
+        public static void TestSudokuFile(string file = "data\\templates\\standart.txt", int attempt = 0)
         {
-            Console.WriteLine("Standart");
-            Stopwatch timeStandart = new Stopwatch();
-            timeStandart.Start();
-            Debug.ShowSudoku(Interface.GenerateFromTemplate("data\\templates\\standart.txt", 1), 9);
-            timeStandart.Stop();
-            Console.WriteLine("Generated in {0}ms", timeStandart.ElapsedMilliseconds);
-
-            Console.WriteLine("X");
-            Stopwatch timeX = new Stopwatch();
-            timeX.Start();
-            Sudoku sudoku = Interface.LoadSudoku("data\\templates\\standart_x.txt");
-            (new Generator(sudoku, attemptsNumber: 0, fillness: 1)).Generate();
-            Debug.ShowSudoku(sudoku, 9);
-            timeX.Stop();
-            Console.WriteLine("Generated in {0}ms", timeX.ElapsedMilliseconds);
-
-            Console.WriteLine("Window");
-            Stopwatch timeW = new Stopwatch();
-            timeW.Start();
-            Sudoku sudokuW = Interface.LoadSudoku("data\\templates\\standart_window.txt");
-            (new Generator(sudokuW, attemptsNumber: 0, fillness: 1)).Generate();
-            Debug.ShowSudoku(sudokuW, 9);
-            timeW.Stop();
-            Console.WriteLine("Generated in {0}ms", timeW.ElapsedMilliseconds);
-
-            Console.WriteLine("WindowX");
-            Stopwatch timeWX = new Stopwatch();
-            timeWX.Start();
-            Sudoku sudokuWX = Interface.LoadSudoku("data\\templates\\standart_window_x.txt");
-            (new Generator(sudokuWX, attemptsNumber: 0, fillness: 1)).Generate();
-            Debug.ShowSudoku(sudokuWX, 9);
-            timeWX.Stop();
-            Console.WriteLine("Generated in {0}ms", timeWX.ElapsedMilliseconds);
+            Console.WriteLine("File: {0}", file);
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+            Sudoku sudoku = Interface.LoadSudoku(file);
+            bool success = (new Generator(sudoku, attemptsNumber: attempt, fillness: 1)).Generate();
+            Debug.ShowSudoku(sudoku, sudoku.Size.X);
+            timer.Stop();
+            Console.WriteLine("Generated in {0}ms with {1}", timer.ElapsedMilliseconds, success);
+        }
 
             Console.ReadLine();
         }
