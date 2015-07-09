@@ -25,6 +25,11 @@ namespace Dbg_runner
             Sudoku sudoku = Interface.GenerateFromTemplate(filename, fillness);
             sudoku.OnCompleted += DoOnCompleted;
             do
+            {
+                Debug.ShowSudoku(sudoku, sudoku.Size.X);
+                Console.Write("Enter position x, y, value: ");
+                string[] values = (Console.ReadLine()).Split(new char[] {' '}, 3);
+                sudoku.ChangeNumber(new Number.Position(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])), Convert.ToInt32(values[2]));
             } while (!completed);
             Console.WriteLine("Congrats! Completed! \n Press Enter");
             Console.ReadLine();
