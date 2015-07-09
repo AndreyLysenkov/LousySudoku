@@ -8,12 +8,24 @@ namespace Dbg_runner
 {
     class Program
     {
+        public static void Run()
+        {
+            Console.Write("Enter name: ");
+            string filename = "data\\templates\\" + Console.ReadLine() + ".txt";
+            Console.Write("Enter fillenes [0.0 - 1.0]: ");
+            double fillness = Convert.ToDouble(Console.ReadLine());
+            Sudoku sudoku = Interface.GenerateFromTemplate(filename, fillness);
+            Console.WriteLine("Congrats! Completed! \n Press Enter");
+            Console.ReadLine();
+        }
+
         static void Main(string[] args)
         {
             Console.Write("Enter secret code, to run debug. Or press enter: ");
             string s = Console.ReadLine();
             if (s != "2713")
             {
+                Run();
                 return;
             }
             //LousySudoku.Sudoku sudoku = Debug.TestSudoku1();
