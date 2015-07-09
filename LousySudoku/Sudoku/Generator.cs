@@ -5,29 +5,59 @@ using System.Text;
 
 namespace LousySudoku
 {
+
+    /// <summary>
+    /// Содержит методы для генерации судоку
+    /// </summary>
     public class Generator
     {
 
+        /// <summary>
+        /// Коэффициент попыток по умолчанию
+        /// </summary>
         public const int AttemptsNumberDefault = 200;
 
+        /// <summary>
+        /// Заполненость судоку по умолчанию
+        /// </summary>
         public const double FillnessDefault = 0.27;
 
+        /// <summary>
+        /// Рандомайзер
+        /// </summary>
         private Random random;
 
+        /// <summary>
+        /// Ссылка на объект, в который будет генерироваться судоку
+        /// </summary>
         private Sudoku sudoku;
 
+        /// <summary>
+        /// Коэффициент попыток. Чем он больше, тем дольше генератор будет пытаться сгенерировать судоку
+        /// В зависимости от этого коэффициента будет разное количество попыток для разных судоку
+        /// </summary>
         public int AttemptsRemain
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Коэффициент заполнености судоку
+        /// Значение от 0 до 1, где 0 - ни одного числа, 0,2 - 20% чисел заполнены, 1 - все числа заполнены
+        /// </summary>
         public double Fillness
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Создает объект, задавая шаблон судоку, коэффициент попыток и заполненость
+        /// </summary>
+        /// <param name="sudoku"></param>
+        /// <param name="attemptsNumber"></param>
+        /// <param name="fillness"></param>
         public Generator(Sudoku sudoku, int attemptsNumber = AttemptsNumberDefault, double fillness = FillnessDefault)
         {
             this.random = new Random();
@@ -38,6 +68,11 @@ namespace LousySudoku
             this.Fillness = fillness;
         }
 
+        /// <summary>
+        /// Возвращает случайное число из колекции, удаляя его
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
         private int ReturnRandomFromArray(List<int> number)
         {
             if (number.Count == 0)
@@ -50,6 +85,12 @@ namespace LousySudoku
             return result;
         }
 
+        /// <summary>
+        /// Пытается заполнить ячейку судоку случайным числом, пока оно не будет правильным
+        /// </summary>
+        /// <param name="cell">Заполняемая ячейка</param>
+        /// <param name="maxValue">Максимально возможное значение</param>
+        /// <returns>Успех попытки</returns>
         private bool FillCell(Number cell, int maxValue)
         {
             List<int> number = new List<int> {};
@@ -68,6 +109,10 @@ namespace LousySudoku
             return cell.IsRight();
         }
 
+        /// <summary>
+        /// Пытается заполнить судоку
+        /// </summary>
+        /// <returns>Успех попытки</returns>
         public bool FillSudokuOneAttempt()
         {
             this.AttemptsRemain--;
@@ -83,6 +128,10 @@ namespace LousySudoku
             return true;
         }
 
+        /// <summary>
+        /// Пытается заполнить судоку столько, сколько указано в AttemptsRemain
+        /// </summary>
+        /// <returns>Успех генерации судоку</returns>
         public bool FillSudoku()
         {
             for (; this.AttemptsRemain > 0; )
@@ -94,12 +143,17 @@ namespace LousySudoku
                 }
                 else
                 {
-                    sudoku.Clear();
+                    if (this.AttemptsRemain != 0)
+                        sudoku.Clear();
                 }
             }
             return false;
         }
 
+        /// <summary>
+        /// Возвращает сколько чисел из судоку надо удалить, чтобы заполненасть равнялась Fillness
+        /// </summary>
+        /// <returns></returns>
         private int CountNumbersToDelete()
         {
             int numberCount = this.sudoku.GetNumberCount();
@@ -107,6 +161,10 @@ namespace LousySudoku
             return numberCount - numberStay;
         }
 
+        /// <summary>
+        /// Генерирует судоку, согласно параметрам, заложенным в объект
+        /// </summary>
+        /// <returns></returns>
         public bool Generate()
         {
             bool success = this.FillSudoku();
@@ -115,11 +173,22 @@ namespace LousySudoku
             return success;
         }
 
+        /// <summary>
+        /// Возвращает колличество попыток, которые будет делать программа, чтобы заполнить судоку
+        /// </summary>
+        /// <param name="attemptsNumber"></param>
+        /// <returns></returns>
         public int GetAttempts(int attemptsNumber = AttemptsNumberDefault)
         {
             return sudoku.Size.X * sudoku.Size.Y * attemptsNumber;
         }
 
+        /// <summary>
+        /// Перемешивает элементы массива
+        /// </summary>
+        /// <typeparam name="item"></typeparam>
+        /// <param name="array"></param>
+        /// <returns></returns>
         public item[] MixItems<item>(item[] array)
         {
             int length = array.Length;
