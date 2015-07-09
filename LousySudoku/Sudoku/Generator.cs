@@ -52,6 +52,8 @@ namespace LousySudoku
             private set;
         }
 
+        private int AttemptsCounter = 0;
+
         /// <summary>
         /// Создает объект, задавая шаблон судоку, коэффициент попыток и заполненость
         /// </summary>
