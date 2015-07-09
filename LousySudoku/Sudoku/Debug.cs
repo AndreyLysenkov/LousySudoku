@@ -261,6 +261,73 @@ namespace LousySudoku
             return new Sudoku(new Number.Position(16, 16), value, mask, block, 16);
         }
 
+        public static Sudoku GetStandart12(int[,] numbs)
+        {
+
+
+            Number.Position[][] block = new Number.Position[12 + 12 + 12][];
+
+            ///Добавление блоков (горизонтальные линии);
+            for (int i = 0; i < 12; i++)
+            {
+                block[i] = new Number.Position[12];
+                for (int j = 0; j < 12; j++)
+                {
+                    block[i][j] = new Number.Position(i, j);
+                }
+            }
+
+            ///Добавление блоков (вертикальные линии);
+            for (int i = 0; i < 12; i++)
+            {
+                block[12 + i] = new Number.Position[12];
+                for (int j = 0; j < 12; j++)
+                {
+                    block[12 + i][j] = new Number.Position(j, i);
+                }
+            }
+
+            ///Добавление блоков 4x4;
+            int blockIndex = 12 + 12;
+            for (int i = 0; i < 12; i += 3)
+            {
+                for (int j = 0; j < 12; j += 4, blockIndex++)
+                {
+                    block[blockIndex] = new Number.Position[12];
+                    int cellIndex = 0;
+                    for (int k = 0; k < 3; k++)
+                    {
+                        for (int l = 0; l < 4; l++, cellIndex++)
+                        {
+                            block[blockIndex][cellIndex] = new Number.Position(i + k, j + l);
+                        }
+                    }
+                }
+            }
+
+            int[,] value = new int[12, 12];
+            //////////////
+            for (int i = 0; i < 12; i++)
+            {
+                for (int j = 0; j < 12; j++)
+                {
+                    value[i, j] = 0;
+                }
+            }
+            ////////////////
+
+            Number.NumberType[,] mask = new Number.NumberType[12, 12];
+            for (int i = 0; i < 12; i++)
+            {
+                for (int j = 0; j < 12; j++)
+                {
+                    mask[i, j] = Number.NumberType.Empty;
+                }
+            }
+
+            return new Sudoku(new Number.Position(12, 12), value, mask, block, 12);
+        }
+
         public static Sudoku GetStandart25(int[,] numbs)
         {
 
