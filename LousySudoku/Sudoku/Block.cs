@@ -14,20 +14,34 @@ namespace LousySudoku
     public class Block : IStringify
     {
 
+        /// <summary>
+        /// Тип блока
+        /// Содержит информацию о методе, проверяющем правильность блока
+        /// </summary>
         public class BlockType : IStringify
         {
+
+            /// <summary>
+            /// Имя метода
+            /// </summary>
             public string MethodName
             {
                 get;
                 private set;
             }
 
+            /// <summary>
+            /// Путь к сборке с методом
+            /// </summary>
             public string AssembleyPath
             {
                 get;
                 private set;
             }
 
+            /// <summary>
+            /// Параметры типа блока по умолчанию
+            /// </summary>
             public static string ParametrDefault
             {
                 get
@@ -42,10 +56,22 @@ namespace LousySudoku
                 this.MethodName = methodName;
             }
 
+            /// <summary>
+            /// Создает тип блока по параметру и разделяющему знаку
+            /// В строке параметр через разделяющий знак написанны имя метода и путь к сборке
+            /// </summary>
+            /// <param name="parametr">имяМетода + разделяющийЗнак + путьКсборке</param>
+            /// <param name="separator">разделяющий знак</param>
             public BlockType(string parametr, char separator = ' ')
                 : this(StringToParametrs(parametr, separator)[1], StringToParametrs(parametr, separator)[0])
             { }
 
+            /// <summary>
+            /// Возвращает имя метода и имя сборки в массиве строк из строки параметра
+            /// </summary>
+            /// <param name="parametr">строка параметра</param>
+            /// <param name="separator">разделяющий знак</param>
+            /// <returns></returns>
             private static string[] StringToParametrs(string parametr, char separator)
             {
                 return parametr.Split(new char[1] { separator }, 2);
@@ -66,24 +92,53 @@ namespace LousySudoku
 
         }
 
+        /// <summary>
+        /// Класс для загрузки методов из внешних сборок
+        /// </summary>
         public class ExternalCheck
         {
 
+            /// <summary>
+            /// Имя сборки по умолчанию
+            /// </summary>
             public const string FileNameDefault = "data\\block\\standart.dll";
 
+            /// <summary>
+            /// Имя метода по умолчанию
+            /// </summary>
             public const string MethodNameDefault = "Check";
 
-            MethodInfo method;
+            /// <summary>
+            /// Содержит иныормацию о внешнем методе
+            /// </summary>
+            private MethodInfo method;
 
+            /// <summary>
+            /// Загружает метод из внешней сборки и делает его доступным для данного объекта
+            /// </summary>
+            /// <param name="filename">путь сборки</param>
+            /// <param name="methodname">имя метода</param>
             public ExternalCheck(string filename = FileNameDefault, string methodname = MethodNameDefault)
             {
                 this.Load(filename, methodname);
             }
 
+            /// <summary>
+            /// Загружает метод описанный в BlockType, делая его доступным через данный объект
+            /// </summary>
+            /// <param name="type"></param>
             public ExternalCheck(BlockType type)
                 : this(type.AssembleyPath, type.MethodName)
             { }
 
+            /// <summary>
+            /// Запускает внешний метод. Указывется ссылка на блок и два параметра, передающиеся в метод
+            /// Возвращает то, что внешний метод и возвращает, obviously
+            /// </summary>
+            /// <param name="block"></param>
+            /// <param name="value"></param>
+            /// <param name="mask"></param>
+            /// <returns></returns>
             public int[] Run(Block block, int[] value, bool[] mask)
             {
                 if (method == null)
@@ -94,6 +149,11 @@ namespace LousySudoku
                 return (int[])(this.method.Invoke(null, new object[2] { (object)value, (object)mask }));
             }
 
+            /// <summary>
+            /// Возвращат информацию о всех методах в данной сборке
+            /// </summary>
+            /// <param name="assembly"></param>
+            /// <returns></returns>
             private MethodInfo[][] GetAssembleyMethods(Assembly assembly)
             {
                 Type[] type = assembly.GetTypes();
@@ -106,6 +166,12 @@ namespace LousySudoku
                 return result;
             }
 
+            /// <summary>
+            /// Загружает указанный метод из внешней сборки
+            /// Если загрузить не удалось, будет использоваться стандартный метод (уникальность чисел)
+            /// </summary>
+            /// <param name="filename"></param>
+            /// <param name="methodname"></param>
             private void Load(string filename, string methodname)
             {
                 try
@@ -134,6 +200,7 @@ namespace LousySudoku
                     this.method = null;
                 }
             }
+        
         }
 
         /*
@@ -149,18 +216,29 @@ namespace LousySudoku
             private set;
         }
 
+        /// <summary>
+        /// Информация о внешнем методе провери правильности блока
+        /// </summary>
         public ExternalCheck CheckMethod
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Содержит информацию, откуда получил метод проверки блока
+        /// </summary>
         private BlockType blockType;
 
         /*
          * Конструкторы
          */
 
+        /// <summary>
+        /// Создаёт новый экземпляр объекта по ссылкам на ячейкам, принадлежащим блоку и информации о методе проверки блока
+        /// </summary>
+        /// <param name="children"></param>
+        /// <param name="type"></param>
         public Block(Number[] children, BlockType type)
         {
             this.Children = children;
@@ -169,6 +247,11 @@ namespace LousySudoku
             this.CheckMethod = new ExternalCheck(type);
         }
 
+        /// <summary>
+        /// Создаёт новый экземпляр объекта по ссылкам на ячейкам, принадлежащим блоку и параметре информации о методе проверки блока
+        /// </summary>
+        /// <param name="children"></param>
+        /// <param name="BlockTypeParametrs"></param>
         public Block(Number[] children, string BlockTypeParametrs)
         : this(children, new BlockType(BlockTypeParametrs))
         { }
@@ -252,6 +335,10 @@ namespace LousySudoku
             return result;
         }
 
+        /// <summary>
+        /// Возвращает массив позиций чисел, принадлежащих данному блоку
+        /// </summary>
+        /// <returns></returns>
         public Number.Position[] GetPositions()
         {
             Number.Position[] result = new Number.Position[this.Children.Length];
@@ -262,6 +349,11 @@ namespace LousySudoku
             return result;
         }
 
+        /// <summary>
+        /// Возвращает массив ячеек по массиву позиций
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns></returns>
         private static Number[] GetNumbers(Number.Position[] array)
         {
             Number[] result = new Number[array.Length];
@@ -276,11 +368,23 @@ namespace LousySudoku
          * Переопределенные методы и методы интерфейсов
          */
 
+        /// <summary>
+        /// Проверка правильности блока
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="mask"></param>
+        /// <returns></returns>
         private int[] Check(int[] value, bool[] mask)
         {
             return this.CheckMethod.Run(this, value, mask);
         }
 
+        /// <summary>
+        /// Стандартная проверка блока на правильность, активирующаяся, когда внешний метод не удалось загрузить
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="mask"></param>
+        /// <returns></returns>
         private int[] CheckOnDefault(int[] value, bool[] mask)
         {
             int[] result = new int[0];
