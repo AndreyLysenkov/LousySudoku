@@ -29,6 +29,8 @@ namespace WpfApplication1
 
         Sudoku sudoku = SudokuDebug.GetStandart16(null);
 
+        double complex = 0.27;
+
         string currenType;
 
         public MainWindow()
