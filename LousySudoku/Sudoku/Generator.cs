@@ -125,7 +125,7 @@ namespace LousySudoku
         /// <returns>Успех попытки</returns>
         public bool FillSudokuOneAttempt()
         {
-            this.AttemptsRemain--;
+            this.AttemptWaisted();
             for (int i = 0; i < sudoku.Number.Length; i++)
             {
                 bool success = FillCell(sudoku.Number[i], sudoku.MaxValue);
@@ -157,7 +157,7 @@ namespace LousySudoku
 
         private bool FillSudokuOneAttemptBlock()
         {
-            this.AttemptsRemain--;
+            this.AttemptWaisted();
             ///sudoku.MixBlocks();
             for (int i = 0; i < sudoku.Block.Length; i++)
             {
