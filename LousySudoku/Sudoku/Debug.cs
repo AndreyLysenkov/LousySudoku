@@ -505,6 +505,18 @@ namespace LousySudoku
             Console.WriteLine("Generated in {0}ms with {1}", timer.ElapsedMilliseconds, success);
         }
 
+        public static void TestSudokuFiles()
+        {
+            TestSudokuFile("data\\templates\\standart.txt");
+            TestSudokuFile("data\\templates\\standart_x.txt", 1);
+            TestSudokuFile("data\\templates\\standart_window.txt", 1);
+            TestSudokuFile("data\\templates\\standart_window_x.txt", 1);
+            TestSudokuFile("data\\templates\\standart_puzzle.txt", 10);
+            TestSudokuFile("data\\templates\\standart_point.txt", 10);
+            TestSudokuFile("data\\templates\\standart_12.txt", 1);
+            TestSudokuFile("data\\templates\\standart_16.txt", 1);
+            //Interface.SaveSudoku("data\\templates\\standart_16.txt", GetStandart16(null));
+            //Interface.SaveSudoku("data\\templates\\standart_12.txt", GetStandart12(null));
             Console.ReadLine();
         }
     }
