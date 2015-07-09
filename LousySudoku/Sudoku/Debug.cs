@@ -99,12 +99,12 @@ namespace LousySudoku
 
         public static string CoordinateToString(Number.Position coordinates)
         {
-            return coordinates.X + ";" + coordinates.Y;
+            return coordinates.X.ToString() + ";" + coordinates.Y.ToString();
         }
 
         public static string NumberToString(Number number)
         {
-            return number.Value.ToString() + "|" + number.Type + "|" + CoordinateToString(number.Coordinates);
+            return number.Value.ToString() + "|" + number.Type.ToString() + "|" + CoordinateToString(number.Coordinates);
         }
 
         public static string BlockToString(Block block)
@@ -426,6 +426,44 @@ namespace LousySudoku
             return sudoku;
         }
 
+        public static void TestSudokuFiles()
+        {
+            Console.WriteLine("Standart");
+            Stopwatch timeStandart = new Stopwatch();
+            timeStandart.Start();
+            Debug.ShowSudoku(Interface.GenerateFromTemplate("data\\templates\\standart.txt", 1), 9);
+            timeStandart.Stop();
+            Console.WriteLine("Generated in {0}ms", timeStandart.ElapsedMilliseconds);
+
+            Console.WriteLine("X");
+            Stopwatch timeX = new Stopwatch();
+            timeX.Start();
+            Sudoku sudoku = Interface.LoadSudoku("data\\templates\\standart_x.txt");
+            (new Generator(sudoku, attemptsNumber: 1000, fillness: 1)).Generate();
+            Debug.ShowSudoku(sudoku, 9);
+            timeX.Stop();
+            Console.WriteLine("Generated in {0}ms", timeX.ElapsedMilliseconds);
+
+            Console.WriteLine("Window");
+            Stopwatch timeW = new Stopwatch();
+            timeW.Start();
+            Sudoku sudokuW = Interface.LoadSudoku("data\\templates\\standart_window.txt");
+            (new Generator(sudokuW, attemptsNumber: 1000, fillness: 1)).Generate();
+            Debug.ShowSudoku(sudokuW, 9);
+            timeW.Stop();
+            Console.WriteLine("Generated in {0}ms", timeW.ElapsedMilliseconds);
+
+            Console.WriteLine("WindowX");
+            Stopwatch timeWX = new Stopwatch();
+            timeWX.Start();
+            Sudoku sudokuWX = Interface.LoadSudoku("data\\templates\\standart_window_x.txt");
+            (new Generator(sudokuWX, attemptsNumber: 1000, fillness: 1)).Generate();
+            Debug.ShowSudoku(sudokuWX, 9);
+            timeWX.Stop();
+            Console.WriteLine("Generated in {0}ms", timeWX.ElapsedMilliseconds);
+
+            Console.ReadLine();
+        }
     }
 
 }
