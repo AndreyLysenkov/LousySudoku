@@ -166,7 +166,8 @@ namespace LousySudoku
         /// <returns>Успех генерации судоку</returns>
         public bool FillSudoku()
         {
-            for (; this.AttemptsRemain > 0; )
+            bool IsForever = (this.AttemptsRemain == 0);
+            for (; (this.AttemptsRemain > 0) || IsForever; )
             {
                 ///bool success = this.FillSudokuOneAttempt();
                 bool success = this.FillSudokuOneAttemptBlock();
