@@ -12,8 +12,19 @@ namespace LousySudoku
     public interface IStringify
     {
 
+        /// <summary>
+        /// Сохраняет данный объект в строку
+        /// </summary>
+        /// <param name="separator"></param>
+        /// <returns></returns>
         string Stringify(List<char> separator);
 
+        /// <summary>
+        /// Возвращает восстановленный объект из строки
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="separator"></param>
+        /// <returns></returns>
         IStringify Unstringify(string value, List<char> separator);
 
     }
@@ -26,8 +37,17 @@ namespace LousySudoku
 
         public const char SeparatorDefault = ' ';
 
+        /// <summary>
+        /// Список разделителей по умолчанию
+        /// Для доступа использовать вместе с методом CopyList
+        /// </summary>
         public static List<char> SeparatorListDefault = new List<char> { '_', '*', ';', '+', '-', '=', '&', '(', ')', '{', '}', '\n' };
 
+        /// <summary>
+        /// Возвращает следующий разделитель из списка, удаляя его
+        /// </summary>
+        /// <param name="separator"></param>
+        /// <returns></returns>
         public static char GetSeparator(List<char> separator)
         {
             char result;
@@ -49,6 +69,12 @@ namespace LousySudoku
             return result;
         }
 
+        /// <summary>
+        /// Преобразует массив в строку
+        /// </summary>
+        /// <param name="array"></param>
+        /// <param name="separator"></param>
+        /// <returns></returns>
         public static string ArrayToString(IStringify[] array, List<char> separator)
         {
             List<char> deviderList = CopyList(separator);
@@ -64,6 +90,12 @@ namespace LousySudoku
             return result;
         }
 
+        /// <summary>
+        /// Копирует коллекцию
+        /// </summary>
+        /// <typeparam name="item"></typeparam>
+        /// <param name="list"></param>
+        /// <returns></returns>
         public static List<item> CopyList<item>(List<item> list)
         {
             List<item> result = new List<item> { };
@@ -74,6 +106,13 @@ namespace LousySudoku
             return result;
         }
 
+        /// <summary>
+        /// Восстанавливает массив из строки
+        /// </summary>
+        /// <param name="example"></param>
+        /// <param name="value"></param>
+        /// <param name="separator"></param>
+        /// <returns></returns>
         public static IStringify[] ArrayFromString(IStringify example, string value, List<char> separator)
         {
             List<char> deviderList = CopyList(separator);
