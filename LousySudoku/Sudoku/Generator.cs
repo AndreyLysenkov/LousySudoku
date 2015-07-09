@@ -144,6 +144,22 @@ namespace LousySudoku
             }
             return true;
         }
+
+        private bool FillSudokuOneAttemptBlock()
+        {
+            this.AttemptsRemain--;
+            ///sudoku.MixBlocks();
+            for (int i = 0; i < sudoku.Block.Length; i++)
+            {
+                bool success = FillSudokuBlock(sudoku.Block[i]);
+                if (!success)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         /// <summary>
         /// Пытается заполнить судоку столько, сколько указано в AttemptsRemain
         /// </summary>
