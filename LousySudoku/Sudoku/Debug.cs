@@ -351,7 +351,7 @@ namespace LousySudoku
             PrintBlocks(sudoku0);
             Sudoku sudoku16 = GetStandart16(numbs);
             Stopwatch time16 = new Stopwatch();
-            Generator generator16 = new Generator(sudoku16, attemptsNumber: 10, fillness: 1);
+            Generator generator16 = new Generator(sudoku16, attemptsNumber: 0, fillness: 1);
             ///sudoku16.MixNumbers();
             //Console.WriteLine("Sudoku. Разбор полетов и template: \n {0}", SudokuCoordinates(sudoku16));
             Console.WriteLine(generator16.AttemptsRemain);
@@ -439,7 +439,7 @@ namespace LousySudoku
             Stopwatch timeX = new Stopwatch();
             timeX.Start();
             Sudoku sudoku = Interface.LoadSudoku("data\\templates\\standart_x.txt");
-            (new Generator(sudoku, attemptsNumber: 1000, fillness: 1)).Generate();
+            (new Generator(sudoku, attemptsNumber: 0, fillness: 1)).Generate();
             Debug.ShowSudoku(sudoku, 9);
             timeX.Stop();
             Console.WriteLine("Generated in {0}ms", timeX.ElapsedMilliseconds);
@@ -448,7 +448,7 @@ namespace LousySudoku
             Stopwatch timeW = new Stopwatch();
             timeW.Start();
             Sudoku sudokuW = Interface.LoadSudoku("data\\templates\\standart_window.txt");
-            (new Generator(sudokuW, attemptsNumber: 1000, fillness: 1)).Generate();
+            (new Generator(sudokuW, attemptsNumber: 0, fillness: 1)).Generate();
             Debug.ShowSudoku(sudokuW, 9);
             timeW.Stop();
             Console.WriteLine("Generated in {0}ms", timeW.ElapsedMilliseconds);
@@ -457,7 +457,7 @@ namespace LousySudoku
             Stopwatch timeWX = new Stopwatch();
             timeWX.Start();
             Sudoku sudokuWX = Interface.LoadSudoku("data\\templates\\standart_window_x.txt");
-            (new Generator(sudokuWX, attemptsNumber: 1000, fillness: 1)).Generate();
+            (new Generator(sudokuWX, attemptsNumber: 0, fillness: 1)).Generate();
             Debug.ShowSudoku(sudokuWX, 9);
             timeWX.Stop();
             Console.WriteLine("Generated in {0}ms", timeWX.ElapsedMilliseconds);
