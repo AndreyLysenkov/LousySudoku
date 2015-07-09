@@ -52,10 +52,21 @@ namespace LousySudoku
             private set;
         }
 
+        /// <summary>
+        /// Делегат метода, вызывающегося при зоплнении или завершении судоку
+        /// </summary>
+        /// <param name="sudoku"></param>
         public delegate void SudokuEvent (Sudoku sudoku);
 
+        /// <summary>
+        /// Вызывается при завершеннии судоку
+        /// Судоку заполнено полностью и правильно
+        /// </summary>
         public event SudokuEvent OnCompleted;
 
+        /// <summary>
+        /// Вызывается при полном заполнении судоку
+        /// </summary>
         public event SudokuEvent OnFilled;
 
         /*
@@ -219,12 +230,20 @@ namespace LousySudoku
             }
         }
 
+        /// <summary>
+        /// Перемешивает ссылки на ячейки в судоку в массиве
+        /// Не меняет позиции
+        /// </summary>
         public void MixNumbers()
         {
             Generator generator = new Generator(this);
             this.Number = generator.MixItems(this.Number);
         }
 
+        /// <summary>
+        /// Посчитывает сколько ячеек должно содержать или содержит числа
+        /// </summary>
+        /// <returns></returns>
         public int GetNumberCount()
         {
             int result = 0;
@@ -238,6 +257,10 @@ namespace LousySudoku
             return result;
         }
 
+        /// <summary>
+        /// Удаляет из судоку указанное количество ячеек
+        /// </summary>
+        /// <param name="count"></param>
         public void DeleteNumbers(int count)
         {
             this.MixNumbers();
@@ -247,6 +270,10 @@ namespace LousySudoku
             }
         }
 
+        /// <summary>
+        /// Метод вызывающийся при заполнении и завершении судоку
+        /// </summary>
+        /// <param name="sudoku"></param>
         private void EmptySudokuEventHandler(Sudoku sudoku)
         {  }
 
@@ -280,6 +307,13 @@ namespace LousySudoku
             return result;
         }
 
+        /// <summary>
+        /// Возвращает массив ячеек по размеру матрицы, матрице значений и маске ячеек
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="number"></param>
+        /// <param name="mask"></param>
+        /// <returns></returns>
         private static Number[] GetNumbers(Number.Position size, int[,] number, Number.NumberType[,] mask)
         {
             Number[] result = new Number[size.X * size.Y];
