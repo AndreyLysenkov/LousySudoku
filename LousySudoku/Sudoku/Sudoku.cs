@@ -241,6 +241,16 @@ namespace LousySudoku
         }
 
         /// <summary>
+        /// Перемешивает ссылки на блоки в судоку в массиве
+        /// Не меняет позиции
+        /// </summary>
+        public void MixBlocks()
+        {
+            Generator generator = new Generator(this);
+            this.Block = generator.MixItems(this.Block);
+        }
+
+        /// <summary>
         /// Посчитывает сколько ячеек должно содержать или содержит числа
         /// </summary>
         /// <returns></returns>
