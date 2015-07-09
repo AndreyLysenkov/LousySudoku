@@ -261,6 +261,73 @@ namespace LousySudoku
             return new Sudoku(new Number.Position(16, 16), value, mask, block, 16);
         }
 
+        public static Sudoku GetStandart25(int[,] numbs)
+        {
+
+
+            Number.Position[][] block = new Number.Position[25 + 25 + 25][];
+
+            ///Добавление блоков (горизонтальные линии);
+            for (int i = 0; i < 25; i++)
+            {
+                block[i] = new Number.Position[25];
+                for (int j = 0; j < 25; j++)
+                {
+                    block[i][j] = new Number.Position(i, j);
+                }
+            }
+
+            ///Добавление блоков (вертикальные линии);
+            for (int i = 0; i < 25; i++)
+            {
+                block[25 + i] = new Number.Position[25];
+                for (int j = 0; j < 25; j++)
+                {
+                    block[25 + i][j] = new Number.Position(j, i);
+                }
+            }
+
+            ///Добавление блоков 4x4;
+            int blockIndex = 25 + 25;
+            for (int i = 0; i < 25; i += 5)
+            {
+                for (int j = 0; j < 25; j += 5, blockIndex++)
+                {
+                    block[blockIndex] = new Number.Position[25];
+                    int cellIndex = 0;
+                    for (int k = 0; k < 5; k++)
+                    {
+                        for (int l = 0; l < 5; l++, cellIndex++)
+                        {
+                            block[blockIndex][cellIndex] = new Number.Position(i + k, j + l);
+                        }
+                    }
+                }
+            }
+
+            int[,] value = new int[25, 25];
+            //////////////
+            for (int i = 0; i < 25; i++)
+            {
+                for (int j = 0; j < 25; j++)
+                {
+                    value[i, j] = 0;
+                }
+            }
+            ////////////////
+
+            Number.NumberType[,] mask = new Number.NumberType[25, 25];
+            for (int i = 0; i < 25; i++)
+            {
+                for (int j = 0; j < 25; j++)
+                {
+                    mask[i, j] = Number.NumberType.Empty;
+                }
+            }
+
+            return new Sudoku(new Number.Position(25, 25), value, mask, block, 25);
+        }
+
         public static void TestGeneration()
         {
             int[,] numbs = new int[25, 25];
@@ -270,10 +337,10 @@ namespace LousySudoku
 
             Sudoku sudoku9 = GetStandart9(numbs);
             Stopwatch time9 = new Stopwatch();
-            Generator generator9 = new Generator(sudoku9, 100);
+            Generator generator9 = new Generator(sudoku9, fillness: 1);
             Console.WriteLine(generator9.AttemptsRemain);
             time9.Start();
-            Console.WriteLine(generator9.FillSudoku());
+            Console.WriteLine(generator9.Generate());
             time9.Stop();
             ShowSudoku(sudoku9, 9);
             string Sudoku = ((IStringify)(sudoku9)).Stringify(Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault));
@@ -284,12 +351,12 @@ namespace LousySudoku
             PrintBlocks(sudoku0);
             Sudoku sudoku16 = GetStandart16(numbs);
             Stopwatch time16 = new Stopwatch();
-            Generator generator16 = new Generator(sudoku16, 10);
+            Generator generator16 = new Generator(sudoku16, attemptsNumber: 10, fillness: 1);
             ///sudoku16.MixNumbers();
             //Console.WriteLine("Sudoku. Разбор полетов и template: \n {0}", SudokuCoordinates(sudoku16));
             Console.WriteLine(generator16.AttemptsRemain);
             time16.Start();
-            Console.WriteLine(generator16.FillSudokuOneAttempt());
+            Console.WriteLine(generator16.Generate());
             time16.Stop();
             ShowSudoku(sudoku16, 16);
 

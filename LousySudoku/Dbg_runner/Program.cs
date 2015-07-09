@@ -28,7 +28,10 @@ namespace Dbg_runner
 
             Debug.TestGeneration();
 
-            Debug.ShowSudoku(Debug.SudokuEventTest(Debug.GetStandart9(null)), 9);
+            ///Debug.ShowSudoku(Debug.SudokuEventTest(Debug.GetStandart9(null)), 9);
+            Sudoku sudoku = Debug.GetStandart25(null);
+            (new Generator(sudoku, 10, 1)).Generate();
+            Debug.ShowSudoku(sudoku, 25);
 
             Console.ReadLine();
         }
