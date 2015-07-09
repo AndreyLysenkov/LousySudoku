@@ -10,6 +10,12 @@ namespace Dbg_runner
     {
         static void Main(string[] args)
         {
+            Console.Write("Enter secret code, to run debug. Or press enter: ");
+            string s = Console.ReadLine();
+            if (s != "2713")
+            {
+                return;
+            }
             //LousySudoku.Sudoku sudoku = Debug.TestSudoku1();
 
             //Console.WriteLine("Change number");
