@@ -128,6 +128,22 @@ namespace LousySudoku
             return true;
         }
 
+        private bool FillSudokuBlock(Block block)
+        {
+            for (int i = 0; i < block.Children.Length; i++)
+            {
+                Number child = block.Children[i];
+                if (!child.HasValue)
+                {
+                    bool success = FillCell(block.Children[i], sudoku.MaxValue);
+                    if (!success)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
         /// <summary>
         /// Пытается заполнить судоку столько, сколько указано в AttemptsRemain
         /// </summary>
