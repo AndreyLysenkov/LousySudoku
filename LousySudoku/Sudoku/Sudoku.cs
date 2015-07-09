@@ -94,7 +94,7 @@ namespace LousySudoku
                     children[j] = this.GetNumber(block[i][j]);
                 }
                 this.Block[i] = new Block(children);
-                this.Block[i].AddReference();
+                ///this.Block[i].AddReference();
             }
 
             this.MaxValue = maxValue;
