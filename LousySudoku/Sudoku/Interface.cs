@@ -12,16 +12,32 @@ namespace LousySudoku
     public static class Interface
     {
 
+        /// <summary>
+        /// Загружает судоку из файла
+        /// </summary>
+        /// <param name="filename">путь к фалу</param>
+        /// <returns></returns>
         public static Sudoku LoadSudoku(string filename)
         {
             return (Sudoku)((IStringify)(new Sudoku(null, null, null, null, 0))).Unstringify(System.IO.File.ReadAllText(filename), Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault));
         }
 
+        /// <summary>
+        /// Сохраняет данное судоку в файл
+        /// </summary>
+        /// <param name="filename">путь к файлу</param>
+        /// <param name="sudoku">ссылка на судоку</param>
         public static void SaveSudoku(string filename, Sudoku sudoku)
         {
             System.IO.File.WriteAllText(filename, ((IStringify)(sudoku)).Stringify(Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault)));
         }
 
+        /// <summary>
+        /// Загружает судоку из файла и использует его шаблон, чтобы сгенерировать судоку
+        /// </summary>
+        /// <param name="filename">путь к фалу</param>
+        /// <param name="fillness">заполненость выходящего судоку</param>
+        /// <returns></returns>
         public static Sudoku GenerateFromTemplate(string filename, double fillness = Generator.FillnessDefault)
         {
             Sudoku sudoku = LoadSudoku(filename);
@@ -31,11 +47,26 @@ namespace LousySudoku
             return sudoku;
         }
 
+        /// <summary>
+        /// Создает судоку
+        /// </summary>
+        /// <param name="size">размер судоку</param>
+        /// <param name="value">матрица значений судоку</param>
+        /// <param name="mask">тип ячеек в матрице значений</param>
+        /// <param name="block">каждый массив содержит массив на ссылки позиций тех чисел, которые принадлежат данному блоку</param>
+        /// <param name="maxValue">максимальное значение</param>
+        /// <returns></returns>
         public static Sudoku CreateSudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[][] block, int maxValue)
         {
             return new Sudoku(size, value, mask, block, maxValue);
         }
 
+        /// <summary>
+        /// Генерирует судоку по его шаблону
+        /// </summary>
+        /// <param name="sudoku"></param>
+        /// <param name="attemptsNumber"></param>
+        /// <param name="fillness"></param>
         public static void GenerateSudoku(Sudoku sudoku, int attemptsNumber = Generator.AttemptsNumberDefault, double fillness = Generator.FillnessDefault)
         {
             Generator generator = new Generator(sudoku, attemptsNumber, fillness);
