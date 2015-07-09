@@ -26,14 +26,14 @@ namespace Dbg_runner
 
             //Console.ReadLine();
 
-            //Debug.TestGeneration();
-
             ///Debug.ShowSudoku(Debug.SudokuEventTest(Debug.GetStandart9(null)), 9);
             //Sudoku sudoku = Debug.GetStandart25(null);
             //(new Generator(sudoku, 10, 1)).Generate();
             //Debug.ShowSudoku(sudoku, 25);
 
             Debug.TestSudokuFiles();
+
+            Debug.TestGeneration();
 
             Console.ReadLine();
         }
