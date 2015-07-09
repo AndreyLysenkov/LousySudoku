@@ -168,7 +168,8 @@ namespace LousySudoku
         {
             for (; this.AttemptsRemain > 0; )
             {
-                bool success = this.FillSudokuOneAttempt();
+                ///bool success = this.FillSudokuOneAttempt();
+                bool success = this.FillSudokuOneAttemptBlock();
                 if (success)
                 {
                     return true;
