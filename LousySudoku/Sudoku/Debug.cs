@@ -507,16 +507,14 @@ namespace LousySudoku
 
         public static void TestSudokuFiles()
         {
-            TestSudokuFile("data\\templates\\standart.txt");
-            TestSudokuFile("data\\templates\\standart_x.txt", 1);
-            TestSudokuFile("data\\templates\\standart_window.txt", 1);
-            TestSudokuFile("data\\templates\\standart_window_x.txt", 1);
-            TestSudokuFile("data\\templates\\standart_puzzle.txt", 10);
-            TestSudokuFile("data\\templates\\standart_point.txt", 10);
-            TestSudokuFile("data\\templates\\standart_12.txt", 1);
-            TestSudokuFile("data\\templates\\standart_16.txt", 1);
-            //Interface.SaveSudoku("data\\templates\\standart_16.txt", GetStandart16(null));
-            //Interface.SaveSudoku("data\\templates\\standart_12.txt", GetStandart12(null));
+            TestSudokuFile("data\\templates\\standart.txt"); ///less 1s;
+            TestSudokuFile("data\\templates\\standart_point.txt", 0); ///less 1s;
+            TestSudokuFile("data\\templates\\standart_x.txt", 0); ///20s;
+            TestSudokuFile("data\\templates\\standart_window.txt", 0); ///307s;
+            TestSudokuFile("data\\templates\\standart_12.txt", 0); ///575s; 500k attempts;
+            TestSudokuFile("data\\templates\\standart_16.txt", 0); ///Infinity s;
+            TestSudokuFile("data\\templates\\standart_puzzle.txt", 0); ///Infinity s;
+            TestSudokuFile("data\\templates\\standart_window_x.txt", 0); ///Infinity s; more 1000k attempts;
             Console.ReadLine();
         }
     }
