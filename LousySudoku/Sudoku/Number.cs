@@ -100,9 +100,12 @@ namespace LousySudoku
         /// <summary>
         /// Содержит ссылки на блоки, которым принадлежит ячейка
         /// </summary>
-        Block[] parents;
+        private Block[] parents;
 
-        int value;
+        /// <summary>
+        /// Значение ячейки
+        /// </summary>
+        private int value;
 
         /*
          * Свойства
@@ -189,6 +192,10 @@ namespace LousySudoku
             }
         }
 
+        /// <summary>
+        /// Возвращает, должна ли данная ячейка иметь значение/уже имеет его или данная ячейка не заполняется
+        /// Возвращает false, если данная ячейка не должна заполняться (иметь значение)
+        /// </summary>
         public bool IsExist
         {
             get
@@ -260,6 +267,9 @@ namespace LousySudoku
             return this.IsSame(number.Coordinates);
         }
 
+        /// <summary>
+        /// Ставит тип ячейки согласно заданному значению
+        /// </summary>
         private void UpdateTypeAccordingValue()
         {
             switch(this.Value)
