@@ -54,6 +54,14 @@ namespace LousySudoku
 
         private int AttemptsCounter = 0;
 
+        private void AttemptWaisted()
+        {
+            this.AttemptsRemain--;
+            this.AttemptsCounter++;
+            if ((this.AttemptsCounter % 1000) == 0)
+                Console.WriteLine("Did: {0} attempts", this.AttemptsCounter);
+        }
+
         /// <summary>
         /// Создает объект, задавая шаблон судоку, коэффициент попыток и заполненость
         /// </summary>
