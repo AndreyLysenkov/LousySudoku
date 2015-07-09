@@ -8,6 +8,14 @@ namespace Dbg_runner
 {
     class Program
     {
+
+        public static bool completed = false;
+
+        public static void DoOnCompleted(Sudoku sudoku)
+        {
+            completed = true;
+        }
+
         public static void Run()
         {
             Console.Write("Enter name: ");
@@ -15,6 +23,9 @@ namespace Dbg_runner
             Console.Write("Enter fillenes [0.0 - 1.0]: ");
             double fillness = Convert.ToDouble(Console.ReadLine());
             Sudoku sudoku = Interface.GenerateFromTemplate(filename, fillness);
+            sudoku.OnCompleted += DoOnCompleted;
+            do
+            } while (!completed);
             Console.WriteLine("Congrats! Completed! \n Press Enter");
             Console.ReadLine();
         }
