@@ -216,9 +216,9 @@ namespace LousySudoku
         /// <param name="value"></param>
         public Number(NumberType type, Position position, int value = 0)
         {
-            this.Type = type;
-            this.Coordinates = position;
             this.Value = value;
+            this.Type = (NumberType)type;
+            this.Coordinates = position;
             this.parents = new Block[0];
         }
 
