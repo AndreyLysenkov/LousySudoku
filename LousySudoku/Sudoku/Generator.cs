@@ -112,10 +112,6 @@ namespace LousySudoku
             {
                 cell.Modify(ReturnRandomFromArray(number));
             } while (!cell.IsRight() && (number.Count != 0));
-            if (!cell.IsRight())
-            {
-                ///Console.WriteLine(" position {0};{1} ", cell.Coordinates.X, cell.Coordinates.Y);
-            }
             return cell.IsRight();
         }
 
@@ -123,15 +119,14 @@ namespace LousySudoku
         /// Пытается заполнить судоку
         /// </summary>
         /// <returns>Успех попытки</returns>
-        public bool FillSudokuOneAttempt()
+        private bool FillSudokuOneAttempt(Sudoku sudokuToFill)
         {
             this.AttemptWaisted();
-            for (int i = 0; i < sudoku.Number.Length; i++)
+            for (int i = 0; i < sudokuToFill.Number.Length; i++)
             {
-                bool success = FillCell(sudoku.Number[i], sudoku.MaxValue);
+                bool success = FillCell(sudokuToFill.Number[i], sudokuToFill.MaxValue);
                 if (!success)
                 {
-                    ///Debug.ShowSudoku(this.sudoku, this.sudoku.Size.X);
                     return false;
                 }
             }
@@ -158,10 +153,9 @@ namespace LousySudoku
         private bool FillSudokuOneAttemptBlock()
         {
             this.AttemptWaisted();
-            ///sudoku.MixBlocks();
-            for (int i = 0; i < sudoku.Block.Length; i++)
+            for (int i = 0; i < this.sudoku.Block.Length; i++)
             {
-                bool success = FillSudokuBlock(sudoku.Block[i]);
+                bool success = FillSudokuBlock(this.sudoku.Block[i]);
                 if (!success)
                 {
                     return false;
@@ -174,7 +168,7 @@ namespace LousySudoku
         /// Пытается заполнить судоку столько, сколько указано в AttemptsRemain
         /// </summary>
         /// <returns>Успех генерации судоку</returns>
-        public bool FillSudoku()
+        private bool FillSudoku()
         {
             bool IsForever = (this.AttemptsRemain == 0);
             for (; (this.AttemptsRemain > 0) || IsForever; )
@@ -188,10 +182,32 @@ namespace LousySudoku
                 else
                 {
                     if (this.AttemptsRemain != 0)
-                        sudoku.Clear();
+                        this.sudoku.Clear();
                 }
             }
             return false;
+        }
+        
+        private bool CompleteSudoku()
+        {
+            bool IsForever = (this.AttemptsRemain == 0);
+            for (; (this.AttemptsRemain > 0) || IsForever; )
+            {
+                Sudoku sudokuToFill = this.sudoku.Copy();
+                bool success = this.FillSudokuOneAttempt(sudokuToFill);
+                if (success)
+                {
+                    this.sudoku = sudokuToFill;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool Complete()
+        {
+            bool success = this.CompleteSudoku();
+            return success;
         }
 
         /// <summary>

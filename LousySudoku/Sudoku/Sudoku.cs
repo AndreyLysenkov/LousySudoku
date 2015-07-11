@@ -268,6 +268,20 @@ namespace LousySudoku
             return result;
         }
 
+        public int GetNumberCount0()
+        {
+            int result = 0;
+            foreach (Number number in this.Number)
+            {
+                if (number.HasValue)
+                {
+                    result++;
+                }
+            }
+            return result;
+        }
+
+
         /// <summary>
         /// Удаляет из судоку указанное количество ячеек
         /// </summary>
@@ -287,6 +301,21 @@ namespace LousySudoku
         /// <param name="sudoku"></param>
         private void EmptySudokuEventHandler(Sudoku sudoku)
         {  }
+
+        /// <summary>
+        /// Returns a copy of object;
+        /// </summary>
+        /// <returns></returns>
+        public Sudoku Copy()
+        {
+            return
+                (Sudoku)((IStringify)(new Sudoku(null, null, null, null, 0))).Unstringify(
+                    ((IStringify)this).Stringify(
+                        Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault)
+                    ),
+                    Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault)
+                );
+        }
 
         /*
          * Переопределенные методы и методы интерфейсов

@@ -29,7 +29,14 @@ namespace Dbg_runner
                 Debug.ShowSudoku(sudoku, sudoku.Size.X);
                 Console.Write("Enter position x, y, value: ");
                 string[] values = (Console.ReadLine()).Split(new char[] {' '}, 3);
-                sudoku.ChangeNumber(new Number.Position(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])), Convert.ToInt32(values[2]));
+                if (values[0] == "AL")
+                {
+                    (new Generator(sudoku, 0)).Complete();
+                }
+                else
+                {
+                    sudoku.ChangeNumber(new Number.Position(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])), Convert.ToInt32(values[2]));
+                }
             } while (!completed);
             Console.WriteLine("Congrats! Completed! \n Press Enter");
             Console.ReadLine();
