@@ -78,6 +78,12 @@ begin
     end;
 end;
 
+procedure buttonOnCheck();
+begin
+    EnterValues();
+    RefreshGrid();
+end;
+
 procedure ShowSudoku();
 begin
     var buttonCheck : Button := new Button('Check sudoku');        
