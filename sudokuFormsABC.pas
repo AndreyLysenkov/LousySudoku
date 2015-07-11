@@ -9,6 +9,9 @@ const
     windowTitle : string = 'LousySudoku v1';
 var
     theSudoku : Sudoku;
+procedure ClickOk();
+begin
+end;
 function PutTextBox(boxLabel : string; boxText : string; boxHeight : integer; boxWidth : integer) : TextBox;
 begin
     var thLabel : TextLabel := new TextLabel(boxLabel);
@@ -42,6 +45,7 @@ begin
             50
         );
     var buttonOk : Button := new Button('Generate sudoku');        
+    buttonOk.Click += ClickOk;
 end;
 
 begin
