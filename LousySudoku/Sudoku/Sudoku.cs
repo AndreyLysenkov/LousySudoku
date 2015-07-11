@@ -160,6 +160,7 @@ namespace LousySudoku
         {
             numbers = new int[this.Size.X, this.Size.Y];
             mask = new int[this.Size.X, this.Size.Y];
+            rightness = new bool[this.Size.X, this.Size.Y];
             for (int i = 0; i < Size.X; i++)
             {
                 for (int j = 0; j < Size.Y; j++)
