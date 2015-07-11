@@ -132,7 +132,7 @@ namespace LousySudoku
                     return this.Number[i];
                 }
             }
-            return null;
+            return new Number(LousySudoku.Number.NumberType.Unexists, position);
         }
 
         /// <summary>
