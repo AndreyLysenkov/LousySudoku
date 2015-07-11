@@ -19,6 +19,12 @@ var
     filenameTextBox : TextBox;
     complexityTextBox : TextBox;
     cell : array of array of TextBox;
+
+procedure GetSudokuGrid();
+begin
+    theSudoku.GetGrid(numb, mask, rightness);
+end;
+
 procedure ShowSudoku();
 begin
     var buttonCheck : Button := new Button('Check sudoku');        
