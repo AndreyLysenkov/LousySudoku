@@ -51,6 +51,33 @@ begin
     end;
 end;
 
+procedure RefreshGrid();
+begin
+    for var i : integer := 0 to theSudoku.Size.X - 1 do
+    begin
+        for var j : integer := 0 to theSudoku.Size.Y - 1 do
+        begin
+            var curPosition : Number.Position
+                := new Number.Position(i, j);
+            var cellNumber : Number :=
+                theSudoku.GetNumber(curPosition);
+            if (cellNumber.IsExist) 
+            then begin
+                cell[i, j].Text := cellNumber.Value.ToString();
+            end;
+            if not(cellNumber.IsRight)
+            then begin
+                ///cell[i, j].Text := cell[i, j].Text;//String.Format('-{0}-', cell[i, j].Text);
+                cell[i, j].Height := 20;
+            end;
+            if (cellNumber.Type = Number.NumberType.Empty)
+            then begin
+                cell[i, j].Text := ' ';
+            end;
+        end;
+    end;
+end;
+
 procedure ShowSudoku();
 begin
     var buttonCheck : Button := new Button('Check sudoku');        
