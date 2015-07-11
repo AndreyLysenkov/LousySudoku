@@ -25,6 +25,32 @@ begin
     theSudoku.GetGrid(numb, mask, rightness);
 end;
 
+procedure EnterValues();
+begin
+    for var i : integer := 0 to theSudoku.Size.X - 1 do
+    begin
+        for var j : integer := 0 to theSudoku.Size.Y - 1 do
+        begin
+            var curPosition : Number.Position
+                := new Number.Position(i, j);
+            var cellNumber : Number :=
+                theSudoku.GetNumber(curPosition);
+            if (cellNumber.IsExist) and not(cell[i, j].Text = '')                
+            then begin
+                try
+                begin
+                    cellNumber.Modify(Convert.ToInt32(cell[i, j].Text));
+                end
+                except begin
+                    cellNumber.Modify(0);
+                    cell[i, j].Text := '';
+                end;
+                end;
+            end;
+        end;
+    end;
+end;
+
 procedure ShowSudoku();
 begin
     var buttonCheck : Button := new Button('Check sudoku');        
