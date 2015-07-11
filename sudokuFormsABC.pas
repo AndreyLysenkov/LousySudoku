@@ -67,7 +67,6 @@ begin
             end;
             if not(cellNumber.IsRight)
             then begin
-                ///cell[i, j].Text := cell[i, j].Text;//String.Format('-{0}-', cell[i, j].Text);
                 cell[i, j].Height := 20;
             end;
             if (cellNumber.Type = Number.NumberType.Empty)
@@ -142,11 +141,6 @@ begin
     textBox.Height := boxHeight;
     textBox.Width := boxWidth;
     Result := textBox;
-end;
-
-procedure OpenFile(obj : object);
-begin
-    
 end;
 
 procedure FileChooseWindow();
