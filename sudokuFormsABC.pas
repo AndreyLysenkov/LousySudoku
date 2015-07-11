@@ -19,6 +19,46 @@ var
     filenameTextBox : TextBox;
     complexityTextBox : TextBox;
     cell : array of array of TextBox;
+procedure ShowSudoku();
+begin
+    var buttonCheck : Button := new Button('Check sudoku');        
+    buttonCheck.Click += buttonOnCheck;
+    LineBreak;
+    GetSudokuGrid();
+    var lengthX : integer := theSudoku.Size.X;
+    var lengthY : integer := theSudoku.Size.Y;    
+    System.Array.Resize(cell, lengthX);
+    for var i : integer := 0 to lengthX - 1 do
+    begin
+        System.Array.Resize(cell[i], lengthY);
+        for var j : integer := 0 to lengthY - 1 do
+        begin
+            var curPosition : Number.Position
+                := new Number.Position(i, j);
+            var cellNumber : Number :=
+                theSudoku.GetNumber(curPosition);
+            if (cellNumber.IsExist)                
+            then begin
+                cell[i, j] := new TextBox();
+                cell[i, j].Width := 27;
+                cell[i, j].Height := 27;
+            end else begin
+                var space := new Space(27); 
+            end;
+        end;
+        LineBreak;
+    end;
+    MainForm.Width := 50 + 40 * lengthX;
+    MainForm.height := 50 + 40 * lengthY;
+    RefreshGrid();
+    MainForm.IsFixedSize := false;
+end;
+
+procedure LoadFileName(filename : string; complexity : double);
+begin
+    theSudoku := LousySudoku.Interface.GenerateFromTemplate(filename, complexity);
+end;
+
 procedure ClickOk();
 begin
     LoadFileName(
@@ -26,6 +66,7 @@ begin
         Convert.ToDouble(complexityTextBox.Text)
     );
     filenameTextBox.Text := String.Format('Loaded: "{0}"', filenameTextBox.Text);
+    ShowSudoku();       
 end;
 
 function PutTextBox(boxLabel : string; boxText : string; boxHeight : integer; boxWidth : integer) : TextBox;
