@@ -6,12 +6,28 @@ uses
     LousySudoku;
 
 const
+    directory : string = 'data\\templates\\';
+    extension : string = 'Text file | *.txt';
     windowTitle : string = 'LousySudoku v1';
+    complexityDefault : double = 0.27;
+    
 var
     theSudoku : Sudoku;
+    numb : array [,] of integer;
+    mask : array [,] of integer;
+    rightness : array [,] of boolean;
+    filenameTextBox : TextBox;
+    complexityTextBox : TextBox;
+    cell : array of array of TextBox;
 procedure ClickOk();
 begin
+    LoadFileName(
+        filenameTextBox.Text, 
+        Convert.ToDouble(complexityTextBox.Text)
+    );
+    filenameTextBox.Text := String.Format('Loaded: "{0}"', filenameTextBox.Text);
 end;
+
 function PutTextBox(boxLabel : string; boxText : string; boxHeight : integer; boxWidth : integer) : TextBox;
 begin
     var thLabel : TextLabel := new TextLabel(boxLabel);
