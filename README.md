@@ -12,7 +12,5 @@ User have option to write an Check method (details in wiki) and add to sudoku wi
 User may create its own Sudoku and program even generate a Sudoku by your template, with your own Check method.
 
 
-**By nerds to geeks. Whatever it means**
-
 
  ![LousySudoku Logo](https://raw.githubusercontent.com/AndreyLysenkov/LousySudoku/master/data/logo.png) 
