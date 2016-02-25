@@ -7,44 +7,49 @@ namespace LousySudoku
 {
 
     /// <summary>
-    /// Предоставляет методы для записи объекта класса в строку и для восстановления объекта из строки
+    /// Object IStringify can be stored as string i.e. saved as string (Stringify) and restored from string (Unstringify)
     /// </summary>
     public interface IStringify
     {
 
         /// <summary>
-        /// Сохраняет данный объект в строку
+        /// Saves object as string
         /// </summary>
-        /// <param name="separator"></param>
-        /// <returns></returns>
+        /// <param name="separator">Defines list of char, these chars separate values of current object</param>
+        /// <returns>object as string</returns>
         string Stringify(List<char> separator);
 
         /// <summary>
-        /// Возвращает восстановленный объект из строки
+        /// Restores object from string
         /// </summary>
-        /// <param name="value"></param>
-        /// <param name="separator"></param>
+        /// <param name="value">String with object </param>
+        /// <param name="separator">Defines list of char, these chars separate values of output object in input string</param>
         /// <returns></returns>
         IStringify Unstringify(string value, List<char> separator);
 
     }
 
     /// <summary>
-    /// Содержит методы, созданные для использования в методах IStringify;
+    /// Methods, which may help in realization of IStringify interface
     /// </summary>
     public static class Stringify_Help
     {
 
+        /// <summary>
+        /// It's... complicated
+        /// </summary>
         public const char SeparatorDefault = ' ';
 
         /// <summary>
-        /// Список разделителей по умолчанию
-        /// Для доступа использовать вместе с методом CopyList
+        /// Default list for separator
+        /// NB! Using only with method CopyList
         /// </summary>
         public static List<char> SeparatorListDefault = new List<char> { '_', '*', ';', '+', '-', '=', '&', '(', ')', '{', '}', '\n' };
 
         /// <summary>
-        /// Возвращает следующий разделитель из списка, удаляя его
+        /// Returns next separator for level according to current list of separators
+        /// Yeah, it's complicated... too
+        /// Or as I prefer it's stupid
         /// </summary>
         /// <param name="separator"></param>
         /// <returns></returns>
@@ -70,10 +75,10 @@ namespace LousySudoku
         }
 
         /// <summary>
-        /// Преобразует массив в строку
+        /// Saves array of IStringify elements as string
         /// </summary>
         /// <param name="array"></param>
-        /// <param name="separator"></param>
+        /// <param name="separator">These chars separate values of output object in input string</param>
         /// <returns></returns>
         public static string ArrayToString(IStringify[] array, List<char> separator)
         {
@@ -91,7 +96,7 @@ namespace LousySudoku
         }
 
         /// <summary>
-        /// Копирует коллекцию
+        /// Copies list of objects
         /// </summary>
         /// <typeparam name="item"></typeparam>
         /// <param name="list"></param>

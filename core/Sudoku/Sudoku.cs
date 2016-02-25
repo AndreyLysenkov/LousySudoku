@@ -12,10 +12,6 @@ namespace LousySudoku
     public class Sudoku : IStringify
     {
 
-        /*
-         * Свойства
-         */
-
         /// <summary>
         /// Содержит все числа судоку
         /// </summary>
@@ -69,10 +65,14 @@ namespace LousySudoku
         /// </summary>
         public event SudokuEvent OnFilled;
 
-        /*
-         * Конструкторы
-         */
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="size"></param>
+        /// <param name="value"></param>
+        /// <param name="mask"></param>
+        /// <param name="block"></param>
+        /// <param name="maxValue"></param>
         public Sudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[][] block, int maxValue)
         {
             this.OnFilled = EmptySudokuEventHandler;
@@ -112,10 +112,6 @@ namespace LousySudoku
 
             this.Size = size;
         }
-
-        /*
-         * Методы
-         */
 
         /// <summary>
         /// Возвращает число по его позиции
