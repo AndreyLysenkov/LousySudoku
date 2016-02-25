@@ -203,10 +203,6 @@ namespace LousySudoku
         
         }
 
-        /*
-         * Свойства
-         */
-
         /// <summary>
         /// Содержит ссылки на ячейки, принадлежащие блоку
         /// </summary>
@@ -229,10 +225,6 @@ namespace LousySudoku
         /// Содержит информацию, откуда получил метод проверки блока
         /// </summary>
         private BlockType blockType;
-
-        /*
-         * Конструкторы
-         */
 
         /// <summary>
         /// Создаёт новый экземпляр объекта по ссылкам на ячейкам, принадлежащим блоку и информации о методе проверки блока
@@ -263,10 +255,6 @@ namespace LousySudoku
         public Block(Number[] children)
             : this(children, new BlockType(BlockType.ParametrDefault))
         { }
-
-        /*
-         * Методы
-         */
 
         /// <summary>
         /// Вощвращает правильность заполнености блока по методу Check()
@@ -363,10 +351,6 @@ namespace LousySudoku
             }
             return result;
         }
-
-        /*
-         * Переопределенные методы и методы интерфейсов
-         */
 
         /// <summary>
         /// Проверка правильности блока

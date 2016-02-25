@@ -277,7 +277,6 @@ namespace LousySudoku
             return result;
         }
 
-
         /// <summary>
         /// Удаляет из судоку указанное количество ячеек
         /// </summary>
@@ -312,10 +311,6 @@ namespace LousySudoku
                     Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault)
                 );
         }
-
-        /*
-         * Переопределенные методы и методы интерфейсов
-         */
 
         string IStringify.Stringify(List<char> separator)
         {

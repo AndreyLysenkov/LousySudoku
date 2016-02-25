@@ -12,10 +12,6 @@ namespace LousySudoku
     public class Number : IStringify
     {
 
-        /*
-         * Классы и перечисления 
-         */
-
         /// <summary>
         /// Описывает позицию числа в судоку
         /// </summary>
@@ -93,10 +89,6 @@ namespace LousySudoku
             Constant
         }
 
-        /*
-         * Поля класса
-         */
-
         /// <summary>
         /// Содержит ссылки на блоки, которым принадлежит ячейка
         /// </summary>
@@ -106,10 +98,6 @@ namespace LousySudoku
         /// Значение ячейки
         /// </summary>
         private int value;
-
-        /*
-         * Свойства
-         */
 
         /// <summary>
         /// Содержит инфо о типе ячейки
@@ -204,10 +192,6 @@ namespace LousySudoku
             }
         }
 
-        /*
-         * Конструкторы
-         */
-
         /// <summary>
         /// Создает объект класса по его типу, позиции, значению
         /// </summary>
@@ -221,10 +205,6 @@ namespace LousySudoku
             this.Coordinates = position;
             this.parents = new Block[0];
         }
-
-        /*
-         * Методы
-         */
 
         /// <summary>
         /// Возвращает правильно ли записанно число в ячейке
@@ -334,10 +314,6 @@ namespace LousySudoku
             this.parents[this.parents.Length - 1] = newParent;
             return true;
         }
-
-        /*
-         * Переопределенные методы и методы интерфейсов
-         */
 
         string IStringify.Stringify(List<char> separator)
         {
