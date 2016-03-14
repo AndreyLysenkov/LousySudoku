@@ -47,6 +47,7 @@
     <Compile Include="Block.cs" />
     <Compile Include="ExternalMethod.cs" />
     <Compile Include="Generator.cs" />
+    <Compile Include="Position.cs" />
     <Compile Include="Sudoku.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="Interface.cs" />
