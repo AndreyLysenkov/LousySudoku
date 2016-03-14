@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>core</name>
+        <name>lousysudoku</name>
     </assembly>
     <members>
         <member name="T:LousySudoku.Block">

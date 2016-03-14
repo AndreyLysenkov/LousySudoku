@@ -24,8 +24,14 @@ namespace LousySudoku
         /// </summary>
         public int X
         {
-            get;
-            private set;
+            get
+            {
+                return this.GetCoordinate(dimention: 0);
+            }
+            private set
+            {
+                this.SetCoordinate(dimention: 0, newValue: value);
+            }
         }
 
         /// <summary>
@@ -33,8 +39,14 @@ namespace LousySudoku
         /// </summary>
         public int Y
         {
-            get;
-            private set;
+            get
+            {
+                return this.GetCoordinate(dimention: 1);
+            }
+            private set
+            {
+                this.SetCoordinate(dimention: 1, newValue: value);
+            }
         }
 
         /// <summary>
@@ -42,8 +54,14 @@ namespace LousySudoku
         /// </summary>
         public int Z
         {
-            get;
-            private set;
+            get
+            {
+                return this.GetCoordinate(dimention: 2);
+            }
+            private set
+            {
+                this.SetCoordinate(dimention: 2, newValue: value);
+            }
         }
 
         /// <summary>
@@ -55,6 +73,22 @@ namespace LousySudoku
             this.Coordinates = new List<int> { };
             if (coordinates != null)
                 this.Coordinates.AddRange(coordinates);
+        }
+
+        protected void SetCoordinate(int dimention, int newValue)
+        {
+            while (dimention > this.Coordinates.Count)
+            {
+                this.Coordinates.Add(0);
+            }
+            this.Coordinates[dimention] = newValue;
+        }
+
+        protected int GetCoordinate(int dimention)
+        {
+            if (dimention > this.Coordinates.Count)
+                return 0;
+            return this.Coordinates[dimention];
         }
 
         /// <summary>
@@ -79,18 +113,28 @@ namespace LousySudoku
 
         public string NameXml
         {
-            get;
+            get { return Constant.Xml.PositionTag; }
         }
 
         public bool LoadXml(System.Xml.Linq.XElement element)
         {
-
-            return false;
+            Alist.Xml.Tag tag = new Alist.Xml.Tag();
+            tag.LoadXml(element);
+            string value = tag.Value;
+            List<string> tmp = value.Split(';').ToList();
+            this.Coordinates = tmp.ConvertAll<int>(Convert.ToInt32);
+            return true;
         }
 
         public System.Xml.Linq.XElement UnloadXml()
         {
-            return null;
+            List<string> value 
+                = this.Coordinates.ConvertAll<string>(Convert.ToString);
+            string valueStr = Method.ArrayToString<string>(value, ";");
+            Alist.Xml.Tag tag = new Alist.Xml.Tag(
+                name: this.NameXml,
+                value: valueStr);
+            return tag.UnloadXml();
         }
 
     }

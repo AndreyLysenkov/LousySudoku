@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Block.cs" />
+    <Compile Include="Constant.cs" />
     <Compile Include="ExternalMethod.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="Position.cs" />
