@@ -410,12 +410,12 @@ namespace LousySudoku
             Console.WriteLine(generator9.Generate());
             time9.Stop();
             ShowSudoku(sudoku9, 9);
-            string Sudoku = ((IStringify)(sudoku9)).Stringify(Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault));
-            Console.WriteLine(Sudoku);
-            Sudoku sudoku0 = (Sudoku)((IStringify)(sudoku9)).Unstringify(Sudoku, Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault));
+            //string Sudoku = ((IStringify)(sudoku9)).Stringify(Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault));
+            //Console.WriteLine(Sudoku);
+            //Sudoku sudoku0 = (Sudoku)((IStringify)(sudoku9)).Unstringify(Sudoku, Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault));
             Console.WriteLine("Go");
-            ShowSudoku(sudoku0, 9);
-            PrintBlocks(sudoku0);
+            //ShowSudoku(sudoku0, 9);
+            //PrintBlocks(sudoku0);
             Sudoku sudoku16 = GetStandart16(numbs);
             Stopwatch time16 = new Stopwatch();
             Generator generator16 = new Generator(sudoku16, attemptsNumber: 0, fillness: 1);

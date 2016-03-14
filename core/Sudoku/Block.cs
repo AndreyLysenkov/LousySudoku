@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using Alist;
 
 namespace LousySudoku
 {
@@ -11,14 +12,14 @@ namespace LousySudoku
     /// Описывает блок чисел
     /// Блок чисел - это массив чисел, подчиняющийся одному правилу (нет повторяющихся чисел)
     /// </summary>
-    public class Block : IStringify
+    public class Block : IXmlize
     {
 
         /// <summary>
         /// Тип блока
         /// Содержит информацию о методе, проверяющем правильность блока
         /// </summary>
-        public class BlockType : IStringify
+        public class BlockType : IXmlize
         {
 
             /// <summary>
@@ -77,17 +78,21 @@ namespace LousySudoku
                 return parametr.Split(new char[1] { separator }, 2);
             }
 
-            string IStringify.Stringify(List<char> separator)
+            public string NameXml
             {
-                char devider = Stringify_Help.GetSeparator(separator);
-                return this.MethodName + devider + this.AssembleyPath;
+                get;
             }
 
-            IStringify IStringify.Unstringify(string value, List<char> separator)
+            public bool LoadXml(System.Xml.Linq.XElement element)
             {
-                char devider = Stringify_Help.GetSeparator(separator);
-                string[] parametr = value.Split(new char[] {devider}, 2);
-                return new BlockType(parametr[1], parametr[0]);
+
+                return false;
+            }
+
+            public System.Xml.Linq.XElement UnloadXml()
+            {
+
+                return null;
             }
 
         }
@@ -387,32 +392,21 @@ namespace LousySudoku
             return result;
         }
 
-        string IStringify.Stringify(List<char> separator)
+        public string NameXml
         {
-            char devider = Stringify_Help.GetSeparator(separator);
-            string result = "";
-
-            result += ((IStringify)(this.blockType)).Stringify(separator) + devider;
-
-            result += Stringify_Help.ArrayToString(this.GetPositions(), separator);
-
-            return result;
+            get;
         }
 
-        IStringify IStringify.Unstringify(string value, List<char> separator)
+        public bool LoadXml(System.Xml.Linq.XElement element)
         {
-            string[] result = value.Split(new char[] { Stringify_Help.GetSeparator(separator) });
 
-            BlockType blockType = (BlockType)((IStringify)(this.blockType)).Unstringify(result[0], separator);
+            return false;
+        }
 
-            IStringify[] temp = (Stringify_Help.ArrayFromString(new Number.Position(0,0), result[1], separator));
-            Number.Position[] number = new Number.Position[temp.Length];
-            for (int i = 0; i < temp.Length;  i++)
-            {
-                number[i] = (Number.Position)temp[i];
-            }
+        public System.Xml.Linq.XElement UnloadXml()
+        {
 
-            return new Block(Block.GetNumbers(number), blockType);
+            return null;
         }
 
     }

@@ -1,0 +1,760 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>core</name>
+    </assembly>
+    <members>
+        <member name="T:LousySudoku.Block">
+            <summary>
+            Описывает блок чисел
+            Блок чисел - это массив чисел, подчиняющийся одному правилу (нет повторяющихся чисел)
+            </summary>
+        </member>
+        <member name="T:LousySudoku.Block.BlockType">
+            <summary>
+            Тип блока
+            Содержит информацию о методе, проверяющем правильность блока
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Block.BlockType.MethodName">
+            <summary>
+            Имя метода
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Block.BlockType.AssembleyPath">
+            <summary>
+            Путь к сборке с методом
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Block.BlockType.ParametrDefault">
+            <summary>
+            Параметры типа блока по умолчанию
+            </summary>
+        </member>
+        <member name="M:LousySudoku.Block.BlockType.#ctor(System.String,System.Char)">
+            <summary>
+            Создает тип блока по параметру и разделяющему знаку
+            В строке параметр через разделяющий знак написанны имя метода и путь к сборке
+            </summary>
+            <param name="parametr">имяМетода + разделяющийЗнак + путьКсборке</param>
+            <param name="separator">разделяющий знак</param>
+        </member>
+        <member name="M:LousySudoku.Block.BlockType.StringToParametrs(System.String,System.Char)">
+            <summary>
+            Возвращает имя метода и имя сборки в массиве строк из строки параметра
+            </summary>
+            <param name="parametr">строка параметра</param>
+            <param name="separator">разделяющий знак</param>
+            <returns></returns>
+        </member>
+        <member name="T:LousySudoku.Block.ExternalCheck">
+            <summary>
+            Класс для загрузки методов из внешних сборок
+            </summary>
+        </member>
+        <member name="F:LousySudoku.Block.ExternalCheck.FileNameDefault">
+            <summary>
+            Имя сборки по умолчанию
+            </summary>
+        </member>
+        <member name="F:LousySudoku.Block.ExternalCheck.MethodNameDefault">
+            <summary>
+            Имя метода по умолчанию
+            </summary>
+        </member>
+        <member name="F:LousySudoku.Block.ExternalCheck.method">
+            <summary>
+            Содержит иныормацию о внешнем методе
+            </summary>
+        </member>
+        <member name="M:LousySudoku.Block.ExternalCheck.#ctor(System.String,System.String)">
+            <summary>
+            Загружает метод из внешней сборки и делает его доступным для данного объекта
+            </summary>
+            <param name="filename">путь сборки</param>
+            <param name="methodname">имя метода</param>
+        </member>
+        <member name="M:LousySudoku.Block.ExternalCheck.#ctor(LousySudoku.Block.BlockType)">
+            <summary>
+            Загружает метод описанный в BlockType, делая его доступным через данный объект
+            </summary>
+            <param name="type"></param>
+        </member>
+        <member name="M:LousySudoku.Block.ExternalCheck.Run(LousySudoku.Block,System.Int32[],System.Boolean[])">
+            <summary>
+            Запускает внешний метод. Указывется ссылка на блок и два параметра, передающиеся в метод
+            Возвращает то, что внешний метод и возвращает, obviously
+            </summary>
+            <param name="block"></param>
+            <param name="value"></param>
+            <param name="mask"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Block.ExternalCheck.GetAssembleyMethods(System.Reflection.Assembly)">
+            <summary>
+            Возвращат информацию о всех методах в данной сборке
+            </summary>
+            <param name="assembly"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Block.ExternalCheck.Load(System.String,System.String)">
+            <summary>
+            Загружает указанный метод из внешней сборки
+            Если загрузить не удалось, будет использоваться стандартный метод (уникальность чисел)
+            </summary>
+            <param name="filename"></param>
+            <param name="methodname"></param>
+        </member>
+        <member name="P:LousySudoku.Block.Children">
+            <summary>
+            Содержит ссылки на ячейки, принадлежащие блоку
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Block.CheckMethod">
+            <summary>
+            Информация о внешнем методе провери правильности блока
+            </summary>
+        </member>
+        <member name="F:LousySudoku.Block.blockType">
+            <summary>
+            Содержит информацию, откуда получил метод проверки блока
+            </summary>
+        </member>
+        <member name="M:LousySudoku.Block.#ctor(LousySudoku.Number[],LousySudoku.Block.BlockType)">
+            <summary>
+            Создаёт новый экземпляр объекта по ссылкам на ячейкам, принадлежащим блоку и информации о методе проверки блока
+            </summary>
+            <param name="children"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:LousySudoku.Block.#ctor(LousySudoku.Number[],System.String)">
+            <summary>
+            Создаёт новый экземпляр объекта по ссылкам на ячейкам, принадлежащим блоку и параметре информации о методе проверки блока
+            </summary>
+            <param name="children"></param>
+            <param name="BlockTypeParametrs"></param>
+        </member>
+        <member name="M:LousySudoku.Block.#ctor(LousySudoku.Number[])">
+            <summary>
+            Создает блок  заданными "детьми" - ячейками, принадлежащие данному блоку
+            </summary>
+            <param name="children"></param>
+        </member>
+        <member name="M:LousySudoku.Block.IsRight">
+            <summary>
+            Вощвращает правильность заполнености блока по методу Check()
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Block.AddReference">
+            <summary>
+            Добавляет всем числам блока ссылку на самого себя
+            </summary>
+        </member>
+        <member name="M:LousySudoku.Block.Check">
+            <summary>
+            Возвращает все числа, которые не соответствуют правилу блока
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Block.GetValues">
+            <summary>
+            Возвращает все числа блока ввиде массива чисел
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Block.GetValuesMask">
+            <summary>
+            Возвращает boolean массив, указывающий содержит ли соответствующая ячейка значение в свойстве Children
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Block.GetPositions">
+            <summary>
+            Возвращает массив позиций чисел, принадлежащих данному блоку
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Block.GetNumbers(LousySudoku.Number.Position[])">
+            <summary>
+            Возвращает массив ячеек по массиву позиций
+            </summary>
+            <param name="array"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Block.Check(System.Int32[],System.Boolean[])">
+            <summary>
+            Проверка правильности блока
+            </summary>
+            <param name="value"></param>
+            <param name="mask"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Block.CheckOnDefault(System.Int32[],System.Boolean[])">
+            <summary>
+            Стандартная проверка блока на правильность, активирующаяся, когда внешний метод не удалось загрузить
+            </summary>
+            <param name="value"></param>
+            <param name="mask"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LousySudoku.ExternalMethod">
+            <summary>
+            Describe location of external method
+            </summary>
+        </member>
+        <member name="P:LousySudoku.ExternalMethod.IsSet">
+            <summary>
+            Does describe external method
+            </summary>
+        </member>
+        <member name="P:LousySudoku.ExternalMethod.AssemblyPath">
+            <summary>
+            Path to file with method (*.dll, *.exe using .NET)
+            </summary>
+        </member>
+        <member name="P:LousySudoku.ExternalMethod.MethodName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:LousySudoku.ExternalMethod.#ctor">
+            <summary>
+            Set empty external method
+            </summary>
+        </member>
+        <member name="M:LousySudoku.ExternalMethod.#ctor(System.String,System.String)">
+            <summary>
+            Set external method
+            </summary>
+            <param name="AssemblyPath">*.dll or *.exe file with method (using .NET)</param>
+            <param name="MethodName">name of method in file</param>
+        </member>
+        <member name="T:LousySudoku.Generator">
+            <summary>
+            Содержит методы для генерации судоку
+            </summary>
+        </member>
+        <member name="F:LousySudoku.Generator.AttemptsNumberDefault">
+            <summary>
+            Коэффициент попыток по умолчанию
+            </summary>
+        </member>
+        <member name="F:LousySudoku.Generator.FillnessDefault">
+            <summary>
+            Заполненость судоку по умолчанию
+            </summary>
+        </member>
+        <member name="F:LousySudoku.Generator.random">
+            <summary>
+            Рандомайзер
+            </summary>
+        </member>
+        <member name="F:LousySudoku.Generator.sudoku">
+            <summary>
+            Ссылка на объект, в который будет генерироваться судоку
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Generator.AttemptsRemain">
+            <summary>
+            Коэффициент попыток. Чем он больше, тем дольше генератор будет пытаться сгенерировать судоку
+            В зависимости от этого коэффициента будет разное количество попыток для разных судоку
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Generator.Fillness">
+            <summary>
+            Коэффициент заполнености судоку
+            Значение от 0 до 1, где 0 - ни одного числа, 0,2 - 20% чисел заполнены, 1 - все числа заполнены
+            </summary>
+        </member>
+        <member name="M:LousySudoku.Generator.#ctor(LousySudoku.Sudoku,System.Int32,System.Double)">
+            <summary>
+            Создает объект, задавая шаблон судоку, коэффициент попыток и заполненость
+            </summary>
+            <param name="sudoku"></param>
+            <param name="attemptsNumber"></param>
+            <param name="fillness"></param>
+        </member>
+        <member name="M:LousySudoku.Generator.ReturnRandomFromArray(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Возвращает случайное число из колекции, удаляя его
+            </summary>
+            <param name="number"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Generator.FillCell(LousySudoku.Number,System.Int32)">
+            <summary>
+            Пытается заполнить ячейку судоку случайным числом, пока оно не будет правильным
+            </summary>
+            <param name="cell">Заполняемая ячейка</param>
+            <param name="maxValue">Максимально возможное значение</param>
+            <returns>Успех попытки</returns>
+        </member>
+        <member name="M:LousySudoku.Generator.FillSudokuOneAttempt(LousySudoku.Sudoku)">
+            <summary>
+            Пытается заполнить судоку
+            </summary>
+            <returns>Успех попытки</returns>
+        </member>
+        <member name="M:LousySudoku.Generator.FillSudoku">
+            <summary>
+            Пытается заполнить судоку столько, сколько указано в AttemptsRemain
+            </summary>
+            <returns>Успех генерации судоку</returns>
+        </member>
+        <member name="M:LousySudoku.Generator.CountNumbersToDelete">
+            <summary>
+            Возвращает сколько чисел из судоку надо удалить, чтобы заполненасть равнялась Fillness
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Generator.Generate">
+            <summary>
+            Генерирует судоку, согласно параметрам, заложенным в объект
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Generator.GetAttempts(System.Int32)">
+            <summary>
+            Возвращает колличество попыток, которые будет делать программа, чтобы заполнить судоку
+            </summary>
+            <param name="attemptsNumber"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Generator.MixItems``1(``0[])">
+            <summary>
+            Перемешивает элементы массива
+            </summary>
+            <typeparam name="item"></typeparam>
+            <param name="array"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LousySudoku.Sudoku">
+            <summary>
+            Описывает поле судоку и взаимосвязи ячеек поля
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Sudoku.Number">
+            <summary>
+            Содержит все числа судоку
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Sudoku.Block">
+            <summary>
+            Содержит все блоки судоку
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Sudoku.Size">
+            <summary>
+            Размер судоку
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Sudoku.MaxValue">
+            <summary>
+            Наибольшее значение, которое может быть записано в ячейке
+            </summary>
+        </member>
+        <member name="T:LousySudoku.Sudoku.SudokuEvent">
+            <summary>
+            Делегат метода, вызывающегося при зоплнении или завершении судоку
+            </summary>
+            <param name="sudoku"></param>
+        </member>
+        <member name="E:LousySudoku.Sudoku.OnCompleted">
+            <summary>
+            Вызывается при завершеннии судоку
+            Судоку заполнено полностью и правильно
+            </summary>
+        </member>
+        <member name="E:LousySudoku.Sudoku.OnFilled">
+            <summary>
+            Вызывается при полном заполнении судоку
+            </summary>
+        </member>
+        <member name="M:LousySudoku.Sudoku.#ctor(LousySudoku.Number.Position,System.Int32[0:,0:],LousySudoku.Number.NumberType[0:,0:],LousySudoku.Number.Position[][],System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="size"></param>
+            <param name="value"></param>
+            <param name="mask"></param>
+            <param name="block"></param>
+            <param name="maxValue"></param>
+        </member>
+        <member name="M:LousySudoku.Sudoku.GetNumber(LousySudoku.Number.Position)">
+            <summary>
+            Возвращает число по его позиции
+            Если такого числа не существует, возвращает пустую ссылку null
+            </summary>
+            <param name="position"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Sudoku.ChangeNumber(LousySudoku.Number.Position,System.Int32)">
+            <summary>
+            Изменяет значение числа в ячейке 
+            </summary>
+            <param name="position"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Sudoku.GetGrid(System.Int32[0:,0:]@,System.Int32[0:,0:]@,System.Boolean[0:,0:]@)">
+            <summary>
+            Возвращает судоку ввиде матрицы чисел и матрицы их типов;
+            </summary>
+            <param name="numbers"></param>
+            <param name="mask"></param>
+        </member>
+        <member name="M:LousySudoku.Sudoku.IsRight">
+            <summary>
+            Возвращает все ли в судоку числа заполнены правильно
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Sudoku.IsFilled">
+            <summary>
+            Возвращает все ли поля заполнены в судоку
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Sudoku.IsCompleted">
+            <summary>
+            Возвращает заполненно все судоку полностью и правильно
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Sudoku.Clear">
+            <summary>
+            Очищает все ячейки судоку
+            </summary>
+        </member>
+        <member name="M:LousySudoku.Sudoku.MixNumbers">
+            <summary>
+            Перемешивает ссылки на ячейки в судоку в массиве
+            Не меняет позиции
+            </summary>
+        </member>
+        <member name="M:LousySudoku.Sudoku.MixBlocks">
+            <summary>
+            Перемешивает ссылки на блоки в судоку в массиве
+            Не меняет позиции
+            </summary>
+        </member>
+        <member name="M:LousySudoku.Sudoku.GetNumberCount">
+            <summary>
+            Посчитывает сколько ячеек должно содержать или содержит числа
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Sudoku.DeleteNumbers(System.Int32)">
+            <summary>
+            Удаляет из судоку указанное количество ячеек
+            </summary>
+            <param name="count"></param>
+        </member>
+        <member name="M:LousySudoku.Sudoku.EmptySudokuEventHandler(LousySudoku.Sudoku)">
+            <summary>
+            Метод вызывающийся при заполнении и завершении судоку
+            </summary>
+            <param name="sudoku"></param>
+        </member>
+        <member name="M:LousySudoku.Sudoku.Copy">
+            <summary>
+            Returns a copy of object;
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Sudoku.GetNumbers(LousySudoku.Number.Position,System.Int32[0:,0:],LousySudoku.Number.NumberType[0:,0:])">
+            <summary>
+            Возвращает массив ячеек по размеру матрицы, матрице значений и маске ячеек
+            </summary>
+            <param name="size"></param>
+            <param name="number"></param>
+            <param name="mask"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LousySudoku.Interface">
+            <summary>
+            Предоставляет методы для пользовательского интерфейса
+            </summary>
+        </member>
+        <member name="M:LousySudoku.Interface.LoadSudoku(System.String)">
+            <summary>
+            Загружает судоку из файла
+            </summary>
+            <param name="filename">путь к фалу</param>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Interface.SaveSudoku(System.String,LousySudoku.Sudoku)">
+            <summary>
+            Сохраняет данное судоку в файл
+            </summary>
+            <param name="filename">путь к файлу</param>
+            <param name="sudoku">ссылка на судоку</param>
+        </member>
+        <member name="M:LousySudoku.Interface.GenerateFromTemplate(System.String,System.Double)">
+            <summary>
+            Загружает судоку из файла и использует его шаблон, чтобы сгенерировать судоку
+            </summary>
+            <param name="filename">путь к фалу</param>
+            <param name="fillness">заполненость выходящего судоку</param>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Interface.CreateSudoku(LousySudoku.Number.Position,System.Int32[0:,0:],LousySudoku.Number.NumberType[0:,0:],LousySudoku.Number.Position[][],System.Int32)">
+            <summary>
+            Создает судоку
+            </summary>
+            <param name="size">размер судоку</param>
+            <param name="value">матрица значений судоку</param>
+            <param name="mask">тип ячеек в матрице значений</param>
+            <param name="block">каждый массив содержит массив на ссылки позиций тех чисел, которые принадлежат данному блоку</param>
+            <param name="maxValue">максимальное значение</param>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Interface.GenerateSudoku(LousySudoku.Sudoku,System.Int32,System.Double)">
+            <summary>
+            Генерирует судоку по его шаблону
+            </summary>
+            <param name="sudoku"></param>
+            <param name="attemptsNumber"></param>
+            <param name="fillness"></param>
+        </member>
+        <member name="M:LousySudoku.Interface.ChangeNumber(LousySudoku.Sudoku,LousySudoku.Number.Position,System.Int32)">
+            <summary>
+            Изменяет число в ячейке судоку
+            Возвращает успех операции
+            </summary>
+            <param name="sudoku">судоку</param>
+            <param name="number_position">позиция ячейки</param>
+            <param name="value">новое значение</param>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Interface.GetNumber(LousySudoku.Sudoku,LousySudoku.Number.Position)">
+            <summary>
+            Возвращает ячейку судоку по заданной позиции
+            </summary>
+            <param name="sudoku">судоку</param>
+            <param name="position">позиция ячейки</param>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Interface.GetGrid(LousySudoku.Sudoku,System.Int32[0:,0:]@,System.Int32[0:,0:]@,System.Boolean[0:,0:]@)">
+            <summary>
+            Возвращает отобращение судоку
+            </summary>
+            <param name="sudoku">ссылка на экземпляр судоку</param>
+            <param name="number">матрица чисел</param>
+            <param name="mask">матрица маски чисел</param>
+            <param name="rightness">матрица правильности чисел</param>
+        </member>
+        <member name="T:LousySudoku.IStringify">
+            <summary>
+            Object IStringify can be stored as string i.e. saved as string (Stringify) and restored from string (Unstringify)
+            </summary>
+        </member>
+        <member name="M:LousySudoku.IStringify.Stringify(System.Collections.Generic.List{System.Char})">
+            <summary>
+            Saves object as string
+            </summary>
+            <param name="separator">Defines list of char, these chars separate values of current object</param>
+            <returns>object as string</returns>
+        </member>
+        <member name="M:LousySudoku.IStringify.Unstringify(System.String,System.Collections.Generic.List{System.Char})">
+            <summary>
+            Restores object from string
+            </summary>
+            <param name="value">String with object </param>
+            <param name="separator">Defines list of char, these chars separate values of output object in input string</param>
+            <returns></returns>
+        </member>
+        <member name="T:LousySudoku.Stringify_Help">
+            <summary>
+            Methods, which may help in realization of IStringify interface
+            </summary>
+        </member>
+        <member name="F:LousySudoku.Stringify_Help.SeparatorDefault">
+            <summary>
+            It's... complicated
+            </summary>
+        </member>
+        <member name="F:LousySudoku.Stringify_Help.SeparatorListDefault">
+            <summary>
+            Default list for separator
+            NB! Using only with method CopyList
+            </summary>
+        </member>
+        <member name="M:LousySudoku.Stringify_Help.GetSeparator(System.Collections.Generic.List{System.Char})">
+            <summary>
+            Returns next separator for level according to current list of separators
+            Yeah, it's complicated... too
+            Or as I prefer it's stupid
+            </summary>
+            <param name="separator"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Stringify_Help.ArrayToString(LousySudoku.IStringify[],System.Collections.Generic.List{System.Char})">
+            <summary>
+            Saves array of IStringify elements as string
+            </summary>
+            <param name="array"></param>
+            <param name="separator">These chars separate values of output object in input string</param>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Stringify_Help.CopyList``1(System.Collections.Generic.List{``0})">
+            <summary>
+            Copies list of objects
+            </summary>
+            <typeparam name="item"></typeparam>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Stringify_Help.ArrayFromString(LousySudoku.IStringify,System.String,System.Collections.Generic.List{System.Char})">
+            <summary>
+            Восстанавливает массив из строки
+            </summary>
+            <param name="example"></param>
+            <param name="value"></param>
+            <param name="separator"></param>
+            <returns></returns>
+        </member>
+        <member name="T:LousySudoku.Number">
+            <summary>
+            Описывает число в судоку
+            </summary>
+        </member>
+        <member name="T:LousySudoku.Number.Position">
+            <summary>
+            Описывает позицию числа в судоку
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Number.Position.X">
+            <summary>
+            Номер столбца
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Number.Position.Y">
+            <summary>
+            Номер строки
+            </summary>
+        </member>
+        <member name="M:LousySudoku.Number.Position.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Создает объект позиции, с заданными координатами
+            </summary>
+            <param name="x">номер столбца</param>
+            <param name="y">номер строки</param>
+        </member>
+        <member name="M:LousySudoku.Number.Position.IsSame(LousySudoku.Number.Position)">
+            <summary>
+            Возвращает одинаковы ли координаты у этого объекта с position
+            </summary>
+            <param name="position"></param>
+            <returns>равен ли текущий объект данному по значению</returns>
+        </member>
+        <member name="T:LousySudoku.Number.NumberType">
+            <summary>
+            Описывает состояния ячейки судоку
+                Unexists - нет значения, нельзя изменить;
+                Empty - нет значения, можно изменить;
+                Constant - есть значение, нельзя изменить;
+                Modify - есть значение, можно изменить;
+            </summary>
+        </member>
+        <member name="F:LousySudoku.Number.parents">
+            <summary>
+            Содержит ссылки на блоки, которым принадлежит ячейка
+            </summary>
+        </member>
+        <member name="F:LousySudoku.Number.value">
+            <summary>
+            Значение ячейки
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Number.Type">
+            <summary>
+            Содержит инфо о типе ячейки
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Number.Value">
+            <summary>
+            Возвращает значение,  записанное в ячейке.
+            Если значения нет, возвращает 0
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Number.Coordinates">
+            <summary>
+            Отображает позицию ячейки на поле
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Number.HasValue">
+            <summary>
+            Показывает записанно ли значение в ячейку
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Number.IsModified">
+            <summary>
+            Показывает может ли пользователь менять значение в ячейке
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Number.IsExist">
+            <summary>
+            Возвращает, должна ли данная ячейка иметь значение/уже имеет его или данная ячейка не заполняется
+            Возвращает false, если данная ячейка не должна заполняться (иметь значение)
+            </summary>
+        </member>
+        <member name="M:LousySudoku.Number.#ctor(LousySudoku.Number.NumberType,LousySudoku.Number.Position,System.Int32)">
+            <summary>
+            Создает объект класса по его типу, позиции, значению
+            </summary>
+            <param name="type"></param>
+            <param name="position"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:LousySudoku.Number.IsRight">
+            <summary>
+            Возвращает правильно ли записанно число в ячейке
+            </summary>
+            <returns>правильно ли записанно число в ячейке</returns>
+        </member>
+        <member name="M:LousySudoku.Number.IsSame(LousySudoku.Number.Position)">
+            <summary>
+            Возвращает совпадают ли данные координаты с координатами этой ячейки
+            </summary>
+            <param name="position">данные координаты</param>
+            <returns>совпадают ли данные координаты с координатами этой ячейки</returns>
+        </member>
+        <member name="M:LousySudoku.Number.IsSame(LousySudoku.Number)">
+            <summary>
+            Возвращает совпадают ли данное число с this
+            Совпадение чисел происходит, если их позиции совпадают
+            </summary>
+            <param name="number">данное число</param>
+            <returns>совпадают ли данное число с этим</returns>
+        </member>
+        <member name="M:LousySudoku.Number.UpdateTypeAccordingValue">
+            <summary>
+            Ставит тип ячейки согласно заданному значению
+            </summary>
+        </member>
+        <member name="M:LousySudoku.Number.Modify(System.Int32)">
+            <summary>
+            Изменяет, если возможно, значение ячейки
+            Возвращает успех операции
+            </summary>
+            <param name="new_value">новое значение ячейки</param>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Number.Clear">
+            <summary>
+            Удаляет какое либо значение из ячейки, если возможно
+            Возвращает успех операции
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:LousySudoku.Number.AddParent(LousySudoku.Block)">
+            <summary>
+            Добавляет ссылку на блок, которому принадлежит ячейка
+            Возвращает успех операции
+            </summary>
+            <param name="new_parent">новый родительский блок</param>
+        </member>
+    </members>
+</doc>

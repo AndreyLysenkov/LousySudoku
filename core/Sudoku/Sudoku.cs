@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Alist;
 
 namespace LousySudoku
 {
@@ -9,7 +10,7 @@ namespace LousySudoku
     /// <summary>
     /// Описывает поле судоку и взаимосвязи ячеек поля
     /// </summary>
-    public class Sudoku : IStringify
+    public class Sudoku : IXmlize
     {
 
         /// <summary>
@@ -303,41 +304,15 @@ namespace LousySudoku
         /// <returns></returns>
         public Sudoku Copy()
         {
-            return
-                (Sudoku)((IStringify)(new Sudoku(null, null, null, null, 0))).Unstringify(
-                    ((IStringify)this).Stringify(
-                        Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault)
-                    ),
-                    Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault)
-                );
+            return null;
+                //(Sudoku)((IStringify)(new Sudoku(null, null, null, null, 0))).Unstringify(
+                //    ((IStringify)this).Stringify(
+                //        Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault)
+                //    ),
+                //    Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault)
+                //);
         }
-
-        string IStringify.Stringify(List<char> separator)
-        {
-            string result = "";
-            char deviderLevel4 = Stringify_Help.GetSeparator(separator);
-            char devider = Stringify_Help.GetSeparator(separator);
-            result += ((IStringify)(this.Size)).Stringify(separator) + devider;
-            int[,] value = new int[this.Size.X, this.Size.Y];
-            int[,] mask = new int[this.Size.X, this.Size.Y];
-            bool[,] rightness = new bool[this.Size.X, this.Size.Y];
-            this.GetGrid(ref value, ref mask, ref rightness);
-            char deviderLevel1 = Stringify_Help.GetSeparator(separator);
-            char deviderLevel2 = Stringify_Help.GetSeparator(separator);
-            char deviderLevel3 = Stringify_Help.GetSeparator(separator);
-            for (int i = 0; i < this.Size.X; i++)
-            {
-                for (int j = 0; j < this.Size.Y; j++)
-                {
-                    result += value[i, j].ToString() + deviderLevel1 + mask[i, j].ToString() + deviderLevel2;
-                }
-                result += deviderLevel3;
-            }
-            result += deviderLevel4 + Stringify_Help.ArrayToString(this.Block, separator);
-            result += deviderLevel4 + this.MaxValue.ToString();
-            return result;
-        }
-
+        
         /// <summary>
         /// Возвращает массив ячеек по размеру матрицы, матрице значений и маске ячеек
         /// </summary>
@@ -358,40 +333,21 @@ namespace LousySudoku
             return result;
         }
 
-        IStringify IStringify.Unstringify(string value, List<char> separator)
+        public string NameXml
         {
-            char deviderLevel4 = Stringify_Help.GetSeparator(separator);
-            string[] result4 = value.Split(new char[] { deviderLevel4 }, 3);
-            char devider = Stringify_Help.GetSeparator(separator);
-            string[] result = result4[0].Split(new char[] { devider }, 2);
-            Number.Position size = (Number.Position)((IStringify)(new Number.Position(0, 0))).Unstringify(result[0], separator);
-            char deviderLevel1 = Stringify_Help.GetSeparator(separator);
-            char deviderLevel2 = Stringify_Help.GetSeparator(separator);
-            char deviderLevel3 = Stringify_Help.GetSeparator(separator);
-            int[,] number = new int[size.X, size.Y];
-            Number.NumberType[,] mask = new Number.NumberType[size.X, size.Y];
-            string[] resultLevel3 = result[1].Split(new char[] { deviderLevel3 }, size.X + 1);
-            for (int i = 0; i < size.X; i++)
-            {
-                string[] resultLevel2 = resultLevel3[i].Split(new char[] { deviderLevel2 }, size.Y + 1);
-                for (int j = 0; j < size.Y; j++)
-                {
-                    string[] resultLevel1 = resultLevel2[j].Split(new char[] { deviderLevel1 }, 2);
-                    number[i, j] = Convert.ToInt32(resultLevel1[0]);
-                    mask[i, j] = (Number.NumberType)(Convert.ToInt32(resultLevel1[1]));
-                }
-            }
-            Number[] numberNumber = GetNumbers(size, number, mask);
-            IStringify[] temp = Stringify_Help.ArrayFromString(new Block(null), result4[1], separator);
-            Block[] block = new Block[temp.Length];
-            Number.Position[][] blockPosition = new Number.Position[temp.Length][];
-            for (int i = 0; i < temp.Length; i++)
-            {
-                block[i] = (Block)temp[i];
-                blockPosition[i] = block[i].GetPositions();
-            }
-            int maxValue = Convert.ToInt32(result4[2]);
-            return new Sudoku(size, number, mask, blockPosition, maxValue);
+            get;
+        }
+
+        public bool LoadXml(System.Xml.Linq.XElement element)
+        {
+
+            return false;
+        }
+
+        public System.Xml.Linq.XElement UnloadXml()
+        {
+
+            return null;
         }
 
     }

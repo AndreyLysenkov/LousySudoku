@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Alist;
 
 namespace LousySudoku
 {
@@ -9,13 +10,13 @@ namespace LousySudoku
     /// <summary>
     /// Описывает число в судоку
     /// </summary>
-    public class Number : IStringify
+    public class Number : IXmlize
     {
 
         /// <summary>
         /// Описывает позицию числа в судоку
         /// </summary>
-        public class Position : IStringify
+        public class Position : IXmlize
         {
 
             /// <summary>
@@ -57,19 +58,21 @@ namespace LousySudoku
                 return ((position.X == this.X) && (position.Y == this.Y));
             }
 
-            string IStringify.Stringify(List<char> separator)
+            public string NameXml
             {
-                return this.X.ToString() + Stringify_Help.GetSeparator(separator) + this.Y.ToString();
+                get;
             }
 
-            IStringify IStringify.Unstringify(string value, List<char> separator)
+            public bool LoadXml(System.Xml.Linq.XElement element)
             {
-                string[] result = value.Split(new char[] { Stringify_Help.GetSeparator(separator) }, 2);
-                return
-                    new Position(
-                        Convert.ToInt32(result[0]),
-                        Convert.ToInt32(result[1])
-                    );
+
+                return false;
+            }
+
+            public System.Xml.Linq.XElement UnloadXml()
+            {
+
+                return null;
             }
 
         }
@@ -315,20 +318,21 @@ namespace LousySudoku
             return true;
         }
 
-        string IStringify.Stringify(List<char> separator)
+        public string NameXml
         {
-            return this.Value.ToString() + Stringify_Help.GetSeparator(separator) + ((int)this.Type).ToString();
+            get;
         }
 
-        IStringify IStringify.Unstringify(string value, List<char> separator)
+        public bool LoadXml(System.Xml.Linq.XElement element)
         {
-            string[] result = value.Split(new char[]{ Stringify_Help.GetSeparator(separator) }, 2);
-            return
-                new Number(
-                    (NumberType)Convert.ToInt32(result[1]), 
-                    new Number.Position(0, 0), 
-                    Convert.ToInt32(result[0])
-                );
+
+            return false;
+        }
+
+        public System.Xml.Linq.XElement UnloadXml()
+        {
+
+            return null;
         }
 
     }
