@@ -57,7 +57,7 @@ namespace LousySudoku
         /// <param name="block">каждый массив содержит массив на ссылки позиций тех чисел, которые принадлежат данному блоку</param>
         /// <param name="maxValue">максимальное значение</param>
         /// <returns></returns>
-        public static Sudoku CreateSudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[][] block, int maxValue)
+        public static Sudoku CreateSudoku(Position size, int[,] value, Number.NumberType[,] mask, Position[][] block, int maxValue)
         {
             return new Sudoku(size, value, mask, block, maxValue);
         }
@@ -82,7 +82,7 @@ namespace LousySudoku
         /// <param name="number_position">позиция ячейки</param>
         /// <param name="value">новое значение</param>
         /// <returns></returns>
-        public static bool ChangeNumber(Sudoku sudoku, Number.Position number_position, int value)
+        public static bool ChangeNumber(Sudoku sudoku, Position number_position, int value)
         {
             return sudoku.ChangeNumber(number_position, value);
         }
@@ -93,7 +93,7 @@ namespace LousySudoku
         /// <param name="sudoku">судоку</param>
         /// <param name="position">позиция ячейки</param>
         /// <returns></returns>
-        public static Number GetNumber(Sudoku sudoku, Number.Position position)
+        public static Number GetNumber(Sudoku sudoku, Position position)
         {
             return sudoku.GetNumber(position);
         }
@@ -114,7 +114,7 @@ namespace LousySudoku
             {
                 for (int j = 0; j < sudoku.Size.Y; j++)
                 {
-                    Number theNumber = sudoku.GetNumber(new Number.Position(i, j));
+                    Number theNumber = sudoku.GetNumber(new Position(i, j));
                     number[i, j] = theNumber.Value;
                     mask[i, j] = (int)theNumber.Type;
                     rightness[i, j] = theNumber.IsRight();
@@ -125,39 +125,39 @@ namespace LousySudoku
         public static class SudokuBuilder
         {
 
-            private static Number.Position[] GetSquareBlock(Number.Position start_position, Number.Position size)
+            private static Position[] GetSquareBlock(Position start_position, Position size)
             {
-                Number.Position[] result = new Number.Position[size.X * size.Y];
+                Position[] result = new Position[size.X * size.Y];
                 for (int i = 0; i < size.X; i++ )
                 {
                     for (int j = 0; j < size.Y; j++)
                     {
-                        result[i * size.Y + j] = new Number.Position(start_position.X + i, start_position.Y + j);
+                        result[i * size.Y + j] = new Position(start_position.X + i, start_position.Y + j);
 
                     }
                 }
                 return result;
             }
 
-            private static Number.Position[][] GetAllSquareBlock(Number.Position sudoku_size, Number.Position block_size)
+            private static Position[][] GetAllSquareBlock(Position sudoku_size, Position block_size)
             {
-                Number.Position[][] result = new Number.Position[0][];
+                Position[][] result = new Position[0][];
                 for (int i = 0, k = 0; i < sudoku_size.X; i += block_size.X, k++)
                 {
                     for (int j = 0; j < sudoku_size.Y; j += block_size.Y, k++)
                     {
-                        result[k] = GetSquareBlock(new Number.Position(i, j), block_size);
+                        result[k] = GetSquareBlock(new Position(i, j), block_size);
                     }
                 }
                 return result;
             }
 
-            private static Number.Position[] GetLineBlock(Number.Position start_position, int length, bool isHorizontal)
+            private static Position[] GetLineBlock(Position start_position, int length, bool isHorizontal)
             {
-                Number.Position[] result = new Number.Position[length];
+                Position[] result = new Position[length];
                 for (int i = 0; i < length; i++)
                 {
-                    result[i] = new Number.Position(
+                    result[i] = new Position(
                         start_position.X + ((isHorizontal) ? i : 0),
                         start_position.Y + ((isHorizontal) ? 0 : i)
                         );
@@ -165,16 +165,16 @@ namespace LousySudoku
                 return result;
             }
 
-            private static Number.Position[][] GetAllLineBlock(Number.Position size, bool isHorizontal)
+            private static Position[][] GetAllLineBlock(Position size, bool isHorizontal)
             {
                 int length = (isHorizontal) ? size.X : size.Y;
                 int block_count = (isHorizontal) ? size.Y : size.X;
-                Number.Position[][] result = new Number.Position[block_count][];
+                Position[][] result = new Position[block_count][];
                 for (int i = 0; i < block_count; i++)
                 {
                     result[i] = 
                         GetLineBlock(
-                            new Number.Position(
+                            new Position(
                                 (isHorizontal) ? 0 : i,
                                 (isHorizontal) ? i : 0
                             ), 
@@ -201,11 +201,11 @@ namespace LousySudoku
                 return result;
             }
 
-            private static Number.Position[][] GetAllStandartBlock(Number.Position sudoku_size, Number.Position block_size)
+            private static Position[][] GetAllStandartBlock(Position sudoku_size, Position block_size)
             {
-                Number.Position[][] result_Horisontal = GetAllLineBlock(sudoku_size, true);
-                Number.Position[][] result_Vertical = GetAllLineBlock(sudoku_size, false);
-                Number.Position[][] result_Square = GetAllSquareBlock(sudoku_size, block_size);
+                Position[][] result_Horisontal = GetAllLineBlock(sudoku_size, true);
+                Position[][] result_Vertical = GetAllLineBlock(sudoku_size, false);
+                Position[][] result_Square = GetAllSquareBlock(sudoku_size, block_size);
                 return 
                     CombineArrays(
                         CombineArrays(result_Horisontal, result_Vertical),
@@ -215,32 +215,32 @@ namespace LousySudoku
 
             private static Sudoku GetStandart(int[,] numbs, Number.NumberType[,] mask, int sudoku_size, int block_size)
             {
-                Number.Position[][] block = GetAllStandartBlock(new Number.Position(sudoku_size, sudoku_size), new Number.Position(block_size, block_size));
-                return new Sudoku(new Number.Position(sudoku_size, sudoku_size), numbs, mask, block, sudoku_size);
+                Position[][] block = GetAllStandartBlock(new Position(sudoku_size, sudoku_size), new Position(block_size, block_size));
+                return new Sudoku(new Position(sudoku_size, sudoku_size), numbs, mask, block, sudoku_size);
             }
 
             public static Sudoku GetStandart9(int[,] numbs)
             {
 
-                Number.Position[][] block = new Number.Position[9 + 9 + 9][];
+                Position[][] block = new Position[9 + 9 + 9][];
 
                 ///Добавление блоков (горизонтальные линии);
                 for (int i = 0; i < 9; i++)
                 {
-                    block[i] = new Number.Position[9];
+                    block[i] = new Position[9];
                     for (int j = 0; j < 9; j++)
                     {
-                        block[i][j] = new Number.Position(i, j);
+                        block[i][j] = new Position(i, j);
                     }
                 }
 
                 ///Добавление блоков (вертикальные линии);
                 for (int i = 0; i < 9; i++)
                 {
-                    block[9 + i] = new Number.Position[9];
+                    block[9 + i] = new Position[9];
                     for (int j = 0; j < 9; j++)
                     {
-                        block[9 + i][j] = new Number.Position(j, i);
+                        block[9 + i][j] = new Position(j, i);
                     }
                 }
 
@@ -262,31 +262,31 @@ namespace LousySudoku
                     }
                 }
 
-                return new Sudoku(new Number.Position(9, 9), numbs, mask, block, 9);
+                return new Sudoku(new Position(9, 9), numbs, mask, block, 9);
             }
 
             public static Sudoku GetStandart16(int[,] numbs)
             {
 
-                Number.Position[][] block = new Number.Position[16 + 16][];
+                Position[][] block = new Position[16 + 16][];
 
                 ///Добавление блоков (горизонтальные линии);
                 for (int i = 0; i < 16; i++)
                 {
-                    block[i] = new Number.Position[16];
+                    block[i] = new Position[16];
                     for (int j = 0; j < 16; j++)
                     {
-                        block[i][j] = new Number.Position(i, j);
+                        block[i][j] = new Position(i, j);
                     }
                 }
 
                 ///Добавление блоков (вертикальные линии);
                 for (int i = 0; i < 16; i++)
                 {
-                    block[16 + i] = new Number.Position[16];
+                    block[16 + i] = new Position[16];
                     for (int j = 0; j < 16; j++)
                     {
-                        block[16 + i][j] = new Number.Position(j, i);
+                        block[16 + i][j] = new Position(j, i);
                     }
                 }
 
@@ -311,7 +311,7 @@ namespace LousySudoku
                     }
                 }
 
-                return new Sudoku(new Number.Position(16, 16), value, mask, block, 16);
+                return new Sudoku(new Position(16, 16), value, mask, block, 16);
             }
 
         }

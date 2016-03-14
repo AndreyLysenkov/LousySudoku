@@ -332,9 +332,9 @@ namespace LousySudoku
         /// Возвращает массив позиций чисел, принадлежащих данному блоку
         /// </summary>
         /// <returns></returns>
-        public Number.Position[] GetPositions()
+        public Position[] GetPositions()
         {
-            Number.Position[] result = new Number.Position[this.Children.Length];
+            Position[] result = new Position[this.Children.Length];
             for (int i = 0; i < result.Length; i++)
             {
                 result[i] = this.Children[i].Coordinates;
@@ -347,7 +347,7 @@ namespace LousySudoku
         /// </summary>
         /// <param name="array"></param>
         /// <returns></returns>
-        private static Number[] GetNumbers(Number.Position[] array)
+        private static Number[] GetNumbers(Position[] array)
         {
             Number[] result = new Number[array.Length];
             for (int i = 0; i < array.Length; i++)

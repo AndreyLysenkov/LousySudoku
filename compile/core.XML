@@ -175,7 +175,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LousySudoku.Block.GetNumbers(LousySudoku.Number.Position[])">
+        <member name="M:LousySudoku.Block.GetNumbers(LousySudoku.Position[])">
             <summary>
             Возвращает массив ячеек по массиву позиций
             </summary>
@@ -329,6 +329,39 @@
             <param name="array"></param>
             <returns></returns>
         </member>
+        <member name="T:LousySudoku.Position">
+            <summary>
+            Описывает позицию числа в судоку
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Position.X">
+            <summary>
+            Номер столбца
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Position.Y">
+            <summary>
+            Номер строки
+            </summary>
+        </member>
+        <member name="P:LousySudoku.Position.Z">
+            <summary>
+            Number of layer for 3D sudoku
+            </summary>
+        </member>
+        <member name="M:LousySudoku.Position.#ctor(System.Int32[])">
+            <summary>
+            Создает объект позиции, с заданными координатами
+            </summary>
+            <param name="coordinates"></param>
+        </member>
+        <member name="M:LousySudoku.Position.IsSame(LousySudoku.Position)">
+            <summary>
+            Возвращает одинаковы ли координаты у этого объекта с position
+            </summary>
+            <param name="position"></param>
+            <returns>равен ли текущий объект данному по значению</returns>
+        </member>
         <member name="T:LousySudoku.Sudoku">
             <summary>
             Описывает поле судоку и взаимосвязи ячеек поля
@@ -371,7 +404,7 @@
             Вызывается при полном заполнении судоку
             </summary>
         </member>
-        <member name="M:LousySudoku.Sudoku.#ctor(LousySudoku.Number.Position,System.Int32[0:,0:],LousySudoku.Number.NumberType[0:,0:],LousySudoku.Number.Position[][],System.Int32)">
+        <member name="M:LousySudoku.Sudoku.#ctor(LousySudoku.Position,System.Int32[0:,0:],LousySudoku.Number.NumberType[0:,0:],LousySudoku.Position[][],System.Int32)">
             <summary>
             
             </summary>
@@ -381,7 +414,7 @@
             <param name="block"></param>
             <param name="maxValue"></param>
         </member>
-        <member name="M:LousySudoku.Sudoku.GetNumber(LousySudoku.Number.Position)">
+        <member name="M:LousySudoku.Sudoku.GetNumber(LousySudoku.Position)">
             <summary>
             Возвращает число по его позиции
             Если такого числа не существует, возвращает пустую ссылку null
@@ -389,7 +422,7 @@
             <param name="position"></param>
             <returns></returns>
         </member>
-        <member name="M:LousySudoku.Sudoku.ChangeNumber(LousySudoku.Number.Position,System.Int32)">
+        <member name="M:LousySudoku.Sudoku.ChangeNumber(LousySudoku.Position,System.Int32)">
             <summary>
             Изменяет значение числа в ячейке 
             </summary>
@@ -463,7 +496,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:LousySudoku.Sudoku.GetNumbers(LousySudoku.Number.Position,System.Int32[0:,0:],LousySudoku.Number.NumberType[0:,0:])">
+        <member name="M:LousySudoku.Sudoku.GetNumbers(LousySudoku.Position,System.Int32[0:,0:],LousySudoku.Number.NumberType[0:,0:])">
             <summary>
             Возвращает массив ячеек по размеру матрицы, матрице значений и маске ячеек
             </summary>
@@ -499,7 +532,7 @@
             <param name="fillness">заполненость выходящего судоку</param>
             <returns></returns>
         </member>
-        <member name="M:LousySudoku.Interface.CreateSudoku(LousySudoku.Number.Position,System.Int32[0:,0:],LousySudoku.Number.NumberType[0:,0:],LousySudoku.Number.Position[][],System.Int32)">
+        <member name="M:LousySudoku.Interface.CreateSudoku(LousySudoku.Position,System.Int32[0:,0:],LousySudoku.Number.NumberType[0:,0:],LousySudoku.Position[][],System.Int32)">
             <summary>
             Создает судоку
             </summary>
@@ -518,7 +551,7 @@
             <param name="attemptsNumber"></param>
             <param name="fillness"></param>
         </member>
-        <member name="M:LousySudoku.Interface.ChangeNumber(LousySudoku.Sudoku,LousySudoku.Number.Position,System.Int32)">
+        <member name="M:LousySudoku.Interface.ChangeNumber(LousySudoku.Sudoku,LousySudoku.Position,System.Int32)">
             <summary>
             Изменяет число в ячейке судоку
             Возвращает успех операции
@@ -528,7 +561,7 @@
             <param name="value">новое значение</param>
             <returns></returns>
         </member>
-        <member name="M:LousySudoku.Interface.GetNumber(LousySudoku.Sudoku,LousySudoku.Number.Position)">
+        <member name="M:LousySudoku.Interface.GetNumber(LousySudoku.Sudoku,LousySudoku.Position)">
             <summary>
             Возвращает ячейку судоку по заданной позиции
             </summary>
@@ -545,109 +578,10 @@
             <param name="mask">матрица маски чисел</param>
             <param name="rightness">матрица правильности чисел</param>
         </member>
-        <member name="T:LousySudoku.IStringify">
-            <summary>
-            Object IStringify can be stored as string i.e. saved as string (Stringify) and restored from string (Unstringify)
-            </summary>
-        </member>
-        <member name="M:LousySudoku.IStringify.Stringify(System.Collections.Generic.List{System.Char})">
-            <summary>
-            Saves object as string
-            </summary>
-            <param name="separator">Defines list of char, these chars separate values of current object</param>
-            <returns>object as string</returns>
-        </member>
-        <member name="M:LousySudoku.IStringify.Unstringify(System.String,System.Collections.Generic.List{System.Char})">
-            <summary>
-            Restores object from string
-            </summary>
-            <param name="value">String with object </param>
-            <param name="separator">Defines list of char, these chars separate values of output object in input string</param>
-            <returns></returns>
-        </member>
-        <member name="T:LousySudoku.Stringify_Help">
-            <summary>
-            Methods, which may help in realization of IStringify interface
-            </summary>
-        </member>
-        <member name="F:LousySudoku.Stringify_Help.SeparatorDefault">
-            <summary>
-            It's... complicated
-            </summary>
-        </member>
-        <member name="F:LousySudoku.Stringify_Help.SeparatorListDefault">
-            <summary>
-            Default list for separator
-            NB! Using only with method CopyList
-            </summary>
-        </member>
-        <member name="M:LousySudoku.Stringify_Help.GetSeparator(System.Collections.Generic.List{System.Char})">
-            <summary>
-            Returns next separator for level according to current list of separators
-            Yeah, it's complicated... too
-            Or as I prefer it's stupid
-            </summary>
-            <param name="separator"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LousySudoku.Stringify_Help.ArrayToString(LousySudoku.IStringify[],System.Collections.Generic.List{System.Char})">
-            <summary>
-            Saves array of IStringify elements as string
-            </summary>
-            <param name="array"></param>
-            <param name="separator">These chars separate values of output object in input string</param>
-            <returns></returns>
-        </member>
-        <member name="M:LousySudoku.Stringify_Help.CopyList``1(System.Collections.Generic.List{``0})">
-            <summary>
-            Copies list of objects
-            </summary>
-            <typeparam name="item"></typeparam>
-            <param name="list"></param>
-            <returns></returns>
-        </member>
-        <member name="M:LousySudoku.Stringify_Help.ArrayFromString(LousySudoku.IStringify,System.String,System.Collections.Generic.List{System.Char})">
-            <summary>
-            Восстанавливает массив из строки
-            </summary>
-            <param name="example"></param>
-            <param name="value"></param>
-            <param name="separator"></param>
-            <returns></returns>
-        </member>
         <member name="T:LousySudoku.Number">
             <summary>
             Описывает число в судоку
             </summary>
-        </member>
-        <member name="T:LousySudoku.Number.Position">
-            <summary>
-            Описывает позицию числа в судоку
-            </summary>
-        </member>
-        <member name="P:LousySudoku.Number.Position.X">
-            <summary>
-            Номер столбца
-            </summary>
-        </member>
-        <member name="P:LousySudoku.Number.Position.Y">
-            <summary>
-            Номер строки
-            </summary>
-        </member>
-        <member name="M:LousySudoku.Number.Position.#ctor(System.Int32,System.Int32)">
-            <summary>
-            Создает объект позиции, с заданными координатами
-            </summary>
-            <param name="x">номер столбца</param>
-            <param name="y">номер строки</param>
-        </member>
-        <member name="M:LousySudoku.Number.Position.IsSame(LousySudoku.Number.Position)">
-            <summary>
-            Возвращает одинаковы ли координаты у этого объекта с position
-            </summary>
-            <param name="position"></param>
-            <returns>равен ли текущий объект данному по значению</returns>
         </member>
         <member name="T:LousySudoku.Number.NumberType">
             <summary>
@@ -700,7 +634,7 @@
             Возвращает false, если данная ячейка не должна заполняться (иметь значение)
             </summary>
         </member>
-        <member name="M:LousySudoku.Number.#ctor(LousySudoku.Number.NumberType,LousySudoku.Number.Position,System.Int32)">
+        <member name="M:LousySudoku.Number.#ctor(LousySudoku.Number.NumberType,LousySudoku.Position,System.Int32)">
             <summary>
             Создает объект класса по его типу, позиции, значению
             </summary>
@@ -714,7 +648,7 @@
             </summary>
             <returns>правильно ли записанно число в ячейке</returns>
         </member>
-        <member name="M:LousySudoku.Number.IsSame(LousySudoku.Number.Position)">
+        <member name="M:LousySudoku.Number.IsSame(LousySudoku.Position)">
             <summary>
             Возвращает совпадают ли данные координаты с координатами этой ячейки
             </summary>

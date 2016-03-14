@@ -35,7 +35,7 @@ namespace Dbg_runner
                 }
                 else
                 {
-                    sudoku.ChangeNumber(new Number.Position(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])), Convert.ToInt32(values[2]));
+                    sudoku.ChangeNumber(new Position(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])), Convert.ToInt32(values[2]));
                 }
             } while (!completed);
             Console.WriteLine("Congrats! Completed! \n Press Enter");
@@ -54,7 +54,7 @@ namespace Dbg_runner
             //LousySudoku.Sudoku sudoku = Debug.TestSudoku1();
 
             //Console.WriteLine("Change number");
-            //sudoku.ChangeNumber(new Number.Position(2, 1), 9);
+            //sudoku.ChangeNumber(new Position(2, 1), 9);
 
             //Console.WriteLine("Print sudoku");
             //Debug.ShowSudoku(sudoku, 9);

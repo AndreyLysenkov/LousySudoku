@@ -34,7 +34,7 @@ namespace LousySudoku
         /// <summary>
         /// Размер судоку
         /// </summary>
-        public Number.Position Size
+        public Position Size
         {
             get;
             private set;
@@ -74,7 +74,7 @@ namespace LousySudoku
         /// <param name="mask"></param>
         /// <param name="block"></param>
         /// <param name="maxValue"></param>
-        public Sudoku(Number.Position size, int[,] value, Number.NumberType[,] mask, Number.Position[][] block, int maxValue)
+        public Sudoku(Position size, int[,] value, Number.NumberType[,] mask, Position[][] block, int maxValue)
         {
             this.OnFilled = EmptySudokuEventHandler;
             this.OnCompleted = EmptySudokuEventHandler;
@@ -90,7 +90,7 @@ namespace LousySudoku
                     this.Number[i * size.Y + j] =
                         new Number(
                             mask[i, j],
-                            new Number.Position(i, j),
+                            new Position(i, j),
                             value[i, j]
                         );
                 }
@@ -120,7 +120,7 @@ namespace LousySudoku
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        public Number GetNumber(Number.Position position)
+        public Number GetNumber(Position position)
         {
             for (int i = 0; i < this.Number.Length; i++)
             {
@@ -138,7 +138,7 @@ namespace LousySudoku
         /// <param name="position"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public bool ChangeNumber(Number.Position position, int value)
+        public bool ChangeNumber(Position position, int value)
         {
             bool success = this.GetNumber(position).Modify(value);
             if (success)
@@ -162,7 +162,7 @@ namespace LousySudoku
             {
                 for (int j = 0; j < Size.Y; j++)
                 {
-                    Number number = this.GetNumber(new Number.Position(i, j));
+                    Number number = this.GetNumber(new Position(i, j));
                     numbers[i, j] = number.Value;
                     mask[i, j] = (int)number.Type;
                     rightness[i, j] = number.IsRight();
@@ -320,14 +320,14 @@ namespace LousySudoku
         /// <param name="number"></param>
         /// <param name="mask"></param>
         /// <returns></returns>
-        private static Number[] GetNumbers(Number.Position size, int[,] number, Number.NumberType[,] mask)
+        private static Number[] GetNumbers(Position size, int[,] number, Number.NumberType[,] mask)
         {
             Number[] result = new Number[size.X * size.Y];
             for (int i = 0; i < size.X; i++)
             {
                 for (int j = 0; j < size.Y; j++)
                 {
-                    result[i * size.X + j] = new Number(mask[i, j], new Number.Position(i, j), number[i, j]);
+                    result[i * size.X + j] = new Number(mask[i, j], new Position(i, j), number[i, j]);
                 }
             }
             return result;
