@@ -135,7 +135,7 @@ namespace LousySudoku
 
         private bool FillSudokuBlock(Block block)
         {
-            for (int i = 0; i < block.Children.Length; i++)
+            for (int i = 0; i < block.Children.Count; i++)
             {
                 Number child = block.Children[i];
                 if (!child.HasValue)

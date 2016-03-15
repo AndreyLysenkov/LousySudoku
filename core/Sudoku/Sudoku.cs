@@ -335,19 +335,50 @@ namespace LousySudoku
 
         public string NameXml
         {
-            get;
+            get { return Constant.Xml.SudokuTag; }
         }
 
         public bool LoadXml(System.Xml.Linq.XElement element)
         {
-
-            return false;
+            Alist.Xml.Tag tag = new Alist.Xml.Tag();
+            tag.LoadXml(element);
+            List<System.Xml.Linq.XElement> block
+                = tag.GetChildren(Constant.Xml.BlockTag);
+            this.Block = new LousySudoku.Block[block.Count];
+            for (int i = 0; i < block.Count; i++)
+            {
+                this.Block[i] = new LousySudoku.Block(null);
+                this.Block[i].LoadXml(block[i]);
+            }
+            List<System.Xml.Linq.XElement> number
+                = tag.GetChildren(Constant.Xml.NumberTag);
+            this.Number = new Number[block.Count];
+            for (int i = 0; i < block.Count; i++)
+            {
+                this.Number[i] = new Number(0, null);
+                this.Number[i].LoadXml(number[i]);
+            }
+            return true;
         }
 
         public System.Xml.Linq.XElement UnloadXml()
         {
-
-            return null;
+            List<System.Xml.Linq.XElement> child
+                = new List<System.Xml.Linq.XElement> { };
+            foreach(Block block in this.Block)
+            {
+                child.Add(block.UnloadXml());
+            }
+            foreach(Number number in this.Number)
+            {
+                child.Add(number.UnloadXml());
+            }
+            Alist.Xml.Tag tag = new Alist.Xml.Tag(
+                name: this.NameXml,
+                value: null,
+                child: child
+                );
+            return tag.UnloadXml();
         }
 
     }

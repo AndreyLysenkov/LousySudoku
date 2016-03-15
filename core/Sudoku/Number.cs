@@ -256,19 +256,46 @@ namespace LousySudoku
 
         public string NameXml
         {
-            get;
+            get { return Constant.Xml.NumberTag; }
         }
 
         public bool LoadXml(System.Xml.Linq.XElement element)
         {
-
-            return false;
+            Alist.Xml.Tag tag = new Alist.Xml.Tag();
+            tag.LoadXml(element);
+            this.Coordinates = new Position();
+            this.Coordinates.LoadXml
+                (tag.GetChild(this.Coordinates.NameXml));
+            string type = tag.GetAttribute
+                (Constant.Xml.NumberTypeAttribute, 
+                NumberType.Unexists.ToString());
+            type = Alist.Method.ToLowerFirstUpper(type);
+            NumberType numberType = NumberType.Unexists;
+            bool success = NumberType.TryParse(type, out numberType);
+            this.Type = success ? numberType : NumberType.Unexists;
+            return true;
         }
 
         public System.Xml.Linq.XElement UnloadXml()
         {
-
-            return null;
+            System.Xml.Linq.XElement position 
+                = this.Coordinates.UnloadXml();
+            Alist.Xml.Tag tag = new Alist.Xml.Tag(
+                name: this.NameXml,
+                value: this.Value.ToString(),
+                attribute: new Dictionary<string, string>
+                {
+                    {
+                        Constant.Xml.NumberTypeAttribute,
+                        this.Type.ToString()
+                    }
+                },
+                child: new List<System.Xml.Linq.XElement>
+                {
+                    position
+                }
+                );
+            return tag.UnloadXml();
         }
 
     }

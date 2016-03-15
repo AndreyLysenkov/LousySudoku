@@ -9,15 +9,20 @@ namespace LousySudoku
     public static class Constant
     {
 
-
-
-
         public static class Xml
         {
 
             public const string PositionTag = "position";
 
+            public const string NumberTag = "number";
 
+            public const string NumberTypeAttribute = "type";
+
+            public const string BlockTag = "block";
+
+            public const string BlockNumberTag = "number";
+
+            public const string SudokuTag = "sudoku";
 
         }
 

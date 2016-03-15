@@ -110,7 +110,7 @@ namespace LousySudoku
         public static string BlockToString(Block block)
         {
             string result = "BLOCK: ";
-            for (int i = 0; i < block.Children.Length; i++)
+            for (int i = 0; i < block.Children.Count; i++)
             {
                 result += " ++ " + NumberToString(block.Children[i]);
             }
@@ -410,12 +410,13 @@ namespace LousySudoku
             Console.WriteLine(generator9.Generate());
             time9.Stop();
             ShowSudoku(sudoku9, 9);
-            //string Sudoku = ((IStringify)(sudoku9)).Stringify(Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault));
-            //Console.WriteLine(Sudoku);
-            //Sudoku sudoku0 = (Sudoku)((IStringify)(sudoku9)).Unstringify(Sudoku, Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault));
+            System.Xml.Linq.XElement Sudoku = sudoku9.UnloadXml();
+            Console.WriteLine(Sudoku);
+            Sudoku sudoku0 = new LousySudoku.Sudoku(null, null, null, null, 0);
+            sudoku0.LoadXml(Sudoku);
             Console.WriteLine("Go");
-            //ShowSudoku(sudoku0, 9);
-            //PrintBlocks(sudoku0);
+            ShowSudoku(sudoku0, 9);
+            PrintBlocks(sudoku0);
             Sudoku sudoku16 = GetStandart16(numbs);
             Stopwatch time16 = new Stopwatch();
             Generator generator16 = new Generator(sudoku16, attemptsNumber: 0, fillness: 1);
@@ -456,7 +457,7 @@ namespace LousySudoku
         public static string BlockCoordinates(Block block)
         {
             string result = "";
-            for (int i = 0; i < block.Children.Length; i++)
+            for (int i = 0; i < block.Children.Count; i++)
             {
                 result += "    " + CoordinateToString(block.Children[i].Coordinates);
             }

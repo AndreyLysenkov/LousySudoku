@@ -19,8 +19,9 @@ namespace LousySudoku
         /// <returns></returns>
         public static Sudoku LoadSudoku(string filename)
         {
-            return null;
-                //(Sudoku)((IStringify)(new Sudoku(null, null, null, null, 0))).Unstringify(System.IO.File.ReadAllText(filename), Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault));
+            Sudoku sudoku = new LousySudoku.Sudoku(null, null, null, null, 0);
+            sudoku.LoadXml(Alist.Xml.Transform.FileToElement(filename));
+            return sudoku;
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace LousySudoku
         /// <param name="sudoku">ссылка на судоку</param>
         public static void SaveSudoku(string filename, Sudoku sudoku)
         {
-            //System.IO.File.WriteAllText(filename, ((IStringify)(sudoku)).Stringify(Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault)));
+            Alist.Xml.Transform.ElementToFile(sudoku.UnloadXml(), filename);
         }
 
         /// <summary>

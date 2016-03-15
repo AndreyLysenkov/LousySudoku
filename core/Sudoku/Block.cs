@@ -211,7 +211,7 @@ namespace LousySudoku
         /// <summary>
         /// Содержит ссылки на ячейки, принадлежащие блоку
         /// </summary>
-        public Number[] Children
+        public List<Number> Children
         {
             get;
             private set;
@@ -238,7 +238,7 @@ namespace LousySudoku
         /// <param name="type"></param>
         public Block(Number[] children, BlockType type)
         {
-            this.Children = children;
+            this.Children = children.ToList();
             this.AddReference();
             this.blockType = type;
             this.CheckMethod = new ExternalCheck(type);
@@ -278,7 +278,7 @@ namespace LousySudoku
             if (this.Children == null)
                 return;
 
-            for (int i = 0; i < this.Children.Length; i++)
+            for (int i = 0; i < this.Children.Count; i++)
             {
                 this.Children[i].AddParent(this);
             }
@@ -306,8 +306,8 @@ namespace LousySudoku
         /// <returns></returns>
         private int[] GetValues()
         {
-            int[] result = new int[this.Children.Length];
-            for (int i = 0; i < this.Children.Length; i++)
+            int[] result = new int[this.Children.Count];
+            for (int i = 0; i < this.Children.Count; i++)
             {
                 result[i] = this.Children[i].Value;
             }
@@ -320,8 +320,8 @@ namespace LousySudoku
         /// <returns></returns>
         private bool[] GetValuesMask()
         {
-            bool[] result = new bool[this.Children.Length];
-            for (int i = 0; i < this.Children.Length; i++)
+            bool[] result = new bool[this.Children.Count];
+            for (int i = 0; i < this.Children.Count; i++)
             {
                 result[i] = this.Children[i].HasValue;
             }
@@ -334,7 +334,7 @@ namespace LousySudoku
         /// <returns></returns>
         public Position[] GetPositions()
         {
-            Position[] result = new Position[this.Children.Length];
+            Position[] result = new Position[this.Children.Count];
             for (int i = 0; i < result.Length; i++)
             {
                 result[i] = this.Children[i].Coordinates;
@@ -394,19 +394,42 @@ namespace LousySudoku
 
         public string NameXml
         {
-            get;
+            get { return Constant.Xml.BlockTag; }
         }
 
         public bool LoadXml(System.Xml.Linq.XElement element)
         {
-
-            return false;
+            Alist.Xml.Tag tag = new Alist.Xml.Tag();
+            tag.LoadXml(element);
+            Alist.Xml.Tag number = new Alist.Xml.Tag();
+            number.LoadXml(tag.GetChild(Constant.Xml.BlockNumberTag));
+            List<System.Xml.Linq.XElement> position 
+                = number.GetChildren(Constant.Xml.PositionTag);
+            // NNBB!; ToDo; number parsing;
+            return true;
         }
 
         public System.Xml.Linq.XElement UnloadXml()
         {
-
-            return null;
+            List<Number> child = this.Children.ToList();
+            List<System.Xml.Linq.XElement> childXml 
+                = new List<System.Xml.Linq.XElement> { };
+            foreach(Number cell in child)
+            {
+                childXml.Add(cell.Coordinates.UnloadXml());
+            }
+            System.Xml.Linq.XElement number 
+                = new System.Xml.Linq.XElement(Constant.Xml.BlockNumberTag);
+            Alist.Xml.Tag tag = new Alist.Xml.Tag(
+                name: this.NameXml,
+                value: null,
+                child: new List<System.Xml.Linq.XElement>
+                {
+                    number
+                },
+                attribute: null
+                );
+            return tag.UnloadXml();
         }
 
     }
