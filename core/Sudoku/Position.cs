@@ -8,19 +8,51 @@ namespace LousySudoku
 {
 
     /// <summary>
-    /// Описывает позицию числа в судоку
+    /// Definds position of number in sudoku.
+    /// May be used as unique id
     /// </summary>
-    public class Position : IXmlize
+    public class Position
+        : IXmlize, ICloneable,
+        IComparable<Position>, IEquatable<Position>
     {
 
+        protected List<int> coordinates;
+
+        /// <summary>
+        /// Coordinates of position (x;y;z) etc.
+        /// </summary>
         public List<int> Coordinates
         {
-            get;
-            private set;
+            get
+            {
+                return this.coordinates.AsReadOnly().ToList();
+            }
         }
 
         /// <summary>
-        /// Номер столбца
+        /// Displays how many dimentions uses
+        /// current coordinate
+        /// </summary>
+        public int Dimention
+        {
+            get { return this.coordinates.Count; }
+        }
+
+        /// <summary>
+        /// Return length of positon.
+        /// i.e. square root of summ of square coordinates.
+        /// sqrt(x*x + y*y + z*z);
+        /// </summary>
+        public double Length
+        {
+            get
+            {
+                return Math.Sqrt(this.coordinates.Sum(x => x * x));
+            }
+        }
+        
+        /// <summary>
+        /// Column number
         /// </summary>
         public int X
         {
@@ -28,24 +60,16 @@ namespace LousySudoku
             {
                 return this.GetCoordinate(dimention: 0);
             }
-            private set
-            {
-                this.SetCoordinate(dimention: 0, newValue: value);
-            }
         }
 
         /// <summary>
-        /// Номер строки
+        /// Row number
         /// </summary>
         public int Y
         {
             get
             {
                 return this.GetCoordinate(dimention: 1);
-            }
-            private set
-            {
-                this.SetCoordinate(dimention: 1, newValue: value);
             }
         }
 
@@ -58,57 +82,39 @@ namespace LousySudoku
             {
                 return this.GetCoordinate(dimention: 2);
             }
-            private set
-            {
-                this.SetCoordinate(dimention: 2, newValue: value);
-            }
         }
 
         /// <summary>
-        /// Создает объект позиции, с заданными координатами
+        /// Create new position with specified coordinates
         /// </summary>
         /// <param name="coordinates"></param>
         public Position(params int[] coordinates)
         {
-            this.Coordinates = new List<int> { };
+            this.coordinates = new List<int> { };
             if (coordinates != null)
                 this.Coordinates.AddRange(coordinates);
         }
 
         protected void SetCoordinate(int dimention, int newValue)
         {
-            while (dimention > this.Coordinates.Count)
+            while (dimention >= this.coordinates.Count)
             {
-                this.Coordinates.Add(0);
+                this.coordinates.Add(0);
             }
-            this.Coordinates[dimention] = newValue;
-        }
-
-        protected int GetCoordinate(int dimention)
-        {
-            if (dimention > this.Coordinates.Count)
-                return 0;
-            return this.Coordinates[dimention];
+            this.coordinates[dimention] = newValue;
         }
 
         /// <summary>
-        /// Возвращает одинаковы ли координаты у этого объекта с position
+        /// Return value of coordinate in that dimension.
+        /// For x dimention = 0, y - 1, z - 2, etc.
         /// </summary>
-        /// <param name="position"></param>
-        /// <returns>равен ли текущий объект данному по значению</returns>
-        public bool IsSame(Position position)
+        /// <param name="dimention"></param>
+        /// <returns></returns>
+        public int GetCoordinate(int dimention)
         {
-            if (this.Coordinates.Count == position.Coordinates.Count)
-            {
-                for(int i = 0; i < this.Coordinates.Count; i++)
-                {
-                    if (this.Coordinates[i] != position.Coordinates[i])
-                        return false;
-                }
-                return true;
-
-            }
-            return false;
+            if (dimention >= this.Coordinates.Count)
+                return 0;
+            return this.Coordinates[dimention];
         }
 
         public string NameXml
@@ -122,19 +128,64 @@ namespace LousySudoku
             tag.LoadXml(element);
             string value = tag.Value;
             List<string> tmp = value.Split(';').ToList();
-            this.Coordinates = tmp.ConvertAll<int>(Convert.ToInt32);
+            this.coordinates = tmp.ConvertAll<int>(Convert.ToInt32);
             return true;
         }
 
         public System.Xml.Linq.XElement UnloadXml()
         {
             List<string> value 
-                = this.Coordinates.ConvertAll<string>(Convert.ToString);
+                = this.coordinates.ConvertAll<string>(Convert.ToString);
             string valueStr = Method.ArrayToString<string>(value, ";");
             Alist.Xml.Tag tag = new Alist.Xml.Tag(
                 name: this.NameXml,
                 value: valueStr);
             return tag.UnloadXml();
+        }
+
+        /// <summary>
+        /// Clone position
+        /// </summary>
+        /// <returns></returns>
+        public object Clone()
+        {
+            return new Position
+                (Method.Clone<int>(this.coordinates).ToArray());
+        }
+
+        /// <summary>
+        /// Returns if this and other positions has same coordinates.
+        /// If positions has different dimentions, 
+        /// then missing coordinates of dimentions will be consider as 0.
+        /// Example, {5;6;0} is equal {5;6}
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(Position other)
+        {
+            int length = Math.Max(this.Dimention, other.Dimention);
+            for (int i = 0; i < length; i++)
+            {
+                if (this.GetCoordinate(i) != other.GetCoordinate(i))
+                    return false;
+            }
+            return true;
+        }
+
+        public int CompareTo(Position other)
+        {
+            int result = 0;
+            double differ = this.Length - other.Length;
+            result = Convert.ToInt32(differ);
+            if ((result == 0) && (!this.Equals(other)))
+            {
+                int dimention = Math.Max(this.Dimention, other.Dimention);
+                for(int i = 0; (i < dimention) && (result == 0); i++)
+                {
+                    result = this.GetCoordinate(i) - other.GetCoordinate(i);
+                }
+            }
+            return result;
         }
 
     }

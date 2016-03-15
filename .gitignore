@@ -4,8 +4,15 @@
 *.dll
 *.exe
 *.pdb
+*.dll.config
 *.exe.config
 *.exe.manifest
+
+# Alist project
+compile/alist.*
+
+# LousySudoku project
+compile/lousysudoku.*
 
 # User-specific files
 *.suo

@@ -12,7 +12,8 @@ namespace LousySudoku
     /// Описывает блок чисел
     /// Блок чисел - это массив чисел, подчиняющийся одному правилу (нет повторяющихся чисел)
     /// </summary>
-    public class Block : IXmlize
+    public class Block
+        : IXmlize, IEquatable<Block>
     {
 
         /// <summary>
@@ -337,7 +338,7 @@ namespace LousySudoku
             Position[] result = new Position[this.Children.Count];
             for (int i = 0; i < result.Length; i++)
             {
-                result[i] = this.Children[i].Coordinates;
+                result[i] = this.Children[i].Coordinate;
             }
             return result;
         }
@@ -416,7 +417,7 @@ namespace LousySudoku
                 = new List<System.Xml.Linq.XElement> { };
             foreach(Number cell in child)
             {
-                childXml.Add(cell.Coordinates.UnloadXml());
+                childXml.Add(cell.Coordinate.UnloadXml());
             }
             System.Xml.Linq.XElement number 
                 = new System.Xml.Linq.XElement(Constant.Xml.BlockNumberTag);
@@ -430,6 +431,12 @@ namespace LousySudoku
                 attribute: null
                 );
             return tag.UnloadXml();
+        }
+
+        public bool Equals(Block other)
+        {
+            // NNBB; todo;
+            return false;
         }
 
     }

@@ -124,7 +124,7 @@ namespace LousySudoku
         {
             for (int i = 0; i < this.Number.Length; i++)
             {
-                if (this.Number[i].IsSame(position))
+                if (this.Number[i].Equals(position))
                 {
                     return this.Number[i];
                 }

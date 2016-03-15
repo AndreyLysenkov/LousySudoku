@@ -8,38 +8,61 @@ namespace LousySudoku
 {
 
     /// <summary>
-    /// Описывает число в судоку
+    /// Definds number (cell) of sudoku it's position, value, 
+    /// can or cannot user change it's value
     /// </summary>
-    public class Number : IXmlize
+    public class Number
+        : IXmlize, ICloneable, IComparable<Number>,
+        IEquatable<Number>, IEquatable<Position>
     {
 
         /// <summary>
-        /// Описывает состояния ячейки судоку
-        ///     Unexists - нет значения, нельзя изменить;
-        ///     Empty - нет значения, можно изменить;
-        ///     Constant - есть значение, нельзя изменить;
-        ///     Modify - есть значение, можно изменить;
+        /// Describes status of cell. Status can't be change 
+        /// (except Empty may be changed on Modify, and other way round)
         /// </summary>
         public enum NumberType
         {
+            /// <summary>
+            /// No number can be stored here.
+            /// i.e. don't have value, can't be changed by user
+            /// </summary>
             Unexists,
+
+            /// <summary>
+            /// No number yet is storing here.
+            /// i.e. don't have value, can be changed by user
+            /// </summary>
             Empty,
+
+            /// <summary>
+            /// Storing number, seted by user.
+            /// i.e. have value, can be changed by user
+            /// </summary>
             Modify,
+
+            /// <summary>
+            /// Storing number, seted by program
+            /// i.e. have value, can't be changed by user
+            /// </summary>
             Constant
         }
 
         /// <summary>
-        /// Содержит ссылки на блоки, которым принадлежит ячейка
+        /// Describes blocks, wich one current cell belongs to.
+        /// Every block should add here link to itself 
+        /// throught this.AddParent(Block)
         /// </summary>
-        private Block[] parents;
+        private List<Block> parent;
 
         /// <summary>
-        /// Значение ячейки
+        /// Number of current cell. It's relevant 
+        /// if this.Type set as Modify or Constant
         /// </summary>
         private int value;
 
         /// <summary>
-        /// Содержит инфо о типе ячейки
+        /// Current cell status. Can't be changed.
+        /// (Except, Empty on Modify, or Modify on Empty)
         /// </summary>
         public NumberType Type
         {
@@ -48,8 +71,8 @@ namespace LousySudoku
         }
 
         /// <summary>
-        /// Возвращает значение,  записанное в ячейке.
-        /// Если значения нет, возвращает 0
+        /// Returns value storing in current cell. It's relevant 
+        /// if this.Type set as Modify or Constant
         /// </summary>
         public int Value
         {
@@ -57,24 +80,22 @@ namespace LousySudoku
             {
                 return this.value;
             }
-            private set
-            {
-                this.value = value;
-                this.UpdateTypeAccordingValue();
-            }
         }
 
         /// <summary>
-        /// Отображает позицию ячейки на поле
+        /// Contains position of cell on sudoku field.
+        /// Also, uses as cell id, so can't be changed,
+        /// and one sudoku can't have two or more sells with same coordinate
         /// </summary>
-        public Position Coordinates
+        public Position Coordinate
         {
             get;
             private set;
         }
 
         /// <summary>
-        /// Показывает записанно ли значение в ячейку
+        /// Indicates if cell contains value.
+        /// It is if cell's type is Modify or Constant
         /// </summary>
         public bool HasValue
         {
@@ -97,7 +118,8 @@ namespace LousySudoku
         }
 
         /// <summary>
-        /// Показывает может ли пользователь менять значение в ячейке
+        /// Indicates if user may modify cell's value.
+        /// User may if cell's type is Empty or Modify.
         /// </summary>
         public bool IsModified
         {
@@ -120,8 +142,9 @@ namespace LousySudoku
         }
 
         /// <summary>
-        /// Возвращает, должна ли данная ячейка иметь значение/уже имеет его или данная ячейка не заполняется
-        /// Возвращает false, если данная ячейка не должна заполняться (иметь значение)
+        /// Indicates if current cell has or can have value.
+        /// It can't if it's type is Unexists.
+        /// Applies for non rectangle sudoku.
         /// </summary>
         public bool IsExist
         {
@@ -132,31 +155,81 @@ namespace LousySudoku
         }
 
         /// <summary>
-        /// Создает объект класса по его типу, позиции, значению
+        /// Creates new cell with specified fields
         /// </summary>
         /// <param name="type"></param>
-        /// <param name="position"></param>
+        /// <param name="coordinate"></param>
         /// <param name="value"></param>
-        public Number(NumberType type, Position position, int value = 0)
+        public Number(NumberType type, Position coordinate, int value = 0)
         {
-            this.Value = value;
-            this.Type = (NumberType)type;
-            this.Coordinates = position;
-            this.parents = new Block[0];
+            this.value = value;
+            this.Type = type;
+            this.Coordinate = coordinate;
+            this.parent = new List<Block> { };
+            this.UpdateValueByType();
+            this.UpdateTypeByValue();
         }
 
         /// <summary>
-        /// Возвращает правильно ли записанно число в ячейке
+        /// If type indicates, that record have no value, sets value to 0.
+        /// Recomended to use only in constructor.
         /// </summary>
-        /// <returns>правильно ли записанно число в ячейке</returns>
+        protected void UpdateValueByType()
+        {
+            switch(this.Type)
+            {
+                case NumberType.Empty:
+                case NumberType.Unexists:
+                    {
+                        this.value = 0;
+                        break;
+                    }
+            }
+        }
+
+        /// <summary>
+        /// Sets type of cell according value:
+        /// if type says cell has value, but value is 0,
+        /// then change it's type on type with no value.
+        /// And other way round.
+        /// Recomended to use only in constructor.
+        /// </summary>
+        protected void UpdateTypeByValue()
+        {
+            switch (this.value)
+            {
+                case 0:
+                    {
+                        if (this.IsModified)
+                            this.Type = NumberType.Empty;
+                        else
+                            this.Type = NumberType.Unexists;
+                        break;
+                    }
+                default:
+                    {
+                        if (this.IsModified)
+                            this.Type = NumberType.Modify;
+                        else
+                            this.Type = NumberType.Constant;
+                        break;
+                    }
+            }
+        }
+
+        /// <summary>
+        /// Calculates if cell's value is right.
+        /// i.e. goes throught all blocks and check if they are right.
+        /// </summary>
+        /// <returns></returns>
         public bool IsRight()
         {
-            for (int i = 0; i < parents.Length; i++ )
+            for (int i = 0; i < parent.Count; i++ )
             {
-                Number[] wrongNumber = parents[i].Check();
+                Number[] wrongNumber = parent[i].Check();
                 for (int j = 0; j < wrongNumber.Length; j++)
                 {
-                    if (this.IsSame(wrongNumber[j]))
+                    if (this.Equals(wrongNumber[j]))
                     {
                         return false;
                     }
@@ -166,47 +239,11 @@ namespace LousySudoku
         }
 
         /// <summary>
-        /// Возвращает совпадают ли данные координаты с координатами этой ячейки
+        /// Changes value in cell.
+        /// Returns if change possible.
+        /// Uses for user changes only
         /// </summary>
-        /// <param name="position">данные координаты</param>
-        /// <returns>совпадают ли данные координаты с координатами этой ячейки</returns>
-        public bool IsSame(Position position)
-        {
-            return this.Coordinates.IsSame(position);
-        }
-
-        /// <summary>
-        /// Возвращает совпадают ли данное число с this
-        /// Совпадение чисел происходит, если их позиции совпадают
-        /// </summary>
-        /// <param name="number">данное число</param>
-        /// <returns>совпадают ли данное число с этим</returns>
-        public bool IsSame(Number number)
-        {
-            return this.IsSame(number.Coordinates);
-        }
-
-        /// <summary>
-        /// Ставит тип ячейки согласно заданному значению
-        /// </summary>
-        private void UpdateTypeAccordingValue()
-        {
-            switch(this.Value)
-            {
-                case 0 :
-                    this.Type = NumberType.Empty;
-                    break;
-                default :
-                    this.Type = NumberType.Modify;
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Изменяет, если возможно, значение ячейки
-        /// Возвращает успех операции
-        /// </summary>
-        /// <param name="new_value">новое значение ячейки</param>
+        /// <param name="new_value"></param>
         /// <returns></returns>
         public bool Modify(int new_value)
         {
@@ -214,44 +251,41 @@ namespace LousySudoku
             {
                 return this.Clear();
             }
-
             if (IsModified)
             {
-                this.Value = new_value;
+                this.value = new_value;
                 return true;
             }
-
             return false;
         }
 
         /// <summary>
-        /// Удаляет какое либо значение из ячейки, если возможно
-        /// Возвращает успех операции
+        /// Deletes value of cell.
+        /// Return if it is possible.
+        /// Uses for user changes only
         /// </summary>
         /// <returns></returns>
         public bool Clear()
         {
             if (this.IsModified)
             {
-                this.Value = 0;
+                this.value = 0;
                 return true;
             }
             return false;
         }
 
         /// <summary>
-        /// Добавляет ссылку на блок, которому принадлежит ячейка
-        /// Возвращает успех операции
+        /// Add new block as cell's owner
+        /// Return if parent set true, or false if already has that parent
         /// </summary>
         /// <param name="new_parent">новый родительский блок</param>
-        public bool AddParent(Block newParent)
+        public void AddParent(Block newParent)
         {
-            Array.Resize(
-                ref this.parents, 
-                this.parents.Length + 1
-            );
-            this.parents[this.parents.Length - 1] = newParent;
-            return true;
+            if (!this.parent.Any(newParent.Equals))
+            {
+                this.AddParent(newParent);
+            }
         }
 
         public string NameXml
@@ -263,9 +297,9 @@ namespace LousySudoku
         {
             Alist.Xml.Tag tag = new Alist.Xml.Tag();
             tag.LoadXml(element);
-            this.Coordinates = new Position();
-            this.Coordinates.LoadXml
-                (tag.GetChild(this.Coordinates.NameXml));
+            this.Coordinate = new Position();
+            this.Coordinate.LoadXml
+                (tag.GetChild(this.Coordinate.NameXml));
             string type = tag.GetAttribute
                 (Constant.Xml.NumberTypeAttribute, 
                 NumberType.Unexists.ToString());
@@ -279,7 +313,7 @@ namespace LousySudoku
         public System.Xml.Linq.XElement UnloadXml()
         {
             System.Xml.Linq.XElement position 
-                = this.Coordinates.UnloadXml();
+                = this.Coordinate.UnloadXml();
             Alist.Xml.Tag tag = new Alist.Xml.Tag(
                 name: this.NameXml,
                 value: this.Value.ToString(),
@@ -296,6 +330,29 @@ namespace LousySudoku
                 }
                 );
             return tag.UnloadXml();
+        }
+
+        public object Clone()
+        {
+            return new Number(
+                type: this.Type, 
+                coordinate: (Position)this.Coordinate.Clone(), 
+                value: this.Value);
+        }
+
+        public bool Equals(Number other)
+        {
+            return this.Equals(other.Coordinate);
+        }
+
+        public bool Equals(Position other)
+        {
+            return this.Coordinate.Equals(other);
+        }
+
+        public int CompareTo(Number other)
+        {
+            return this.Coordinate.CompareTo(other.Coordinate);
         }
 
     }

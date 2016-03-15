@@ -104,7 +104,7 @@ namespace LousySudoku
 
         public static string NumberToString(Number number)
         {
-            return number.Value.ToString() + "|" + number.Type.ToString() + "|" + CoordinateToString(number.Coordinates);
+            return number.Value.ToString() + "|" + number.Type.ToString() + "|" + CoordinateToString(number.Coordinate);
         }
 
         public static string BlockToString(Block block)
@@ -459,7 +459,7 @@ namespace LousySudoku
             string result = "";
             for (int i = 0; i < block.Children.Count; i++)
             {
-                result += "    " + CoordinateToString(block.Children[i].Coordinates);
+                result += "    " + CoordinateToString(block.Children[i].Coordinate);
             }
             return result;
         }
