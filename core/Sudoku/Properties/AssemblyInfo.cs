@@ -8,7 +8,7 @@ using System.Resources;
 // associated with an assembly.
 [assembly: AssemblyTitle("LousySudoku")]
 [assembly: AssemblyDescription("Sudoku engine")]
-[assembly: AssemblyConfiguration("Alfa")]
+[assembly: AssemblyConfiguration("Alpha")]
 [assembly: AssemblyCompany("Andrey Lysenkov")]
 [assembly: AssemblyProduct("LousySudoku")]
 [assembly: AssemblyCopyright("Copyright ©  2015-2016")]
@@ -33,6 +33,6 @@ using System.Resources;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.2.2.13")]
+[assembly: AssemblyVersion("2.0.0.13")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("en-US")]

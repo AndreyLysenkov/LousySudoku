@@ -5,6 +5,7 @@ using System.Text;
 using System.Reflection;
 using Alist;
 using Alist.Tree;
+using Alist.Error;
 
 namespace LousySudoku
 {
@@ -14,8 +15,20 @@ namespace LousySudoku
     /// Блок чисел - это массив чисел, подчиняющийся одному правилу (нет повторяющихся чисел)
     /// </summary>
     public class Block
-        : IXmlize, IEquatable<Block>
+        : IXmlize, IActivatable, IEquatable<Block>
     {
+
+        /// <summary>
+        /// Luke, I am your Father.
+        /// Well, it's not funny, I know...
+        /// I don't fance starWars anyway...
+        /// Didn't see even that moment...
+        /// </summary>
+        public Sudoku Father
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Содержит ссылки на ячейки, принадлежащие блоку
@@ -35,6 +48,8 @@ namespace LousySudoku
             get;
             private set;
         }
+
+        private BlockType type;
 
         /// <summary>
         /// Создаёт новый экземпляр объекта по ссылкам на ячейкам, принадлежащим блоку и информации о методе проверки блока
@@ -196,6 +211,24 @@ namespace LousySudoku
                 }
             }
             return result;
+        }
+
+        public bool IsInitialized
+        {
+            // NNBB; todo;
+            get { return false; }
+        }
+
+        public MultyException Initialize()
+        {
+            // NNBB; todo;
+            return null;
+        }
+
+        public MultyException Finilize()
+        {
+            // NNBB; todo;
+            return null;
         }
 
         public string NameXml

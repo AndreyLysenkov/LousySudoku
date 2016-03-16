@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Alist;
+using Alist.Error;
 
 namespace LousySudoku
 {
@@ -10,7 +11,8 @@ namespace LousySudoku
     /// <summary>
     /// Описывает поле судоку и взаимосвязи ячеек поля
     /// </summary>
-    public class Sudoku : IXmlize
+    public class Sudoku
+        : IXmlize, IActivatable
     {
 
         /// <summary>
@@ -331,6 +333,24 @@ namespace LousySudoku
                 }
             }
             return result;
+        }
+
+        public bool IsInitialized
+        {
+            // NNBB; todo;
+            get { return false; }
+        }
+
+        public MultyException Initialize()
+        {
+            // NNBB; todo;
+            return null;
+        }
+
+        public MultyException Finilize()
+        {
+            // NNBB; todo;
+            return null;
         }
 
         public string NameXml
