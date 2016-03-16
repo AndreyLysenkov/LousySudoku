@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using Alist;
+using Alist.Tree;
 
 namespace LousySudoku
 {
@@ -17,199 +18,6 @@ namespace LousySudoku
     {
 
         /// <summary>
-        /// Тип блока
-        /// Содержит информацию о методе, проверяющем правильность блока
-        /// </summary>
-        public class BlockType : IXmlize
-        {
-
-            /// <summary>
-            /// Имя метода
-            /// </summary>
-            public string MethodName
-            {
-                get;
-                private set;
-            }
-
-            /// <summary>
-            /// Путь к сборке с методом
-            /// </summary>
-            public string AssembleyPath
-            {
-                get;
-                private set;
-            }
-
-            /// <summary>
-            /// Параметры типа блока по умолчанию
-            /// </summary>
-            public static string ParametrDefault
-            {
-                get
-                {
-                    return ExternalCheck.MethodNameDefault + ' ' + ExternalCheck.FileNameDefault;
-                }
-            }
-
-            private BlockType(string assembleyPath = ExternalCheck.FileNameDefault, string methodName = ExternalCheck.MethodNameDefault)
-            {
-                this.AssembleyPath = assembleyPath;
-                this.MethodName = methodName;
-            }
-
-            /// <summary>
-            /// Создает тип блока по параметру и разделяющему знаку
-            /// В строке параметр через разделяющий знак написанны имя метода и путь к сборке
-            /// </summary>
-            /// <param name="parametr">имяМетода + разделяющийЗнак + путьКсборке</param>
-            /// <param name="separator">разделяющий знак</param>
-            public BlockType(string parametr, char separator = ' ')
-                : this(StringToParametrs(parametr, separator)[1], StringToParametrs(parametr, separator)[0])
-            { }
-
-            /// <summary>
-            /// Возвращает имя метода и имя сборки в массиве строк из строки параметра
-            /// </summary>
-            /// <param name="parametr">строка параметра</param>
-            /// <param name="separator">разделяющий знак</param>
-            /// <returns></returns>
-            private static string[] StringToParametrs(string parametr, char separator)
-            {
-                return parametr.Split(new char[1] { separator }, 2);
-            }
-
-            public string NameXml
-            {
-                get;
-            }
-
-            public bool LoadXml(System.Xml.Linq.XElement element)
-            {
-
-                return false;
-            }
-
-            public System.Xml.Linq.XElement UnloadXml()
-            {
-
-                return null;
-            }
-
-        }
-
-        /// <summary>
-        /// Класс для загрузки методов из внешних сборок
-        /// </summary>
-        public class ExternalCheck
-        {
-
-            /// <summary>
-            /// Имя сборки по умолчанию
-            /// </summary>
-            public const string FileNameDefault = "data\\block\\standart.dll";
-
-            /// <summary>
-            /// Имя метода по умолчанию
-            /// </summary>
-            public const string MethodNameDefault = "Check";
-
-            /// <summary>
-            /// Содержит иныормацию о внешнем методе
-            /// </summary>
-            private MethodInfo method;
-
-            /// <summary>
-            /// Загружает метод из внешней сборки и делает его доступным для данного объекта
-            /// </summary>
-            /// <param name="filename">путь сборки</param>
-            /// <param name="methodname">имя метода</param>
-            public ExternalCheck(string filename = FileNameDefault, string methodname = MethodNameDefault)
-            {
-                this.Load(filename, methodname);
-            }
-
-            /// <summary>
-            /// Загружает метод описанный в BlockType, делая его доступным через данный объект
-            /// </summary>
-            /// <param name="type"></param>
-            public ExternalCheck(BlockType type)
-                : this(type.AssembleyPath, type.MethodName)
-            { }
-
-            /// <summary>
-            /// Запускает внешний метод. Указывется ссылка на блок и два параметра, передающиеся в метод
-            /// Возвращает то, что внешний метод и возвращает, obviously
-            /// </summary>
-            /// <param name="block"></param>
-            /// <param name="value"></param>
-            /// <param name="mask"></param>
-            /// <returns></returns>
-            public int[] Run(Block block, int[] value, bool[] mask)
-            {
-                if (method == null)
-                {
-                    Console.WriteLine("Debug.... Not founded Check Method to call");
-                    return block.CheckOnDefault(value, mask);
-                }
-                return (int[])(this.method.Invoke(null, new object[2] { (object)value, (object)mask }));
-            }
-
-            /// <summary>
-            /// Возвращат информацию о всех методах в данной сборке
-            /// </summary>
-            /// <param name="assembly"></param>
-            /// <returns></returns>
-            private MethodInfo[][] GetAssembleyMethods(Assembly assembly)
-            {
-                Type[] type = assembly.GetTypes();
-                int length = type.Length;
-                MethodInfo[][] result = new MethodInfo[length][];
-                for (int i = 0; i < length; i++)
-                {
-                    result[i] = type[i].GetMethods();
-                }
-                return result;
-            }
-
-            /// <summary>
-            /// Загружает указанный метод из внешней сборки
-            /// Если загрузить не удалось, будет использоваться стандартный метод (уникальность чисел)
-            /// </summary>
-            /// <param name="filename"></param>
-            /// <param name="methodname"></param>
-            private void Load(string filename, string methodname)
-            {
-                try
-                {
-                    bool IsFounded = false;
-                    Assembly assembly = Assembly.LoadFrom(filename);
-                    MethodInfo[][] method = this.GetAssembleyMethods(assembly);
-                    for (int i = 0; (i < method.Length) && !IsFounded; i++)
-                    {
-                        for (int j = 0; (j < method[i].Length) && !IsFounded; j++)
-                        {
-                            if (method[i][j].Name == methodname)
-                            {
-                                IsFounded = true;
-                                this.method = method[i][j];
-                            }
-                        }
-                    }
-                    if (!IsFounded)
-                    {
-                        this.method = null;
-                    }
-                }
-                catch(Exception e)
-                {
-                    this.method = null;
-                }
-            }
-        
-        }
-
-        /// <summary>
         /// Содержит ссылки на ячейки, принадлежащие блоку
         /// </summary>
         public List<Number> Children
@@ -220,29 +28,24 @@ namespace LousySudoku
 
         /// <summary>
         /// Информация о внешнем методе провери правильности блока
+        /// Содержит информацию, откуда получил метод проверки блока
         /// </summary>
-        public ExternalCheck CheckMethod
+        public Adress TypeId
         {
             get;
             private set;
         }
 
         /// <summary>
-        /// Содержит информацию, откуда получил метод проверки блока
-        /// </summary>
-        private BlockType blockType;
-
-        /// <summary>
         /// Создаёт новый экземпляр объекта по ссылкам на ячейкам, принадлежащим блоку и информации о методе проверки блока
         /// </summary>
         /// <param name="children"></param>
         /// <param name="type"></param>
-        public Block(Number[] children, BlockType type)
+        public Block(Number[] children, Adress typeId)
         {
             this.Children = children.ToList();
             this.AddReference();
-            this.blockType = type;
-            this.CheckMethod = new ExternalCheck(type);
+            this.TypeId = typeId;
         }
 
         /// <summary>
@@ -251,7 +54,7 @@ namespace LousySudoku
         /// <param name="children"></param>
         /// <param name="BlockTypeParametrs"></param>
         public Block(Number[] children, string BlockTypeParametrs)
-        : this(children, new BlockType(BlockTypeParametrs))
+        : this(children, new Adress(new List<string> { }))
         { }
 
         /// <summary>
@@ -259,7 +62,7 @@ namespace LousySudoku
         /// </summary>
         /// <param name="children"></param>
         public Block(Number[] children)
-            : this(children, new BlockType(BlockType.ParametrDefault))
+            : this(children, new Adress(new List<string> { }))
         { }
 
         /// <summary>
@@ -366,7 +169,9 @@ namespace LousySudoku
         /// <returns></returns>
         private int[] Check(int[] value, bool[] mask)
         {
-            return this.CheckMethod.Run(this, value, mask);
+            return null;
+                //this.CheckMethod.Run(this, value, mask);
+                // NNBB; todo;
         }
 
         /// <summary>

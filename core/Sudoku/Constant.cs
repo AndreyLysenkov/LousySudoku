@@ -12,6 +12,23 @@ namespace LousySudoku
         public static class Xml
         {
 
+            public static class BlockType
+            {
+
+                public const string MethodAttribute = "method";
+
+                public const string MethodAttributeChecker
+                    = "checker";
+
+                public const string MethodAttributeGenerator
+                    = "generator";
+
+                public const string IdAttribute = "id";
+
+                public const string Tag = "type";
+
+            }
+
             public const string PositionTag = "position";
 
             public const string NumberTag = "number";
@@ -23,6 +40,15 @@ namespace LousySudoku
             public const string BlockNumberTag = "number";
 
             public const string SudokuTag = "sudoku";
+
+
+        }
+
+        public static class Exception
+        {
+
+            public const string BlockTypeNotSet
+                = "BlockType's generator or/and checker is not set";
 
         }
 
