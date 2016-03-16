@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Alist;
+using System.Xml.Linq;
+using Alist.Xml;
 
 namespace LousySudoku
 {
@@ -12,7 +13,7 @@ namespace LousySudoku
     /// can or cannot user change it's value
     /// </summary>
     public class Number
-        : IXmlize, ICloneable, IComparable<Number>,
+        : IXmlsaver, ICloneable, IComparable<Number>,
         IEquatable<Number>, IEquatable<Position>
     {
 
@@ -288,14 +289,21 @@ namespace LousySudoku
             }
         }
 
+        public XElement ElementXml
+        {
+            get;
+            private set;
+        }
+
         public string NameXml
         {
             get { return Constant.Xml.NumberTag; }
         }
 
-        public bool LoadXml(System.Xml.Linq.XElement element)
+        public bool LoadXml(XElement element)
         {
-            Alist.Xml.Tag tag = new Alist.Xml.Tag();
+            this.ElementXml = element;
+            Tag tag = new Tag();
             tag.LoadXml(element);
             this.Coordinate = new Position();
             this.Coordinate.LoadXml
@@ -310,11 +318,11 @@ namespace LousySudoku
             return true;
         }
 
-        public System.Xml.Linq.XElement UnloadXml()
+        public XElement UnloadXml()
         {
-            System.Xml.Linq.XElement position 
+            XElement position 
                 = this.Coordinate.UnloadXml();
-            Alist.Xml.Tag tag = new Alist.Xml.Tag(
+            Tag tag = new Tag(
                 name: this.NameXml,
                 value: this.Value.ToString(),
                 attribute: new Dictionary<string, string>
@@ -324,10 +332,11 @@ namespace LousySudoku
                         this.Type.ToString()
                     }
                 },
-                child: new List<System.Xml.Linq.XElement>
+                child: new List<XElement>
                 {
                     position
-                }
+                },
+                element: this.ElementXml
                 );
             return tag.UnloadXml();
         }

@@ -143,9 +143,9 @@ namespace LousySudoku
             Alist.Xml.Tag tag = new Alist.Xml.Tag();
             tag.LoadXml(element);
             if (this.Checker == null)
-                this.Checker = (IExternalMethod)(new ExternalMethod());
+                this.Checker = (new ExternalMethod(null));
             if (this.Generator == null)
-                this.Generator = (IExternalMethod)(new ExternalMethod());
+                this.Generator = (new ExternalMethod(null));
             List<XElement> method = tag.GetChildren(this.Checker.NameXml);
             method.AddRange(tag.GetChildren(this.Generator.NameXml));
             for (int i = 0; i < method.Count; i++)

@@ -120,7 +120,7 @@ namespace LousySudoku
         public static string PrintBlocks(Sudoku sudoku)
         {
             string result = "Printing.. ";
-            for (int i = 0; i < sudoku.Block.Length; i++)
+            for (int i = 0; i < sudoku.Block.Count; i++)
             {
                 result += "\n" + "#" + i.ToString() + " " + BlockToString(sudoku.Block[i]);
             }
@@ -467,7 +467,7 @@ namespace LousySudoku
         public static string SudokuCoordinates(Sudoku sudoku)
         {
             string result = "";
-            for(int i = 0; i < sudoku.Block.Length; i++)
+            for(int i = 0; i < sudoku.Block.Count; i++)
             {
                 result += String.Format("Block #{0} : {1} \n", i, BlockCoordinates(sudoku.Block[i]));
             }

@@ -29,6 +29,23 @@ namespace LousySudoku
 
             }
 
+            public static class Sudoku
+            {
+
+                public const string Tag = "sudoku";
+
+                public const string NumberSection = "numberpart";
+
+                public const string BlockSection = "blockpart";
+
+                public const string InfoSection = "infopart";
+
+                public const string MethodSection = "methodpart";
+
+                public const string MaxValue = "maxvalue";
+
+            }
+
             public const string PositionTag = "position";
 
             public const string NumberTag = "number";
@@ -38,8 +55,6 @@ namespace LousySudoku
             public const string BlockTag = "block";
 
             public const string BlockNumberTag = "number";
-
-            public const string SudokuTag = "sudoku";
 
 
         }

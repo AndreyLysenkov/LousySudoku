@@ -117,6 +117,28 @@ namespace LousySudoku
             return this.Coordinates[dimention];
         }
 
+        public static bool operator <= (Position obj1, Position obj2)
+        {
+            int length = Math.Max 
+                (obj1.coordinates.Count, obj2.coordinates.Count);
+            for (int i = 0; i < length; i++)
+            {
+                if (!(obj1.GetCoordinate(i) <= obj2.GetCoordinate(i)))
+                    return false;
+            }
+            return true;
+        }
+
+        public static bool operator >= (Position obj1, Position obj2)
+        {
+            return obj2 <= obj1;
+        }
+
+        public bool IsZero()
+        {
+            return this.coordinates.All(x => x == 0);
+        }
+
         public string NameXml
         {
             get { return Constant.Xml.PositionTag; }

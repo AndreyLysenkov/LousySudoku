@@ -52,8 +52,8 @@
     <Compile Include="Block.cs" />
     <Compile Include="BlockType.cs" />
     <Compile Include="Constant.cs" />
-    <Compile Include="ExternalMethod.cs" />
     <Compile Include="Generator.cs" />
+    <Compile Include="IXmlsaver.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Sudoku.cs" />
     <Compile Include="Debug.cs" />

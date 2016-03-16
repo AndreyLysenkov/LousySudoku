@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Xml.Linq;
 using Alist;
 using Alist.Tree;
 using Alist.Error;
+using Alist.Xml;
 
 namespace LousySudoku
 {
@@ -15,7 +17,7 @@ namespace LousySudoku
     /// Блок чисел - это массив чисел, подчиняющийся одному правилу (нет повторяющихся чисел)
     /// </summary>
     public class Block
-        : IXmlize, IActivatable, IEquatable<Block>
+        : IXmlsaver, IActivatable, IEquatable<Block>
     {
 
         /// <summary>
@@ -231,38 +233,44 @@ namespace LousySudoku
             return null;
         }
 
+        public XElement ElementXml
+        {
+            get;
+            private set;
+        }
+
         public string NameXml
         {
             get { return Constant.Xml.BlockTag; }
         }
 
-        public bool LoadXml(System.Xml.Linq.XElement element)
+        public bool LoadXml(XElement element)
         {
-            Alist.Xml.Tag tag = new Alist.Xml.Tag();
+            Tag tag = new Tag();
             tag.LoadXml(element);
-            Alist.Xml.Tag number = new Alist.Xml.Tag();
+            Tag number = new Tag();
             number.LoadXml(tag.GetChild(Constant.Xml.BlockNumberTag));
-            List<System.Xml.Linq.XElement> position 
+            List<XElement> position 
                 = number.GetChildren(Constant.Xml.PositionTag);
             // NNBB!; ToDo; number parsing;
             return true;
         }
 
-        public System.Xml.Linq.XElement UnloadXml()
+        public XElement UnloadXml()
         {
             List<Number> child = this.Children.ToList();
-            List<System.Xml.Linq.XElement> childXml 
-                = new List<System.Xml.Linq.XElement> { };
+            List<XElement> childXml 
+                = new List<XElement> { };
             foreach(Number cell in child)
             {
                 childXml.Add(cell.Coordinate.UnloadXml());
             }
-            System.Xml.Linq.XElement number 
-                = new System.Xml.Linq.XElement(Constant.Xml.BlockNumberTag);
-            Alist.Xml.Tag tag = new Alist.Xml.Tag(
+            XElement number 
+                = new XElement(Constant.Xml.BlockNumberTag);
+            Tag tag = new Tag(
                 name: this.NameXml,
                 value: null,
-                child: new List<System.Xml.Linq.XElement>
+                child: new List<XElement>
                 {
                     number
                 },

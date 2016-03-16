@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 using Alist;
 using Alist.Error;
+using Alist.Xml;
 
 namespace LousySudoku
 {
@@ -12,13 +14,13 @@ namespace LousySudoku
     /// Описывает поле судоку и взаимосвязи ячеек поля
     /// </summary>
     public class Sudoku
-        : IXmlize, IActivatable
+        : IXmlsaver, IActivatable
     {
 
         /// <summary>
         /// Содержит все числа судоку
         /// </summary>
-        public Number[] Number
+        public List<Number> Number
         {
             get;
             private set;
@@ -27,7 +29,7 @@ namespace LousySudoku
         /// <summary>
         /// Содержит все блоки судоку
         /// </summary>
-        public Block[] Block
+        public List<Block> Block
         {
             get;
             private set;
@@ -68,6 +70,8 @@ namespace LousySudoku
         /// </summary>
         public event SudokuEvent OnFilled;
 
+        public event SudokuEvent OnChanging;
+
         /// <summary>
         /// 
         /// </summary>
@@ -84,7 +88,7 @@ namespace LousySudoku
             if (size == null)
                 return;
             ///Заполнение всех чисел
-            this.Number = new Number[size.X * size.Y];
+            this.Number = new Number[size.X * size.Y].ToList();
             for (int i = 0; i < size.X; i++)
             {
                 for (int j = 0; j < size.Y; j++)
@@ -99,7 +103,7 @@ namespace LousySudoku
             }
 
             ///Заполнение всех блоков
-            this.Block = new Block[block.Length];
+            this.Block = new Block[block.Length].ToList();
             for (int i = 0; i < block.Length; i++)
             {
                 Number[] children = new Number[block[i].Length];
@@ -124,7 +128,7 @@ namespace LousySudoku
         /// <returns></returns>
         public Number GetNumber(Position position)
         {
-            for (int i = 0; i < this.Number.Length; i++)
+            for (int i = 0; i < this.Number.Count; i++)
             {
                 if (this.Number[i].Equals(position))
                 {
@@ -178,7 +182,7 @@ namespace LousySudoku
         /// <returns></returns>
         public bool IsRight()
         {
-            for (int i = 0; i < this.Number.Length; i++)
+            for (int i = 0; i < this.Number.Count; i++)
             {
                 if (!this.Number[i].IsRight())
                 {
@@ -194,7 +198,7 @@ namespace LousySudoku
         /// <returns></returns>
         public bool IsFilled()
         {
-            for (int i = 0; i < this.Number.Length; i++)
+            for (int i = 0; i < this.Number.Count; i++)
             {
                 if (this.Number[i].Type == LousySudoku.Number.NumberType.Empty)
                 {
@@ -224,7 +228,7 @@ namespace LousySudoku
         /// </summary>
         public void Clear()
         {
-            for (int i = 0; i < this.Number.Length; i++)
+            for (int i = 0; i < this.Number.Count; i++)
             {
                 this.Number[i].Clear();
             }
@@ -237,7 +241,8 @@ namespace LousySudoku
         public void MixNumbers()
         {
             Generator generator = new Generator(this);
-            this.Number = generator.MixItems(this.Number);
+            this.Number
+                = generator.MixItems(this.Number.ToArray()).ToList();
         }
 
         /// <summary>
@@ -247,7 +252,7 @@ namespace LousySudoku
         public void MixBlocks()
         {
             Generator generator = new Generator(this);
-            this.Block = generator.MixItems(this.Block);
+            this.Block = generator.MixItems(this.Block.ToArray()).ToList();
         }
 
         /// <summary>
@@ -353,50 +358,174 @@ namespace LousySudoku
             return null;
         }
 
-        public string NameXml
+        protected bool LoadXml_NumberSection(XElement element)
         {
-            get { return Constant.Xml.SudokuTag; }
-        }
-
-        public bool LoadXml(System.Xml.Linq.XElement element)
-        {
-            Alist.Xml.Tag tag = new Alist.Xml.Tag();
+            Tag tag = new Tag();
             tag.LoadXml(element);
-            List<System.Xml.Linq.XElement> block
-                = tag.GetChildren(Constant.Xml.BlockTag);
-            this.Block = new LousySudoku.Block[block.Count];
-            for (int i = 0; i < block.Count; i++)
+            List<XElement> child = tag.GetChildren(Constant.Xml.NumberTag);
+            for(int i = 0; i < child.Count; i++)
             {
-                this.Block[i] = new LousySudoku.Block(null);
-                this.Block[i].LoadXml(block[i]);
-            }
-            List<System.Xml.Linq.XElement> number
-                = tag.GetChildren(Constant.Xml.NumberTag);
-            this.Number = new Number[block.Count];
-            for (int i = 0; i < block.Count; i++)
-            {
-                this.Number[i] = new Number(0, null);
-                this.Number[i].LoadXml(number[i]);
+                Number newNumber = new Number(0, null);
+                newNumber.LoadXml(child[i]);
+                this.Number.Add(newNumber);
             }
             return true;
         }
 
-        public System.Xml.Linq.XElement UnloadXml()
+        protected bool LoadXml_BlockSection(XElement element)
         {
-            List<System.Xml.Linq.XElement> child
-                = new List<System.Xml.Linq.XElement> { };
-            foreach(Block block in this.Block)
+            Tag tag = new Tag();
+            tag.LoadXml(element);
+            List<XElement> child = tag.GetChildren(Constant.Xml.NumberTag);
+            for (int i = 0; i < child.Count; i++)
             {
-                child.Add(block.UnloadXml());
+                Block newBlock = new Block(null);
+                newBlock.LoadXml(child[i]);
+                this.Block.Add(newBlock);
             }
-            foreach(Number number in this.Number)
+            return true;
+        }
+
+        protected bool LoadXml_InfoSection(XElement element)
+        {
+            Tag tag = new Tag();
+            tag.LoadXml(element);
+            Tag maxValueTag = new Tag();
+            maxValueTag.LoadXml
+                (tag.GetChild(Constant.Xml.Sudoku.MaxValue));
+            this.MaxValue = Convert.ToInt32(maxValueTag.Value);
+            this.Size = new Position();
+            this.Size.LoadXml(tag.GetChild(this.Size.NameXml));
+            return true;
+        }
+
+        protected bool LoadXml_MethodSection(XElement element)
+        {
+            // NNBB; todo;
+            return true;
+        }
+
+        protected static XElement UnloadXml_Section
+            (List<IXmlize> list, string nameXml)
+        {
+            List<XElement> child = new List<XElement>();
+            for (int i = 0; i < list.Count; i++)
             {
-                child.Add(number.UnloadXml());
+                child.Add(list[i].UnloadXml());
             }
-            Alist.Xml.Tag tag = new Alist.Xml.Tag(
+            XElement result = new XElement
+                (nameXml);
+            result.Add(child);
+            return result;
+        }
+
+        protected XElement UnloadXml_NumberSection()
+        {
+            return Sudoku.UnloadXml_Section(
+                this.Number.ToList<IXmlize>(),
+                Constant.Xml.Sudoku.NumberSection
+                );
+        }
+
+        protected XElement UnloadXml_BlockSection()
+        {
+            return Sudoku.UnloadXml_Section(
+                this.Block.ToList<IXmlize>(),
+                Constant.Xml.Sudoku.BlockSection
+                );
+        }
+
+        protected XElement UnloadXml_InfoSection()
+        {
+            Tag maxValueXml = new Tag(
+                   name: Constant.Xml.Sudoku.MaxValue,
+                   value: this.MaxValue.ToString()
+                   );
+            Tag result = new Tag(
+                name: Constant.Xml.Sudoku.InfoSection,
+                value: null,
+                child: new List<XElement>
+                {
+                    maxValueXml.UnloadXml(),
+                    this.Size.UnloadXml()
+                }
+                );
+            return result.UnloadXml();
+        }
+
+        protected XElement UnloadXml_MethodSection()
+        {
+            // NNBB; todo;
+            //Tag checkerXml = new Tag(
+            //    //element: this.checker.UnloadXml(),
+            //    attribute: new Dictionary<string, string>
+            //    {
+            //        {
+            //            Constant.Xml.BlockType.MethodAttribute,
+            //            Constant.Xml.BlockType.MethodAttributeChecker
+            //        }
+            //    }
+            //    );
+            //Tag generatorXml = new Tag(
+            //    //element: this.generator.UnloadXml(),
+            //    attribute: new Dictionary<string, string>
+            //    {
+            //        {
+            //            Constant.Xml.BlockType.MethodAttribute,
+            //            Constant.Xml.BlockType.MethodAttributeGenerator
+            //        }
+            //    }
+            //    );
+            Tag result = new Tag(
+                name: Constant.Xml.Sudoku.MethodSection,
+                value: null,
+                child: new List<XElement>
+                {
+                    // checkerXml.UnloadXml(),
+                    // generatorXml.UnloadXml()
+                }
+                );
+            return result.UnloadXml();
+        }
+
+        public XElement ElementXml
+        {
+            get;
+            private set;
+        }
+
+        public string NameXml
+        {
+            get { return Constant.Xml.Sudoku.Tag; }
+        }
+
+        public bool LoadXml(XElement element)
+        {
+            Tag tag = new Tag();
+            tag.LoadXml(element);
+            this.LoadXml_InfoSection
+                (tag.GetChild(Constant.Xml.Sudoku.InfoSection));
+            this.LoadXml_MethodSection
+                (tag.GetChild(Constant.Xml.Sudoku.MethodSection));
+            this.LoadXml_NumberSection
+                (tag.GetChild(Constant.Xml.Sudoku.NumberSection));
+            this.LoadXml_BlockSection
+                (tag.GetChild(Constant.Xml.Sudoku.BlockSection));
+            return true;
+        }
+
+        public XElement UnloadXml()
+        {
+            Tag tag = new Tag(
                 name: this.NameXml,
                 value: null,
-                child: child
+                child: new List<XElement>
+                {
+                    this.UnloadXml_InfoSection(),
+                    this.UnloadXml_MethodSection(),
+                    this.UnloadXml_BlockSection(),
+                    this.UnloadXml_NumberSection()
+                }
                 );
             return tag.UnloadXml();
         }

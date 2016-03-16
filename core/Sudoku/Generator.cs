@@ -122,7 +122,7 @@ namespace LousySudoku
         private bool FillSudokuOneAttempt(Sudoku sudokuToFill)
         {
             this.AttemptWaisted();
-            for (int i = 0; i < sudokuToFill.Number.Length; i++)
+            for (int i = 0; i < sudokuToFill.Number.Count; i++)
             {
                 bool success = FillCell(sudokuToFill.Number[i], sudokuToFill.MaxValue);
                 if (!success)
@@ -153,7 +153,7 @@ namespace LousySudoku
         private bool FillSudokuOneAttemptBlock()
         {
             this.AttemptWaisted();
-            for (int i = 0; i < this.sudoku.Block.Length; i++)
+            for (int i = 0; i < this.sudoku.Block.Count; i++)
             {
                 bool success = FillSudokuBlock(this.sudoku.Block[i]);
                 if (!success)
