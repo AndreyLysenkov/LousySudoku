@@ -19,6 +19,8 @@ namespace LousySudoku
     public class Block
         : IXmlsaver, IActivatable, IEquatable<Block>
     {
+        
+        private List<Number> child;
 
         /// <summary>
         /// Luke, I am your Father.
@@ -33,17 +35,24 @@ namespace LousySudoku
         }
 
         /// <summary>
-        /// Содержит ссылки на ячейки, принадлежащие блоку
+        /// Cells, that belongs to block
         /// </summary>
-        public List<Number> Children
+        public List<Number> Child
         {
-            get;
-            private set;
+            get
+            {
+                return this.child.AsReadOnly().ToList();
+            }
+            private set
+            {
+                this.DeleteChild();
+                this.AddChildren(value);
+            }
         }
 
         /// <summary>
-        /// Информация о внешнем методе провери правильности блока
-        /// Содержит информацию, откуда получил метод проверки блока
+        /// Id of blockType.
+        /// Uses for correct xml parsing.
         /// </summary>
         public Adress TypeId
         {
@@ -51,186 +60,202 @@ namespace LousySudoku
             private set;
         }
 
-        private BlockType type;
+        private BlockType blockType;
 
-        /// <summary>
-        /// Создаёт новый экземпляр объекта по ссылкам на ячейкам, принадлежащим блоку и информации о методе проверки блока
-        /// </summary>
-        /// <param name="children"></param>
-        /// <param name="type"></param>
-        public Block(Number[] children, Adress typeId)
+        public Block(Sudoku sudoku, Adress typeId, List<Number> children)
         {
-            this.Children = children.ToList();
-            this.AddReference();
+            this.child = new List<Number> { };
+            this.Child = children;
             this.TypeId = typeId;
+            this.Father = sudoku;
+            this.blockType = null;
         }
 
-        /// <summary>
-        /// Создаёт новый экземпляр объекта по ссылкам на ячейкам, принадлежащим блоку и параметре информации о методе проверки блока
-        /// </summary>
-        /// <param name="children"></param>
-        /// <param name="BlockTypeParametrs"></param>
-        public Block(Number[] children, string BlockTypeParametrs)
-        : this(children, new Adress(new List<string> { }))
-        { }
+        public Block(Sudoku sudoku, Adress typeId)
+            : this(sudoku, typeId, null)
+        {   }
 
-        /// <summary>
-        /// Создает блок  заданными "детьми" - ячейками, принадлежащие данному блоку
-        /// </summary>
-        /// <param name="children"></param>
-        public Block(Number[] children)
-            : this(children, new Adress(new List<string> { }))
-        { }
+        public Block(Sudoku sudoku)
+            : this(sudoku, new Adress(new List<string> { }))
+        {   }
 
-        /// <summary>
-        /// Вощвращает правильность заполнености блока по методу Check()
-        /// </summary>
-        /// <returns></returns>
-        public bool IsRight()
+        private void GetValuesMask(ref int[] value, ref bool[] mask)
         {
-            return (this.Check().Length == 0);
-        }
-
-        /// <summary>
-        /// Добавляет всем числам блока ссылку на самого себя
-        /// </summary>
-        public void AddReference()
-        {
-            if (this.Children == null)
-                return;
-
-            for (int i = 0; i < this.Children.Count; i++)
+            value = new int[this.child.Count];
+            mask = new bool[this.child.Count];
+            for (int i = 0; i < this.child.Count; i++)
             {
-                this.Children[i].AddParent(this);
+                mask[i] = this.child[i].HasValue;
+                value[i] = this.child[i].Value;
             }
         }
-
+        
         /// <summary>
-        /// Возвращает все числа, которые не соответствуют правилу блока
-        /// </summary>
-        /// <returns></returns>
-        public Number[] Check()
-        {
-            int[] result_indexes = this.Check(this.GetValues(), this.GetValuesMask());
-            Number[] result = new Number[result_indexes.Length];
-
-            for (int i = 0; i < result_indexes.Length; i++)
-            {
-                result[i] = this.Children[result_indexes[i]];
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Возвращает все числа блока ввиде массива чисел
-        /// </summary>
-        /// <returns></returns>
-        private int[] GetValues()
-        {
-            int[] result = new int[this.Children.Count];
-            for (int i = 0; i < this.Children.Count; i++)
-            {
-                result[i] = this.Children[i].Value;
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Возвращает boolean массив, указывающий содержит ли соответствующая ячейка значение в свойстве Children
-        /// </summary>
-        /// <returns></returns>
-        private bool[] GetValuesMask()
-        {
-            bool[] result = new bool[this.Children.Count];
-            for (int i = 0; i < this.Children.Count; i++)
-            {
-                result[i] = this.Children[i].HasValue;
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Возвращает массив позиций чисел, принадлежащих данному блоку
-        /// </summary>
-        /// <returns></returns>
-        public Position[] GetPositions()
-        {
-            Position[] result = new Position[this.Children.Count];
-            for (int i = 0; i < result.Length; i++)
-            {
-                result[i] = this.Children[i].Coordinate;
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Возвращает массив ячеек по массиву позиций
-        /// </summary>
-        /// <param name="array"></param>
-        /// <returns></returns>
-        private static Number[] GetNumbers(Position[] array)
-        {
-            Number[] result = new Number[array.Length];
-            for (int i = 0; i < array.Length; i++)
-            {
-                result[i] = new Number(Number.NumberType.Empty, array[i]);
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Проверка правильности блока
+        /// Calls check method of block.
+        /// BlockType contains that method
         /// </summary>
         /// <param name="value"></param>
         /// <param name="mask"></param>
         /// <returns></returns>
         private int[] Check(int[] value, bool[] mask)
         {
-            return null;
-                //this.CheckMethod.Run(this, value, mask);
-                // NNBB; todo;
+            return this.blockType.Checker(this, value, mask);
         }
 
         /// <summary>
-        /// Стандартная проверка блока на правильность, активирующаяся, когда внешний метод не удалось загрузить
+        /// Return wrong numbers of block
         /// </summary>
-        /// <param name="value"></param>
-        /// <param name="mask"></param>
         /// <returns></returns>
-        private int[] CheckOnDefault(int[] value, bool[] mask)
+        public List<Number> Check()
         {
-            int[] result = new int[0];
-            for (int i = 0; i < value.Length; i++)
+            int[] value = new int[0] { };
+            bool[] mask = new bool[0] { };
+            this.GetValuesMask(ref value, ref mask);
+            int[] result_indexes = this.Check(value, mask);
+
+            List<Number> result = new List<Number> { };
+            for (int i = 0; i < result_indexes.Length; i++)
             {
-                for (int j = i + 1; (j < value.Length) && (mask[i]); j++)
-                {
-                    if ((mask[j]) && (value[i] == value[j]))
-                    {
-                        Array.Resize(ref result, result.Length + 2);
-                        result[result.Length - 1] = i;
-                        result[result.Length - 2] = j;
-                    }
-                }
+                result[i] = this.child[result_indexes[i]];
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Delete all links to child cells
+        /// </summary>
+        private void DeleteChild()
+        {
+            this.child = new List<Number> { };
+        }
+
+        /// <summary>
+        /// Indicates if block has number with specified coordinate
+        /// </summary>
+        /// <param name="coordinate"></param>
+        /// <returns></returns>
+        public bool HasChild(Position coordinate)
+        {
+            if (coordinate == null)
+                return false;
+            foreach (Number number in this.child)
+            {
+                if (number.Coordinate == coordinate)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Indicates if block has specified number
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        public bool HasChild(Number number)
+        {
+            if (number == null)
+                return false;
+            return this.HasChild(number.Coordinate);
+        }
+
+        /// <summary>
+        /// Add specified number as block child.
+        /// Add itself as parent to number
+        /// </summary>
+        /// <param name="child"></param>
+        public void AddChild(Number child)
+        {
+            if (child == null)
+                return;
+            if (!this.HasChild(child))
+            {
+                this.child.Add(child);
+                child.AddParent(this);
+            }
+        }
+
+        public void AddChildren(IEnumerable<Number> child)
+        {
+            if (child == null)
+                return;
+            foreach (Number number in child)
+            {
+                this.AddChild(number);
+            }
+        }
+
+        /// <summary>
+        /// Check if all numbers set right in block
+        /// </summary>
+        /// <returns></returns>
+        public bool IsRight()
+        {
+            return (this.Check().Count == 0);
+        }
+
+        /// <summary>
+        /// Return coordinates of all children cells
+        /// </summary>
+        /// <returns></returns>
+        public List<Position> GetCoordinates()
+        {
+            List<Position> result = new List<Position> { };
+            foreach(Number number in this.child)
+            {
+                result.Add(number.Coordinate);
             }
             return result;
         }
 
         public bool IsInitialized
         {
-            // NNBB; todo;
-            get { return false; }
+            get;
+            private set;
         }
 
         public MultyException Initialize()
         {
-            // NNBB; todo;
-            return null;
+            MultyException error = new MultyException();
+            if (!this.IsInitialized)
+            {
+                if (this.Father == null)
+                {
+                    error += Constant.Exception.BlockSudokuNotSet;
+                }
+                else
+                {
+                    try
+                    {
+                        this.blockType
+                            = this.Father.GetBlockType(this.TypeId);
+                        this.IsInitialized = true;
+                    }
+                    catch (ApplicationException exception)
+                    {
+                        error += exception;
+                        this.IsInitialized = false;
+                    }
+                }
+            }
+            else
+            {
+                error += Alist.Constant.Exception.RepeatInitialization;
+            }
+            return error;
         }
 
         public MultyException Finilize()
         {
-            // NNBB; todo;
-            return null;
+            MultyException error = new MultyException();
+            if (this.IsInitialized)
+            {
+                this.blockType = null;
+            }
+            else
+            {
+                error += Alist.Constant.Exception.RepeatFinalization;
+            }
+            return error;
         }
 
         public XElement ElementXml
@@ -248,32 +273,31 @@ namespace LousySudoku
         {
             Tag tag = new Tag();
             tag.LoadXml(element);
-            Tag number = new Tag();
-            number.LoadXml(tag.GetChild(Constant.Xml.BlockNumberTag));
             List<XElement> position 
-                = number.GetChildren(Constant.Xml.PositionTag);
-            // NNBB!; ToDo; number parsing;
+                = tag.GetChildren(Constant.Xml.PositionTag);
+            foreach(XElement elem in position)
+            {
+                Position coordinate = new Position();
+                coordinate.LoadXml(elem);
+                Number newChild = this.Father.GetNumber(coordinate);
+                this.AddChild(newChild);
+            }
             return true;
         }
 
         public XElement UnloadXml()
         {
-            List<Number> child = this.Children.ToList();
+            List<Number> child = this.child;
             List<XElement> childXml 
                 = new List<XElement> { };
             foreach(Number cell in child)
             {
                 childXml.Add(cell.Coordinate.UnloadXml());
             }
-            XElement number 
-                = new XElement(Constant.Xml.BlockNumberTag);
             Tag tag = new Tag(
                 name: this.NameXml,
                 value: null,
-                child: new List<XElement>
-                {
-                    number
-                },
+                child: childXml,
                 attribute: null
                 );
             return tag.UnloadXml();
@@ -281,8 +305,16 @@ namespace LousySudoku
 
         public bool Equals(Block other)
         {
-            // NNBB; todo;
-            return false;
+            if (other == null)
+                return false;
+            if (other.TypeId != this.TypeId)
+                return false;
+            foreach (Number number in this.child)
+            {
+                if (!other.Child.Contains(number))
+                    return false;
+            }
+            return true;
         }
 
     }

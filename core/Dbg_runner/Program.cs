@@ -26,7 +26,7 @@ namespace Dbg_runner
             sudoku.OnCompleted += DoOnCompleted;
             do
             {
-                Debug.ShowSudoku(sudoku, sudoku.Size.X);
+                Debug.ShowSudoku(sudoku, 0);
                 Console.Write("Enter position x, y, value: ");
                 string[] values = (Console.ReadLine()).Split(new char[] {' '}, 3);
                 if (values[0] == "AL")

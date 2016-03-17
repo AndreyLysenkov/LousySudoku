@@ -9,6 +9,37 @@ namespace LousySudoku
 {
 
     /// <summary>
+    /// Describes status of cell. Status can't be change 
+    /// (except Empty may be changed on Modify, and other way round)
+    /// </summary>
+    public enum NumberType
+    {
+        /// <summary>
+        /// No number can be stored here.
+        /// i.e. don't have value, can't be changed by user
+        /// </summary>
+        Unexists,
+
+        /// <summary>
+        /// No number yet is storing here.
+        /// i.e. don't have value, can be changed by user
+        /// </summary>
+        Empty,
+
+        /// <summary>
+        /// Storing number, seted by user.
+        /// i.e. have value, can be changed by user
+        /// </summary>
+        Modify,
+
+        /// <summary>
+        /// Storing number, seted by program
+        /// i.e. have value, can't be changed by user
+        /// </summary>
+        Constant
+    }
+    
+    /// <summary>
     /// Definds number (cell) of sudoku it's position, value, 
     /// can or cannot user change it's value
     /// </summary>
@@ -18,48 +49,11 @@ namespace LousySudoku
     {
 
         /// <summary>
-        /// Describes status of cell. Status can't be change 
-        /// (except Empty may be changed on Modify, and other way round)
-        /// </summary>
-        public enum NumberType
-        {
-            /// <summary>
-            /// No number can be stored here.
-            /// i.e. don't have value, can't be changed by user
-            /// </summary>
-            Unexists,
-
-            /// <summary>
-            /// No number yet is storing here.
-            /// i.e. don't have value, can be changed by user
-            /// </summary>
-            Empty,
-
-            /// <summary>
-            /// Storing number, seted by user.
-            /// i.e. have value, can be changed by user
-            /// </summary>
-            Modify,
-
-            /// <summary>
-            /// Storing number, seted by program
-            /// i.e. have value, can't be changed by user
-            /// </summary>
-            Constant
-        }
-
-        /// <summary>
         /// Describes blocks, wich one current cell belongs to.
         /// Every block should add here link to itself 
         /// throught this.AddParent(Block)
         /// </summary>
         private List<Block> parent;
-
-        /// <summary>
-        /// Number of current cell. It's relevant 
-        /// if this.Type set as Modify or Constant
-        /// </summary>
-        private int value;
 
         /// <summary>
         /// Current cell status. Can't be changed.
@@ -71,6 +65,8 @@ namespace LousySudoku
             private set;
         }
 
+        private int value;
+
         /// <summary>
         /// Returns value storing in current cell. It's relevant 
         /// if this.Type set as Modify or Constant
@@ -79,7 +75,15 @@ namespace LousySudoku
         {
             get
             {
-                return this.value;
+                if (this.HasValue)
+                    return this.value;
+                else
+                    return 0;
+            }
+            private set
+            {
+                if (this.HasValue)
+                    this.value = value;
             }
         }
 
@@ -104,10 +108,6 @@ namespace LousySudoku
             {
                 switch (this.Type)
                 {
-                    case NumberType.Unexists:
-                    case NumberType.Empty:
-                        return false;
-
                     case NumberType.Modify:
                     case NumberType.Constant:
                         return true;
@@ -122,16 +122,12 @@ namespace LousySudoku
         /// Indicates if user may modify cell's value.
         /// User may if cell's type is Empty or Modify.
         /// </summary>
-        public bool IsModified
+        public bool CanModify
         {
             get
             {
                 switch (this.Type)
                 {
-                    case NumberType.Unexists:
-                    case NumberType.Constant:
-                        return false;
-
                     case NumberType.Modify:
                     case NumberType.Empty:
                         return true;
@@ -151,7 +147,7 @@ namespace LousySudoku
         {
             get
             {
-                return !(this.Type == NumberType.Unexists);
+                return (this.Type != NumberType.Unexists);
             }
         }
 
@@ -161,79 +157,48 @@ namespace LousySudoku
         /// <param name="type"></param>
         /// <param name="coordinate"></param>
         /// <param name="value"></param>
-        public Number(NumberType type, Position coordinate, int value = 0)
+        public Number(
+            NumberType type, 
+            Position coordinate)
         {
-            this.value = value;
+            this.value = 0;
             this.Type = type;
             this.Coordinate = coordinate;
             this.parent = new List<Block> { };
-            this.UpdateValueByType();
-            this.UpdateTypeByValue();
         }
 
+        public Number()
+            : this(NumberType.Unexists, null)
+        {   }
+
         /// <summary>
-        /// If type indicates, that record have no value, sets value to 0.
-        /// Recomended to use only in constructor.
+        /// Return false if at least one of the parent blocks are wrong
         /// </summary>
-        protected void UpdateValueByType()
+        /// <returns></returns>
+        public bool IsBlockRight()
         {
-            switch(this.Type)
+            foreach (Block block in this.parent)
             {
-                case NumberType.Empty:
-                case NumberType.Unexists:
-                    {
-                        this.value = 0;
-                        break;
-                    }
+                if (!block.IsRight())
+                    return false;
             }
+            return true;
         }
 
         /// <summary>
-        /// Sets type of cell according value:
-        /// if type says cell has value, but value is 0,
-        /// then change it's type on type with no value.
-        /// And other way round.
-        /// Recomended to use only in constructor.
-        /// </summary>
-        protected void UpdateTypeByValue()
-        {
-            switch (this.value)
-            {
-                case 0:
-                    {
-                        if (this.IsModified)
-                            this.Type = NumberType.Empty;
-                        else
-                            this.Type = NumberType.Unexists;
-                        break;
-                    }
-                default:
-                    {
-                        if (this.IsModified)
-                            this.Type = NumberType.Modify;
-                        else
-                            this.Type = NumberType.Constant;
-                        break;
-                    }
-            }
-        }
-
-        /// <summary>
-        /// Calculates if cell's value is right.
-        /// i.e. goes throught all blocks and check if they are right.
+        /// Return false if at least one of parent block 
+        /// consider current cell as wrong
         /// </summary>
         /// <returns></returns>
         public bool IsRight()
         {
-            for (int i = 0; i < parent.Count; i++ )
+            foreach (Block block in this.parent)
             {
-                Number[] wrongNumber = parent[i].Check();
-                for (int j = 0; j < wrongNumber.Length; j++)
+                List<Number> wrong = block.Check();
+                foreach (Number number in wrong)
                 {
-                    if (this.Equals(wrongNumber[j]))
-                    {
+                    if (number == this)
                         return false;
-                    }
                 }
             }
             return true;
@@ -252,7 +217,7 @@ namespace LousySudoku
             {
                 return this.Clear();
             }
-            if (IsModified)
+            if (CanModify)
             {
                 this.value = new_value;
                 return true;
@@ -268,7 +233,7 @@ namespace LousySudoku
         /// <returns></returns>
         public bool Clear()
         {
-            if (this.IsModified)
+            if (this.CanModify)
             {
                 this.value = 0;
                 return true;
@@ -315,6 +280,23 @@ namespace LousySudoku
             NumberType numberType = NumberType.Unexists;
             bool success = NumberType.TryParse(type, out numberType);
             this.Type = success ? numberType : NumberType.Unexists;
+            if (this.HasValue)
+            {
+                XElement number = tag.GetChild(Constant.Xml.NumberValueTag);
+                bool successed = int.TryParse(number.Value, out this.value);
+                if (!successed)
+                {
+                    this.value = 0;
+                    if (this.CanModify)
+                    {
+                        this.Type = NumberType.Empty;
+                    }
+                    else
+                    {
+                        this.Type = NumberType.Unexists;
+                    }
+                }
+            }
             return true;
         }
 
@@ -322,9 +304,16 @@ namespace LousySudoku
         {
             XElement position 
                 = this.Coordinate.UnloadXml();
+            XElement value
+                = new XElement(Constant.Xml.NumberValueTag);
+            value.Value = this.value.ToString();
+            List<XElement> child = new List<XElement> { };
+            if (this.HasValue)
+                child.Add(value);
+            child.Add(position);
             Tag tag = new Tag(
                 name: this.NameXml,
-                value: this.Value.ToString(),
+                value: null,
                 attribute: new Dictionary<string, string>
                 {
                     {
@@ -332,10 +321,7 @@ namespace LousySudoku
                         this.Type.ToString()
                     }
                 },
-                child: new List<XElement>
-                {
-                    position
-                },
+                child: child,
                 element: this.ElementXml
                 );
             return tag.UnloadXml();
@@ -343,10 +329,12 @@ namespace LousySudoku
 
         public object Clone()
         {
-            return new Number(
+            Number clone = new Number(
                 type: this.Type, 
-                coordinate: (Position)this.Coordinate.Clone(), 
-                value: this.Value);
+                coordinate: (Position)this.Coordinate.Clone());
+            if (this.HasValue)
+                clone.Value = this.Value;
+            return clone;
         }
 
         public bool Equals(Number other)

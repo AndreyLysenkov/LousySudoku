@@ -135,12 +135,12 @@ namespace LousySudoku
 
         private bool FillSudokuBlock(Block block)
         {
-            for (int i = 0; i < block.Children.Count; i++)
+            for (int i = 0; i < block.Child.Count; i++)
             {
-                Number child = block.Children[i];
+                Number child = block.Child[i];
                 if (!child.HasValue)
                 {
-                    bool success = FillCell(block.Children[i], sudoku.MaxValue);
+                    bool success = FillCell(block.Child[i], sudoku.MaxValue);
                     if (!success)
                     {
                         return false;
@@ -240,7 +240,8 @@ namespace LousySudoku
         /// <returns></returns>
         public int GetAttempts(int attemptsNumber = AttemptsNumberDefault)
         {
-            return sudoku.Size.X * sudoku.Size.Y * attemptsNumber;
+            return attemptsNumber;
+            //sudoku.Size.X * sudoku.Size.Y *
         }
 
         /// <summary>

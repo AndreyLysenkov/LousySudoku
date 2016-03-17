@@ -11,14 +11,15 @@ namespace LousySudoku
 {
 
     /// <summary>
-    /// Описывает поле судоку и взаимосвязи ячеек поля
+    /// Describes Sudoku. 
+    /// Can be used for template for sudoku generation
     /// </summary>
     public class Sudoku
         : IXmlsaver, IActivatable
     {
 
         /// <summary>
-        /// Содержит все числа судоку
+        /// Contains all sudoku cells
         /// </summary>
         public List<Number> Number
         {
@@ -27,7 +28,7 @@ namespace LousySudoku
         }
 
         /// <summary>
-        /// Содержит все блоки судоку
+        /// Contains all sudoku blocks
         /// </summary>
         public List<Block> Block
         {
@@ -36,18 +37,19 @@ namespace LousySudoku
         }
 
         /// <summary>
-        /// Размер судоку
+        /// Max value of any cell in sudoku.
+        /// Any cell of sudoku must have value in range [1..MaxValue]
         /// </summary>
-        public Position Size
+        public int MaxValue
         {
             get;
             private set;
         }
 
         /// <summary>
-        /// Наибольшее значение, которое может быть записано в ячейке
+        /// Types of block
         /// </summary>
-        public int MaxValue
+        public List<BlockType> BlockType
         {
             get;
             private set;
@@ -80,7 +82,7 @@ namespace LousySudoku
         /// <param name="mask"></param>
         /// <param name="block"></param>
         /// <param name="maxValue"></param>
-        public Sudoku(Position size, int[,] value, Number.NumberType[,] mask, Position[][] block, int maxValue)
+        public Sudoku(Position size, int[,] value, NumberType[,] mask, Position[][] block, int maxValue)
         {
             this.OnFilled = EmptySudokuEventHandler;
             this.OnCompleted = EmptySudokuEventHandler;
@@ -96,8 +98,7 @@ namespace LousySudoku
                     this.Number[i * size.Y + j] =
                         new Number(
                             mask[i, j],
-                            new Position(i, j),
-                            value[i, j]
+                            new Position(i, j)
                         );
                 }
             }
@@ -111,13 +112,13 @@ namespace LousySudoku
                 {
                     children[j] = this.GetNumber(block[i][j]);
                 }
-                this.Block[i] = new Block(children);
+                this.Block[i] = new Block(this);
                 ///this.Block[i].AddReference();
             }
 
             this.MaxValue = maxValue;
 
-            this.Size = size;
+            //this.Size = size;
         }
 
         /// <summary>
@@ -135,7 +136,7 @@ namespace LousySudoku
                     return this.Number[i];
                 }
             }
-            return new Number(LousySudoku.Number.NumberType.Unexists, position);
+            return new Number(NumberType.Unexists, position);
         }
 
         /// <summary>
@@ -161,19 +162,19 @@ namespace LousySudoku
         /// <param name="mask"></param>
         public void GetGrid(ref int[,] numbers, ref int[,] mask, ref bool[,] rightness)
         {
-            numbers = new int[this.Size.X, this.Size.Y];
-            mask = new int[this.Size.X, this.Size.Y];
-            rightness = new bool[this.Size.X, this.Size.Y];
-            for (int i = 0; i < Size.X; i++)
-            {
-                for (int j = 0; j < Size.Y; j++)
-                {
-                    Number number = this.GetNumber(new Position(i, j));
-                    numbers[i, j] = number.Value;
-                    mask[i, j] = (int)number.Type;
-                    rightness[i, j] = number.IsRight();
-                }
-            }
+            //numbers = new int[this.Size.X, this.Size.Y];
+            //mask = new int[this.Size.X, this.Size.Y];
+            //rightness = new bool[this.Size.X, this.Size.Y];
+            //for (int i = 0; i < Size.X; i++)
+            //{
+            //    for (int j = 0; j < Size.Y; j++)
+            //    {
+            //        Number number = this.GetNumber(new Position(i, j));
+            //        numbers[i, j] = number.Value;
+            //        mask[i, j] = (int)number.Type;
+            //        rightness[i, j] = number.IsRight();
+            //    }
+            //}
         }
 
         /// <summary>
@@ -200,7 +201,7 @@ namespace LousySudoku
         {
             for (int i = 0; i < this.Number.Count; i++)
             {
-                if (this.Number[i].Type == LousySudoku.Number.NumberType.Empty)
+                if (this.Number[i].Type == NumberType.Empty)
                 {
                     return false;
                 }
@@ -221,6 +222,12 @@ namespace LousySudoku
                 OnCompleted(this);
             }
             return result;
+        }
+
+        public BlockType GetBlockType(Alist.Tree.Adress Id)
+        {
+            // NNBB; todo;
+            return null;
         }
 
         /// <summary>
@@ -327,14 +334,14 @@ namespace LousySudoku
         /// <param name="number"></param>
         /// <param name="mask"></param>
         /// <returns></returns>
-        private static Number[] GetNumbers(Position size, int[,] number, Number.NumberType[,] mask)
+        private static Number[] GetNumbers(Position size, int[,] number, NumberType[,] mask)
         {
             Number[] result = new Number[size.X * size.Y];
             for (int i = 0; i < size.X; i++)
             {
                 for (int j = 0; j < size.Y; j++)
                 {
-                    result[i * size.X + j] = new Number(mask[i, j], new Position(i, j), number[i, j]);
+                    result[i * size.X + j] = new Number(mask[i, j], new Position(i, j));
                 }
             }
             return result;
@@ -394,8 +401,6 @@ namespace LousySudoku
             maxValueTag.LoadXml
                 (tag.GetChild(Constant.Xml.Sudoku.MaxValue));
             this.MaxValue = Convert.ToInt32(maxValueTag.Value);
-            this.Size = new Position();
-            this.Size.LoadXml(tag.GetChild(this.Size.NameXml));
             return true;
         }
 
@@ -446,8 +451,7 @@ namespace LousySudoku
                 value: null,
                 child: new List<XElement>
                 {
-                    maxValueXml.UnloadXml(),
-                    this.Size.UnloadXml()
+                    maxValueXml.UnloadXml()
                 }
                 );
             return result.UnloadXml();

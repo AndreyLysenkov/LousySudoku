@@ -58,7 +58,7 @@ namespace LousySudoku
         /// <param name="block">каждый массив содержит массив на ссылки позиций тех чисел, которые принадлежат данному блоку</param>
         /// <param name="maxValue">максимальное значение</param>
         /// <returns></returns>
-        public static Sudoku CreateSudoku(Position size, int[,] value, Number.NumberType[,] mask, Position[][] block, int maxValue)
+        public static Sudoku CreateSudoku(Position size, int[,] value, NumberType[,] mask, Position[][] block, int maxValue)
         {
             return new Sudoku(size, value, mask, block, maxValue);
         }
@@ -108,19 +108,19 @@ namespace LousySudoku
         /// <param name="rightness">матрица правильности чисел</param>
         public static void GetGrid(Sudoku sudoku, ref int[,] number, ref int[,] mask, ref bool[,] rightness)
         {
-            number = new int[sudoku.Size.X, sudoku.Size.Y];
-            mask = new int[sudoku.Size.X, sudoku.Size.Y];
-            rightness = new bool[sudoku.Size.X, sudoku.Size.Y];
-            for (int i = 0; i < sudoku.Size.X; i++)
-            {
-                for (int j = 0; j < sudoku.Size.Y; j++)
-                {
-                    Number theNumber = sudoku.GetNumber(new Position(i, j));
-                    number[i, j] = theNumber.Value;
-                    mask[i, j] = (int)theNumber.Type;
-                    rightness[i, j] = theNumber.IsRight();
-                }
-            }
+            //number = new int[sudoku.Size.X, sudoku.Size.Y];
+            //mask = new int[sudoku.Size.X, sudoku.Size.Y];
+            //rightness = new bool[sudoku.Size.X, sudoku.Size.Y];
+            //for (int i = 0; i < sudoku.Size.X; i++)
+            //{
+            //    for (int j = 0; j < sudoku.Size.Y; j++)
+            //    {
+            //        Number theNumber = sudoku.GetNumber(new Position(i, j));
+            //        number[i, j] = theNumber.Value;
+            //        mask[i, j] = (int)theNumber.Type;
+            //        rightness[i, j] = theNumber.IsRight();
+            //    }
+            //}
         }
 
         public static class SudokuBuilder
@@ -214,7 +214,7 @@ namespace LousySudoku
                     );
             }
 
-            private static Sudoku GetStandart(int[,] numbs, Number.NumberType[,] mask, int sudoku_size, int block_size)
+            private static Sudoku GetStandart(int[,] numbs, NumberType[,] mask, int sudoku_size, int block_size)
             {
                 Position[][] block = GetAllStandartBlock(new Position(sudoku_size, sudoku_size), new Position(block_size, block_size));
                 return new Sudoku(new Position(sudoku_size, sudoku_size), numbs, mask, block, sudoku_size);
@@ -254,12 +254,12 @@ namespace LousySudoku
                     }
                 }
 
-                Number.NumberType[,] mask = new Number.NumberType[9, 9];
+                NumberType[,] mask = new NumberType[9, 9];
                 for (int i = 0; i < 9; i++)
                 {
                     for (int j = 0; j < 9; j++)
                     {
-                        mask[i, j] = (numbs[i, j] == 0) ? Number.NumberType.Modify : Number.NumberType.Constant;
+                        mask[i, j] = (numbs[i, j] == 0) ? NumberType.Modify : NumberType.Constant;
                     }
                 }
 
@@ -303,12 +303,12 @@ namespace LousySudoku
                 }
                 ////////////////
 
-                Number.NumberType[,] mask = new Number.NumberType[16, 16];
+                NumberType[,] mask = new NumberType[16, 16];
                 for (int i = 0; i < 16; i++)
                 {
                     for (int j = 0; j < 16; j++)
                     {
-                        mask[i, j] = Number.NumberType.Modify;
+                        mask[i, j] = NumberType.Modify;
                     }
                 }
 

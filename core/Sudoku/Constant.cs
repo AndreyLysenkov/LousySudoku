@@ -9,6 +9,8 @@ namespace LousySudoku
     public static class Constant
     {
 
+        public static Alist.Core Core;
+
         public static class Xml
         {
 
@@ -50,21 +52,24 @@ namespace LousySudoku
 
             public const string NumberTag = "number";
 
+            public const string NumberValueTag = "value";
+
             public const string NumberTypeAttribute = "type";
 
             public const string BlockTag = "block";
 
             public const string BlockNumberTag = "number";
 
-
         }
 
         public static class Exception
         {
 
-            public const string BlockTypeNotSet
-                = "BlockType's generator or/and checker is not set";
+            public const string BlockTypeCheckerNotSet
+                = "BlockType's checker is not set. Set as default";
 
+            public const string BlockSudokuNotSet
+                = "There aren't any link to sudoku in block";
         }
 
     }
@@ -113,6 +118,32 @@ namespace LousySudoku
             {
                 list2.Add(value);
             }
+        }
+
+        public static int[] CheckMethod_Standart
+            (Block block, int[] value, bool[] mask)
+        {
+            int[] result = new int[0];
+            for (int i = 0; i < value.Length; i++)
+            {
+                for (int j = i + 1; (j < value.Length) && (mask[i]); j++)
+                {
+                    if ((mask[j]) && (value[i] == value[j]))
+                    {
+                        Array.Resize(ref result, result.Length + 2);
+                        result[result.Length - 1] = i;
+                        result[result.Length - 2] = j;
+                    }
+                }
+            }
+            return result;
+        }
+
+        public static bool GenerateMethod_Standart
+            (Block block, int[] value, bool[] mask)
+        {
+            // NNBB; todo;
+            return true;
         }
 
     }

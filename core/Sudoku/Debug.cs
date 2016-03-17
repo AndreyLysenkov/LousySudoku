@@ -64,12 +64,12 @@ namespace LousySudoku
             }
             ////////////////
             
-            Number.NumberType[,] mask = new Number.NumberType[9, 9];
+            NumberType[,] mask = new NumberType[9, 9];
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    mask[i, j] = Number.NumberType.Modify;
+                    mask[i, j] = NumberType.Modify;
                 }
             }
 
@@ -110,9 +110,9 @@ namespace LousySudoku
         public static string BlockToString(Block block)
         {
             string result = "BLOCK: ";
-            for (int i = 0; i < block.Children.Count; i++)
+            for (int i = 0; i < block.Child.Count; i++)
             {
-                result += " ++ " + NumberToString(block.Children[i]);
+                result += " ++ " + NumberToString(block.Child[i]);
             }
             return result;
         }
@@ -182,12 +182,12 @@ namespace LousySudoku
             }
             ////////////////
 
-            Number.NumberType[,] mask = new Number.NumberType[9, 9];
+            NumberType[,] mask = new NumberType[9, 9];
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    mask[i, j] = Number.NumberType.Empty;
+                    mask[i, j] = NumberType.Empty;
                 }
             }
 
@@ -249,12 +249,12 @@ namespace LousySudoku
             }
             ////////////////
 
-            Number.NumberType[,] mask = new Number.NumberType[16, 16];
+            NumberType[,] mask = new NumberType[16, 16];
             for (int i = 0; i < 16; i++)
             {
                 for (int j = 0; j < 16; j++)
                 {
-                    mask[i, j] = Number.NumberType.Empty;
+                    mask[i, j] = NumberType.Empty;
                 }
             }
 
@@ -316,12 +316,12 @@ namespace LousySudoku
             }
             ////////////////
 
-            Number.NumberType[,] mask = new Number.NumberType[12, 12];
+            NumberType[,] mask = new NumberType[12, 12];
             for (int i = 0; i < 12; i++)
             {
                 for (int j = 0; j < 12; j++)
                 {
-                    mask[i, j] = Number.NumberType.Empty;
+                    mask[i, j] = NumberType.Empty;
                 }
             }
 
@@ -383,12 +383,12 @@ namespace LousySudoku
             }
             ////////////////
 
-            Number.NumberType[,] mask = new Number.NumberType[25, 25];
+            NumberType[,] mask = new NumberType[25, 25];
             for (int i = 0; i < 25; i++)
             {
                 for (int j = 0; j < 25; j++)
                 {
-                    mask[i, j] = Number.NumberType.Empty;
+                    mask[i, j] = NumberType.Empty;
                 }
             }
 
@@ -457,9 +457,9 @@ namespace LousySudoku
         public static string BlockCoordinates(Block block)
         {
             string result = "";
-            for (int i = 0; i < block.Children.Count; i++)
+            for (int i = 0; i < block.Child.Count; i++)
             {
-                result += "    " + CoordinateToString(block.Children[i].Coordinate);
+                result += "    " + CoordinateToString(block.Child[i].Coordinate);
             }
             return result;
         }
@@ -501,7 +501,7 @@ namespace LousySudoku
             timer.Start();
             Sudoku sudoku = Interface.LoadSudoku(file);
             bool success = (new Generator(sudoku, attemptsNumber: attempt, fillness: 1)).Generate();
-            Debug.ShowSudoku(sudoku, sudoku.Size.X);
+            Debug.ShowSudoku(sudoku, 16);
             timer.Stop();
             Console.WriteLine("Generated in {0}ms with {1}", timer.ElapsedMilliseconds, success);
         }
