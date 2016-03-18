@@ -19,7 +19,8 @@ namespace LousySudoku
         /// <returns></returns>
         public static Sudoku LoadSudoku(string filename)
         {
-            Sudoku sudoku = new LousySudoku.Sudoku(null, null, null, null, 0);
+            Sudoku sudoku = new Sudoku();
+                //(null, null, null, null, 0);
             sudoku.LoadXml(Alist.Xml.Transform.FileToElement(filename));
             return sudoku;
         }
@@ -60,7 +61,8 @@ namespace LousySudoku
         /// <returns></returns>
         public static Sudoku CreateSudoku(Position size, int[,] value, NumberType[,] mask, Position[][] block, int maxValue)
         {
-            return new Sudoku(size, value, mask, block, maxValue);
+            return new Sudoku();
+                //(size, value, mask, block, maxValue);
         }
 
         /// <summary>
@@ -85,7 +87,7 @@ namespace LousySudoku
         /// <returns></returns>
         public static bool ChangeNumber(Sudoku sudoku, Position number_position, int value)
         {
-            return sudoku.ChangeNumber(number_position, value);
+            return sudoku.SetNumber(number_position, value);
         }
 
         /// <summary>
@@ -217,7 +219,8 @@ namespace LousySudoku
             private static Sudoku GetStandart(int[,] numbs, NumberType[,] mask, int sudoku_size, int block_size)
             {
                 Position[][] block = GetAllStandartBlock(new Position(sudoku_size, sudoku_size), new Position(block_size, block_size));
-                return new Sudoku(new Position(sudoku_size, sudoku_size), numbs, mask, block, sudoku_size);
+                return new Sudoku();
+                    //(new Position(sudoku_size, sudoku_size), numbs, mask, block, sudoku_size);
             }
 
             public static Sudoku GetStandart9(int[,] numbs)
@@ -263,7 +266,8 @@ namespace LousySudoku
                     }
                 }
 
-                return new Sudoku(new Position(9, 9), numbs, mask, block, 9);
+                return new Sudoku();
+                    //(new Position(9, 9), numbs, mask, block, 9);
             }
 
             public static Sudoku GetStandart16(int[,] numbs)
@@ -312,7 +316,8 @@ namespace LousySudoku
                     }
                 }
 
-                return new Sudoku(new Position(16, 16), value, mask, block, 16);
+                return new Sudoku();
+                    //(new Position(16, 16), value, mask, block, 16);
             }
 
         }

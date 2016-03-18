@@ -88,7 +88,8 @@ namespace LousySudoku
             Console.WriteLine("temp vars initialized");
 
             Console.WriteLine("Call constructor Sufoku");
-            Sudoku sudoku = new Sudoku(new Position(9, 9), value, mask, block, 9);
+            Sudoku sudoku = new Sudoku();
+                //(new Position(9, 9), value, mask, block, 9);
 
             Console.WriteLine("Call method Debug.ShowSudoku");
             ShowSudoku(sudoku, 9);
@@ -191,7 +192,8 @@ namespace LousySudoku
                 }
             }
 
-            return new Sudoku(new Position(9, 9), value, mask, block, 9);
+            return new Sudoku();
+                //(new Position(9, 9), value, mask, block, 9);
         }
 
         public static Sudoku GetStandart16(int[,] numbs)
@@ -258,7 +260,8 @@ namespace LousySudoku
                 }
             }
 
-            return new Sudoku(new Position(16, 16), value, mask, block, 16);
+            return new Sudoku();
+                //(new Position(16, 16), value, mask, block, 16);
         }
 
         public static Sudoku GetStandart12(int[,] numbs)
@@ -325,7 +328,8 @@ namespace LousySudoku
                 }
             }
 
-            return new Sudoku(new Position(12, 12), value, mask, block, 12);
+            return new Sudoku();
+                //(new Position(12, 12), value, mask, block, 12);
         }
 
         public static Sudoku GetStandart25(int[,] numbs)
@@ -392,7 +396,8 @@ namespace LousySudoku
                 }
             }
 
-            return new Sudoku(new Position(25, 25), value, mask, block, 25);
+            return new Sudoku();
+                //(new Position(25, 25), value, mask, block, 25);
         }
 
         public static void TestGeneration()
@@ -412,7 +417,8 @@ namespace LousySudoku
             ShowSudoku(sudoku9, 9);
             System.Xml.Linq.XElement Sudoku = sudoku9.UnloadXml();
             Console.WriteLine(Sudoku);
-            Sudoku sudoku0 = new LousySudoku.Sudoku(null, null, null, null, 0);
+            Sudoku sudoku0 = new Sudoku();
+                //(null, null, null, null, 0);
             sudoku0.LoadXml(Sudoku);
             Console.WriteLine("Go");
             ShowSudoku(sudoku0, 9);
@@ -488,9 +494,9 @@ namespace LousySudoku
         {
             Generator generator = new Generator(sudoku, fillness: 1);
             generator.Generate();
-            sudoku.OnCompleted += SudokuEventTestSubscriber1;
-            sudoku.OnFilled += SudokuEventTestSubscriber2;
-            sudoku.ChangeNumber(new Position(0, 0), sudoku.GetNumber(new Position(0, 0)).Value);
+            sudoku.onCompleted += SudokuEventTestSubscriber1;
+            sudoku.onFilled += SudokuEventTestSubscriber2;
+            sudoku.SetNumber(new Position(0, 0), sudoku.GetNumber(new Position(0, 0)).Value);
             return sudoku;
         }
 

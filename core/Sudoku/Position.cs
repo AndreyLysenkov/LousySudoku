@@ -95,7 +95,7 @@ namespace LousySudoku
                 this.Coordinates.AddRange(coordinates);
         }
 
-        protected void SetCoordinate(int dimention, int newValue)
+        public void SetCoordinate(int dimention, int newValue)
         {
             while (dimention >= this.coordinates.Count)
             {

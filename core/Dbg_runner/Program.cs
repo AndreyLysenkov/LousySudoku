@@ -23,7 +23,7 @@ namespace Dbg_runner
             Console.Write("Enter fillenes [0.0 - 1.0]: ");
             double fillness = Convert.ToDouble(Console.ReadLine());
             Sudoku sudoku = Interface.GenerateFromTemplate(filename, fillness);
-            sudoku.OnCompleted += DoOnCompleted;
+            sudoku.onCompleted += DoOnCompleted;
             do
             {
                 Debug.ShowSudoku(sudoku, 0);
@@ -35,7 +35,7 @@ namespace Dbg_runner
                 }
                 else
                 {
-                    sudoku.ChangeNumber(new Position(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])), Convert.ToInt32(values[2]));
+                    sudoku.SetNumber(new Position(Convert.ToInt32(values[0]), Convert.ToInt32(values[1])), Convert.ToInt32(values[2]));
                 }
             } while (!completed);
             Console.WriteLine("Congrats! Completed! \n Press Enter");

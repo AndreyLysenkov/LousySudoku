@@ -15,7 +15,9 @@ namespace LousySudoku
     /// Can be used for template for sudoku generation
     /// </summary>
     public class Sudoku
-        : IXmlsaver, IActivatable
+        : IXmlsaver, IActivatable,
+        ICloneable
+        // NNBB; todo; IClonable
     {
 
         /// <summary>
@@ -37,16 +39,6 @@ namespace LousySudoku
         }
 
         /// <summary>
-        /// Max value of any cell in sudoku.
-        /// Any cell of sudoku must have value in range [1..MaxValue]
-        /// </summary>
-        public int MaxValue
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
         /// Types of block
         /// </summary>
         public List<BlockType> BlockType
@@ -56,295 +48,259 @@ namespace LousySudoku
         }
 
         /// <summary>
-        /// Делегат метода, вызывающегося при зоплнении или завершении судоку
+        /// Max value of any cell in sudoku.
+        /// Any cell of sudoku must have value in range [1..MaxValue]
+        /// </summary>
+        public int MaxValue
+        {
+            get;
+            private set;
+        }
+
+        public Position Size
+        {
+            get { return this.CalculateSize(); }
+        }
+
+        /// <summary>
+        /// NNBB; todo;
+        /// </summary>
+        private int emptyCell;
+
+        /// <summary>
+        /// Delegate for sudoku events OnCompleted and OnFilled
         /// </summary>
         /// <param name="sudoku"></param>
         public delegate void SudokuEvent (Sudoku sudoku);
 
         /// <summary>
-        /// Вызывается при завершеннии судоку
-        /// Судоку заполнено полностью и правильно
+        /// Delegate of sudoku event onChanging
         /// </summary>
-        public event SudokuEvent OnCompleted;
+        /// <param name="sudoku"></param>
+        /// <param name="number"></param>
+        /// <param name="oldValue"></param>
+        public delegate void SudokuChangeNumberEvent(
+            Sudoku sudoku, 
+            Number number,
+            int oldValue);
 
         /// <summary>
-        /// Вызывается при полном заполнении судоку
+        /// Calls on clearing sudoku, i.e. deleting all values
         /// </summary>
-        public event SudokuEvent OnFilled;
-
-        public event SudokuEvent OnChanging;
+        public event SudokuEvent onClear;
 
         /// <summary>
-        /// 
+        /// Calls if all cells filled with value
+        /// and all block are right
+        /// NNBB; todo;
         /// </summary>
-        /// <param name="size"></param>
-        /// <param name="value"></param>
-        /// <param name="mask"></param>
-        /// <param name="block"></param>
-        /// <param name="maxValue"></param>
-        public Sudoku(Position size, int[,] value, NumberType[,] mask, Position[][] block, int maxValue)
+        public event SudokuEvent onCompleted;
+
+        /// <summary>
+        /// Calls if all cells filled with value
+        /// NNBB; todo;
+        /// </summary>
+        public event SudokuEvent onFilled;
+
+        /// <summary>
+        /// Trigger event on changing number
+        /// </summary>
+        public event SudokuChangeNumberEvent onChanging;
+
+        public Sudoku(
+            List<BlockType> blockType, 
+            List<Block> block, 
+            List<Number> cell, 
+            int maxValue)
         {
-            this.OnFilled = EmptySudokuEventHandler;
-            this.OnCompleted = EmptySudokuEventHandler;
-
-            if (size == null)
-                return;
-            ///Заполнение всех чисел
-            this.Number = new Number[size.X * size.Y].ToList();
-            for (int i = 0; i < size.X; i++)
-            {
-                for (int j = 0; j < size.Y; j++)
-                {
-                    this.Number[i * size.Y + j] =
-                        new Number(
-                            mask[i, j],
-                            new Position(i, j)
-                        );
-                }
-            }
-
-            ///Заполнение всех блоков
-            this.Block = new Block[block.Length].ToList();
-            for (int i = 0; i < block.Length; i++)
-            {
-                Number[] children = new Number[block[i].Length];
-                for (int j = 0; j < block[i].Length; j++)
-                {
-                    children[j] = this.GetNumber(block[i][j]);
-                }
-                this.Block[i] = new Block(this);
-                ///this.Block[i].AddReference();
-            }
-
+            if (blockType == null)
+                blockType = new List<BlockType> { };
+            if (block == null)
+                block = new List<Block> { };
+            if (cell == null)
+                cell = new List<Number> { };
+            if (maxValue < 0)
+                maxValue = 0;
+            this.BlockType = blockType;
+            this.Block = block;
+            this.Number = cell;
             this.MaxValue = maxValue;
+            // ??
+            this.Number.Sort();
+        }
+        
+        public Sudoku()
+            : this(blockType: null, block: null, cell: null, maxValue: 0)
+        {   }
 
-            //this.Size = size;
+        private Position CalculateSize()
+        {
+            Position result = new Position();
+            foreach(Number cell in this.Number)
+            {
+                Position coordinate = cell.Coordinate;
+                for (int i = 0; i < coordinate.Dimention; i++)
+                {
+                    int newOrdinate 
+                        = coordinate.GetCoordinate(dimention: i);
+                    if (newOrdinate > result.GetCoordinate(dimention: i))
+                    {
+                        result.SetCoordinate(
+                            dimention: i, 
+                            newValue: newOrdinate);
+                    }   
+                }
+            }
+            return result;
         }
 
         /// <summary>
-        /// Возвращает число по его позиции
-        /// Если такого числа не существует, возвращает пустую ссылку null
+        /// Returns number by it's position
+        /// If number do not exist return cell with NumberType.Unexists
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
         public Number GetNumber(Position position)
         {
-            for (int i = 0; i < this.Number.Count; i++)
+            List<Number> result 
+                = this.Number.Where(x => x.Equals(position)).ToList();
+            if (result.Count == 0)
+                return new Number(NumberType.Unexists, position);
+            return result[0];
+        }
+
+        public object GetField(Position position, params int[] dimention)
+        {
+            List<object> result = new List<object> { };
+            if (dimention == null)
+                return result.ToArray();
+            for (int i = 0; i < dimention.Length; i++)
             {
-                if (this.Number[i].Equals(position))
-                {
-                    return this.Number[i];
-                }
+                List<int> array = new List<int>();
+
+                // NNBB; todo;
             }
-            return new Number(NumberType.Unexists, position);
+            return result.ToArray();
+        }
+
+        public int[] GetField_1D(Position position, int dimention)
+        {
+            return (int[])this.GetField(position, dimention);
+        }
+
+        public int[][] GetField_2D
+            (Position position, int dimention1, int dimention2)
+        {
+            return (int[][])this.GetField(position, dimention1, dimention2);
+        }
+
+        public int[][][] GetField_3D(
+            Position position, 
+            int dimention1, 
+            int dimention2, 
+            int dimention3)
+        {
+            return (int[][][])this.GetField(
+                position, 
+                dimention1, 
+                dimention2, 
+                dimention3);
         }
 
         /// <summary>
-        /// Изменяет значение числа в ячейке 
+        /// Change value in cell
         /// </summary>
         /// <param name="position"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public bool ChangeNumber(Position position, int value)
+        public bool SetNumber(Position position, int value)
         {
-            bool success = this.GetNumber(position).Modify(value);
-            if (success)
+            return this.GetNumber(position).Modify(value);
+        }
+
+        public bool ClearNumber(Position position)
+        {
+            return this.GetNumber(position).Clear();
+        }
+
+        public void GetWrong
+            (ref List<Number> cellResult, ref List<Block> blockResult)
+        {
+            cellResult = new List<Number> { };
+            blockResult = new List<Block> { };
+            foreach (Block block in this.Block)
             {
-                this.IsCompleted();
+                List<Number> newCheck = block.Check();
+                if (newCheck.Count > 0)
+                    blockResult.Add(block);
+                cellResult.Union(newCheck);
+                // ??
+                cellResult.Sort();
             }
-            return success;
         }
 
-        /// <summary>
-        /// Возвращает судоку ввиде матрицы чисел и матрицы их типов;
-        /// </summary>
-        /// <param name="numbers"></param>
-        /// <param name="mask"></param>
-        public void GetGrid(ref int[,] numbers, ref int[,] mask, ref bool[,] rightness)
+        public List<Number> GetWrongNumber()
         {
-            //numbers = new int[this.Size.X, this.Size.Y];
-            //mask = new int[this.Size.X, this.Size.Y];
-            //rightness = new bool[this.Size.X, this.Size.Y];
-            //for (int i = 0; i < Size.X; i++)
-            //{
-            //    for (int j = 0; j < Size.Y; j++)
-            //    {
-            //        Number number = this.GetNumber(new Position(i, j));
-            //        numbers[i, j] = number.Value;
-            //        mask[i, j] = (int)number.Type;
-            //        rightness[i, j] = number.IsRight();
-            //    }
-            //}
+            List<Number> result = new List<Number> { };
+            List<Block> tmp = new List<Block> { };
+            this.GetWrong(ref result, ref tmp);
+            return result;
+        }
+
+        public List<Block> GetWrongBlock()
+        {
+            List<Number> tmp = new List<Number> { };
+            List<Block> result = new List<Block> { };
+            this.GetWrong(ref tmp, ref result);
+            return result;
         }
 
         /// <summary>
-        /// Возвращает все ли в судоку числа заполнены правильно
+        /// Return if all sudoku cells are right
         /// </summary>
         /// <returns></returns>
         public bool IsRight()
         {
-            for (int i = 0; i < this.Number.Count; i++)
-            {
-                if (!this.Number[i].IsRight())
-                {
-                    return false;
-                }
-            }
-            return true;
+            return this.Block.All(x => x.IsRight());
         }
 
         /// <summary>
-        /// Возвращает все ли поля заполнены в судоку
+        /// Return if all sudoku cells are filled
         /// </summary>
         /// <returns></returns>
         public bool IsFilled()
         {
-            for (int i = 0; i < this.Number.Count; i++)
-            {
-                if (this.Number[i].Type == NumberType.Empty)
-                {
-                    return false;
-                }
-            }
-            OnFilled(this);
-            return true;
+            return this.Number.All(x => x.HasValue || !x.IsExist);
         }
 
         /// <summary>
-        /// Возвращает заполненно все судоку полностью и правильно
+        /// Return if all sudoku cells are filled and right
         /// </summary>
         /// <returns></returns>
         public bool IsCompleted()
         {
-            bool result = this.IsFilled() && this.IsRight();
-            if (result)
-            {
-                OnCompleted(this);
-            }
-            return result;
+            return this.IsFilled() && this.IsRight();
         }
 
         public BlockType GetBlockType(Alist.Tree.Adress Id)
         {
-            // NNBB; todo;
-            return null;
+            return this.BlockType.Find(x => x.Id == Id);
         }
 
         /// <summary>
-        /// Очищает все ячейки судоку
+        /// Clears all modify cells of sudoku
         /// </summary>
         public void Clear()
         {
-            for (int i = 0; i < this.Number.Count; i++)
-            {
-                this.Number[i].Clear();
-            }
+            this.Number.ForEach(x => x.Clear());
         }
 
         /// <summary>
-        /// Перемешивает ссылки на ячейки в судоку в массиве
-        /// Не меняет позиции
+        /// Deletes all values from sudoku
         /// </summary>
-        public void MixNumbers()
+        public void Delete()
         {
-            Generator generator = new Generator(this);
-            this.Number
-                = generator.MixItems(this.Number.ToArray()).ToList();
-        }
-
-        /// <summary>
-        /// Перемешивает ссылки на блоки в судоку в массиве
-        /// Не меняет позиции
-        /// </summary>
-        public void MixBlocks()
-        {
-            Generator generator = new Generator(this);
-            this.Block = generator.MixItems(this.Block.ToArray()).ToList();
-        }
-
-        /// <summary>
-        /// Посчитывает сколько ячеек должно содержать или содержит числа
-        /// </summary>
-        /// <returns></returns>
-        public int GetNumberCount()
-        {
-            int result = 0;
-            foreach (Number number in this.Number)
-            {
-                if (number.IsExist)
-                {
-                    result++;
-                }
-            }
-            return result;
-        }
-
-        public int GetNumberCount0()
-        {
-            int result = 0;
-            foreach (Number number in this.Number)
-            {
-                if (number.HasValue)
-                {
-                    result++;
-                }
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// Удаляет из судоку указанное количество ячеек
-        /// </summary>
-        /// <param name="count"></param>
-        public void DeleteNumbers(int count)
-        {
-            this.MixNumbers();
-            for (int i = 0; i < count; i++)
-            {
-                this.Number[i].Clear();
-            }
-        }
-
-        /// <summary>
-        /// Метод вызывающийся при заполнении и завершении судоку
-        /// </summary>
-        /// <param name="sudoku"></param>
-        private void EmptySudokuEventHandler(Sudoku sudoku)
-        {  }
-
-        /// <summary>
-        /// Returns a copy of object;
-        /// </summary>
-        /// <returns></returns>
-        public Sudoku Copy()
-        {
-            return null;
-                //(Sudoku)((IStringify)(new Sudoku(null, null, null, null, 0))).Unstringify(
-                //    ((IStringify)this).Stringify(
-                //        Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault)
-                //    ),
-                //    Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault)
-                //);
-        }
-        
-        /// <summary>
-        /// Возвращает массив ячеек по размеру матрицы, матрице значений и маске ячеек
-        /// </summary>
-        /// <param name="size"></param>
-        /// <param name="number"></param>
-        /// <param name="mask"></param>
-        /// <returns></returns>
-        private static Number[] GetNumbers(Position size, int[,] number, NumberType[,] mask)
-        {
-            Number[] result = new Number[size.X * size.Y];
-            for (int i = 0; i < size.X; i++)
-            {
-                for (int j = 0; j < size.Y; j++)
-                {
-                    result[i * size.X + j] = new Number(mask[i, j], new Position(i, j));
-                }
-            }
-            return result;
+            this.Number.ForEach(x => x.Delete());
         }
 
         public bool IsInitialized
@@ -532,6 +488,12 @@ namespace LousySudoku
                 }
                 );
             return tag.UnloadXml();
+        }
+
+        public object Clone()
+        {
+            // NNBB; todo;
+            return null;
         }
 
     }

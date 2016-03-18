@@ -193,7 +193,7 @@ namespace LousySudoku
             bool IsForever = (this.AttemptsRemain == 0);
             for (; (this.AttemptsRemain > 0) || IsForever; )
             {
-                Sudoku sudokuToFill = this.sudoku.Copy();
+                Sudoku sudokuToFill = (Sudoku)this.sudoku.Clone();
                 bool success = this.FillSudokuOneAttempt(sudokuToFill);
                 if (success)
                 {
@@ -216,9 +216,10 @@ namespace LousySudoku
         /// <returns></returns>
         private int CountNumbersToDelete()
         {
-            int numberCount = this.sudoku.GetNumberCount();
-            int numberStay = (int)(numberCount * this.Fillness);
-            return numberCount - numberStay;
+            //int numberCount = this.sudoku.GetNumberCount();
+            //int numberStay = (int)(numberCount * this.Fillness);
+            //return numberCount - numberStay;
+            return 0;
         }
 
         /// <summary>
@@ -229,7 +230,7 @@ namespace LousySudoku
         {
             bool success = this.FillSudoku();
             int numberDelete = this.CountNumbersToDelete();
-            this.sudoku.DeleteNumbers(numberDelete);
+            //this.sudoku.DeleteNumbers(numberDelete);
             return success;
         }
 

@@ -241,6 +241,12 @@ namespace LousySudoku
             return false;
         }
 
+        public void Delete()
+        {
+            this.value = 0;
+            this.Type = NumberType.Empty;
+        }
+
         /// <summary>
         /// Add new block as cell's owner
         /// Return if parent set true, or false if already has that parent
