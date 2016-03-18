@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Alist;
 using LousySudoku;
 
 namespace Dbg_runner
@@ -44,6 +45,77 @@ namespace Dbg_runner
 
         static void Main(string[] args)
         {
+            List<Number> number = new List<Number> { };
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    number.Add
+                        (new Number(NumberType.Empty, new Position(i, j)));
+                }
+            }
+
+            List<BlockType> blockType = new List<BlockType> { };
+            BlockType standart = new BlockType();
+            standart.SetChecker(LousySudoku.Method.CheckMethod_Standart);
+            standart.SetGenerator(LousySudoku.Method.GenerateMethod_Standart);
+            blockType.Add(standart);
+
+            List<Block> block = new List<Block> { };
+
+            Sudoku sudoku = new Sudoku(blockType, block, number, 9);
+
+            for (int col = 0; col < 9; col++)
+            {
+                block.Add(new Block(
+                    sudoku, 
+                    standart,
+                    number.FindAll(x => x.Coordinate.GetCoordinate(0) == col)
+                    ));
+                block.Add(new Block(
+                    sudoku, 
+                    standart,
+                    number.FindAll(x => x.Coordinate.GetCoordinate(1) == col)
+                    ));
+            }
+
+            for (int i = 0; i < 9; i += 3)
+            {
+                for (int l = 0; l < 9; l += 3)
+                {
+                    Block b = new Block(sudoku, standart);
+                    for (int j = 0; j < 3; j++)
+                    {
+                        for (int k = 0; k < 3; k++)
+                        {
+                            b.AddChild(sudoku.GetNumber(new Position(i + j, k + l)));
+                        }
+
+                    }
+                    block.Add(b);
+                }
+            }
+
+            Alist.Xml.Transform.ElementToFile(sudoku.UnloadXml(), "standart_9x9.xml");
+
+            for (int i = 0; ; i++)
+            {
+                bool success = true;
+                for (int j = 0; j < sudoku.Block.Count || success; j++)
+                {
+                    Block b = sudoku.Block[j];
+                    success = b.Generate();
+                }
+                if (i % 1000 == 0)
+                    Console.WriteLine("Attempt #{0}", i);
+                if (success)
+                {
+                    Console.WriteLine("Stopped at {0}", i);
+                    break;
+                }
+            }
+            
+            return; //Tmp;
 
             Console.Write("Enter secret code, to run debug. Or press enter: ");
             string s = Console.ReadLine();

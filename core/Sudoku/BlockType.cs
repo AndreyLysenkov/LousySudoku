@@ -99,14 +99,14 @@ namespace LousySudoku
             return true;
         }
 
-        public bool SetGenerator(IExternalMethod external)
-        {
-            if (this.Generator != null)
-                return false;
-            this.generatorExternal = external;
-            this.Generator = this.ExternalGenerate;
-            return true;
-        }
+        //public bool SetGenerator(IExternalMethod external)
+        //{
+        //    if (this.Generator != null)
+        //        return false;
+        //    this.generatorExternal = external;
+        //    this.Generator = this.ExternalGenerate;
+        //    return true;
+        //}
 
         public bool SetChecker(CheckMethod checker)
         {

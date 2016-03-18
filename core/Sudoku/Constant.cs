@@ -142,6 +142,29 @@ namespace LousySudoku
         public static bool GenerateMethod_Standart
             (Block block, int[] value, bool[] mask)
         {
+            List<Number> cell = block.Child;
+            Random rand = new Random();
+            for (int i = 0; i < cell.Count; i++)
+            {
+                if (cell[i].CanModify)
+                {
+                    List<int> ints = new List<int>
+                        { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                    bool isContinue = true;
+                    for (int k = 0; isContinue && (k < 9); k++)
+                    {
+                        int newnumb = ints[rand.Next(ints.Count - 1)];
+                        cell[i].Modify(newnumb);
+                        ints.Remove(newnumb);
+                        if (cell[i].IsBlockRight())
+                        {
+                            isContinue = false;
+                        }
+                    }
+                    if (isContinue = true)
+                        return false;
+                }
+            }
             // NNBB; todo;
             return true;
         }

@@ -62,6 +62,30 @@ namespace LousySudoku
 
         private BlockType blockType;
 
+        /// <summary>
+        /// NNBB; tmp;
+        /// </summary>
+        /// <param name="sudoku"></param>
+        /// <param name="type"></param>
+        /// <param name="children"></param>
+        public Block(Sudoku sudoku, BlockType type, List<Number> children)
+        {
+            this.child = new List<Number> { };
+            this.Child = children;
+            this.blockType = type;
+            this.Father = sudoku;
+        }
+        
+        /// <summary>
+        /// NNBB; tmp;
+        /// </summary>
+        /// <param name="sudoku"></param>
+        /// <param name="type"></param>
+        /// <param name="children"></param>
+        public Block(Sudoku sudoku, BlockType type)
+            : this(sudoku, type, new List<Number> { })
+        {   }
+        
         public Block(Sudoku sudoku, Adress typeId, List<Number> children)
         {
             this.child = new List<Number> { };
@@ -119,6 +143,12 @@ namespace LousySudoku
                 result[i] = this.child[result_indexes[i]];
             }
             return result;
+        }
+
+        public bool Generate()
+        {
+            // NNBB; todo;
+            return this.blockType.Generator(this, null, null);
         }
 
         /// <summary>

@@ -36,9 +36,11 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="alist, Version=0.6.1.9, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="alist, Version=0.6.2.10, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\compile\alist.dll</HintPath>
+      <HintPath>..\..\compile\debug\alist.dll</HintPath>
+      <Aliases>global</Aliases>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
