@@ -27,7 +27,7 @@ namespace LousySudoku
         /// Luke, I am your Father.
         /// Well, it's not funny, I know...
         /// I don't fance starWars anyway...
-        /// Didn't see even that moment...
+        /// Haven't seen even that moment...
         /// </summary>
         public Sudoku Father
         {
@@ -113,6 +113,12 @@ namespace LousySudoku
         private int[] Check(int[] value, bool[] mask)
         {
             return this.blockType.Checker(this, value, mask);
+        }
+
+        public void SetParent(Sudoku sudoku)
+        {
+            if (this.Father == null)
+                this.Father = sudoku;
         }
 
         /// <summary>
@@ -201,6 +207,12 @@ namespace LousySudoku
             {
                 this.AddChild(number);
             }
+        }
+
+        public void AddChildren(List<Position> childCoordinate)
+        {
+            this.Child = childCoordinate.ConvertAll<Number>
+                (x => this.Father.GetNumber(x));
         }
 
         /// <summary>
@@ -325,8 +337,12 @@ namespace LousySudoku
 
         public object Clone()
         {
-            // NNBB; todo;
-            return null;
+            Block clone = new Block(sudoku: null);
+            clone.TypeId = this.TypeId;
+            clone.blockType = this.blockType;
+            clone.IsInitialized = this.IsInitialized;
+            clone.child = new List<Number> { };
+            return clone;
         }
 
     }

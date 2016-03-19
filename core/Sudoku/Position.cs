@@ -12,8 +12,10 @@ namespace LousySudoku
     /// May be used as unique id
     /// </summary>
     public class Position
-        : IXmlize, ICloneable,
-        IComparable<Position>, IEquatable<Position>
+        : IXmlize, 
+        ICloneable,
+        IComparable<Position>,
+        IEquatable<Position>
     {
 
         protected List<int> coordinates;
@@ -172,7 +174,8 @@ namespace LousySudoku
         public object Clone()
         {
             return new Position
-                (Method.Clone<int>(this.coordinates).ToArray());
+                (Method.Clone<int>
+                    ((IEnumerable<int>)this.coordinates).ToArray());
         }
 
         /// <summary>

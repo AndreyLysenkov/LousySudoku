@@ -15,7 +15,9 @@ namespace LousySudoku
     /// Can be used for template for sudoku generation
     /// </summary>
     public class Sudoku
-        : IXmlsaver, IActivatable,
+        : 
+        IXmlsaver, 
+        IActivatable,
         ICloneable
     {
 
@@ -510,8 +512,24 @@ namespace LousySudoku
 
         public object Clone()
         {
-            // NNBB; todo;
-            return null;
+            List<Number> numb = Method.Clone(this.Number).ToList();
+            List<Block> block = Method.Clone(this.Block).ToList();
+            // NNBB; fix; on change order in list<block>, may be incorrect coping
+            Sudoku result = new Sudoku(
+                blockType: this.BlockType,
+                block: block,
+                cell: numb,
+                maxValue: this.MaxValue
+                );
+            result.Block.ForEach(x => x.SetParent(result));
+            for (int i = 0; i < this.Block.Count; i++)
+            {
+                List<Position> blockCell
+                    = this.Block[i].Child.ConvertAll<Position>
+                        (x => x.Coordinate);
+                block[i].AddChildren(blockCell);
+            }
+            return result;
         }
 
     }

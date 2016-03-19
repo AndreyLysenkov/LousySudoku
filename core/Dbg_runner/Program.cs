@@ -45,7 +45,7 @@ namespace Dbg_runner
 
         static void Main(string[] args)
         {
-            int size = 12;
+            int size = 9;
             List<Number> number = new List<Number> { };
             for (int i = 0; i < size; i++)
             {
@@ -87,10 +87,10 @@ namespace Dbg_runner
 
             for (int i = 0; i < size; i += 3)
             {
-                for (int l = 0; l < size; l += 4)
+                for (int l = 0; l < size; l += 3)
                 {
                     Block b = new Block(sudoku, standart);
-                    for (int j = 0; j < 4; j++)
+                    for (int j = 0; j < 3; j++)
                     {
                         for (int k = 0; k < 3; k++)
                         {

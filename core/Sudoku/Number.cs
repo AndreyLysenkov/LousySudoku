@@ -341,7 +341,7 @@ namespace LousySudoku
                 type: this.Type, 
                 coordinate: (Position)this.Coordinate.Clone());
             if (this.HasValue)
-                clone.Value = this.Value;
+                clone.value = this.Value;
             return clone;
         }
 

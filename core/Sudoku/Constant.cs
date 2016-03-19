@@ -82,6 +82,8 @@ namespace LousySudoku
         public static IEnumerable<Type> Clone<Type>(List<Type> list)
             where Type : ICloneable
         {
+            if (list == null)
+                return null;
             return list.ConvertAll<Type>(
                 new Converter<Type, Type>(
                     x => (Type)x.Clone()
