@@ -271,4 +271,5 @@ namespace LousySudoku
         }
 
     }
+
 }

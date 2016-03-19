@@ -140,7 +140,7 @@ namespace LousySudoku
             List<Number> result = new List<Number> { };
             for (int i = 0; i < result_indexes.Length; i++)
             {
-                result[i] = this.child[result_indexes[i]];
+                result.Add(this.child[result_indexes[i]]);
             }
             return result;
         }
@@ -335,6 +335,8 @@ namespace LousySudoku
 
         public bool Equals(Block other)
         {
+            return false;
+            // NNBB; todo;
             if (other == null)
                 return false;
             if (other.TypeId != this.TypeId)

@@ -64,6 +64,22 @@ namespace LousySudoku
                 nubmer.ForEach(new Action<Number>(Debug.Print.Number));
             }
 
+            public static void Sudoku2D(Sudoku sudoku)
+            {
+                Position size = sudoku.Size;
+                for (int i = 0; i < size.GetCoordinate(0); i++)
+                {
+                    Console.WriteLine();
+                    for (int j = 0; j < size.GetCoordinate(1); j++)
+                    {
+                        Console.Write(
+                            "{0} - ", 
+                            sudoku.GetNumber(new Position(i,j)).Value);
+                    }
+                }
+
+            }
+
         }
 
         public static string TestString()
@@ -454,6 +470,13 @@ namespace LousySudoku
 
             return new Sudoku();
                 //(new Position(25, 25), value, mask, block, 25);
+        }
+
+        public static Sudoku GeneratorReconstruction()
+        {
+
+            return null;
+
         }
 
         public static void TestGeneration()

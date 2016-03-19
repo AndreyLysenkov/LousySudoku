@@ -29,7 +29,7 @@ namespace Dbg_runner
             {
                 Debug.ShowSudoku(sudoku, 0);
                 Console.Write("Enter position x, y, value: ");
-                string[] values = (Console.ReadLine()).Split(new char[] {' '}, 3);
+                string[] values = (Console.ReadLine()).Split(new char[] { ' ' }, 3);
                 if (values[0] == "AL")
                 {
                     (new Generator(sudoku, 0)).Complete();
@@ -55,9 +55,9 @@ namespace Dbg_runner
                 }
             }
 
-            Debug.Print.Position(new Position(17, 5));
+            //Debug.Print.Position(new Position(17, 5));
 
-            Debug.Print.Number(number);
+            //Debug.Print.Number(number);
 
             List<BlockType> blockType = new List<BlockType> { };
             BlockType standart = new BlockType();
@@ -72,61 +72,117 @@ namespace Dbg_runner
             for (int col = 0; col < 9; col++)
             {
                 block.Add(new Block(
-                    sudoku, 
+                    sudoku,
                     standart,
                     number.FindAll(x => x.Coordinate.GetCoordinate(0) == col)
                     ));
-
                 block.Add(new Block(
-                    sudoku, 
+                    sudoku,
                     standart,
                     number.FindAll(x => x.Coordinate.GetCoordinate(1) == col)
                     ));
             }
 
-            for (int i = 0; i < 9; i += 3)
-            {
-                for (int l = 0; l < 9; l += 3)
-                {
-                    Block b = new Block(sudoku, standart);
-                    for (int j = 0; j < 3; j++)
-                    {
-                        for (int k = 0; k < 3; k++)
-                        {
-                            b.AddChild(sudoku.GetNumber(new Position(i + j, k + l)));
-                        }
+            //for (int i = 0; i < 9; i += 3)
+            //{
+            //    for (int l = 0; l < 9; l += 3)
+            //    {
+            //        Block b = new Block(sudoku, standart);
+            //        for (int j = 0; j < 3; j++)
+            //        {
+            //            for (int k = 0; k < 3; k++)
+            //            {
+            //                b.AddChild(sudoku.GetNumber(new Position(i + j, k + l)));
+            //            }
+            //        }
+            //        block.Add(b);
+            //    }
+            //}
 
-                    }
-                    block.Add(b);
-                }
-            }
+            //sudoku.Block.ForEach(new Action<Block>(Debug.Print.Block));
 
-            sudoku.Block.ForEach(new Action<Block>(Debug.Print.Block));
+            //Alist.Xml.Transform.ElementToFile(sudoku.UnloadXml(), "standart_9x9.xml");
 
-            Alist.Xml.Transform.ElementToFile(sudoku.UnloadXml(), "standart_9x9.xml");
+            LousySudoku.Constant.rand = new Random();
+            Random rand = LousySudoku.Constant.rand;
+
+            //foreach (Number numb in sudoku.Number)
+            //{
+            //    Console.Write("{0}; ", numb.parent.Count);
+            //}
+            //Console.WriteLine();
+
+            //sudoku.Block.ForEach(x => Console.Write("{0}, ", x.Child.Count));
+
+            Generator g = new Generator(sudoku, 2000, 1);
+            Console.WriteLine(g.Generate());
+            Debug.Print.Sudoku2D(sudoku);
+            sudoku.Clear();
 
             bool isContinue = true;
             for (int i = 0; isContinue; i++)
             {
                 bool success = true;
-                for (int j = 0; j < sudoku.Block.Count || success; j++)
+
+                //Block generate
+                for (int j = 0; (j < sudoku.Block.Count) && (success); j++)
                 {
-                    Block b = sudoku.Block[j];
-                    success = b.Generate();
+                    success = sudoku.Block[j].Generate();
                 }
+
+                //Number generate
+//                for (int j = 0; (j < sudoku.Number.Count) && success; j++)
+//                {
+//                    success = LousySudoku.Method.Generate(sudoku.Number[j]);
+
+//#if DEBUG
+//                    if (!success)
+//                        ;
+//#endif
+//                }
+
+                    //List<int> digit = new List<int>
+                    //    { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+                    //bool toDo = true;
+                    //for (int k = 0; (k < 9) && toDo; k++)
+                    //{
+                    //    int index = rand.Next(digit.Count - 1);
+                    //    int newnumb = digit[index];
+                    //    numb.Modify(newnumb);
+                    //    digit.Remove(newnumb);
+                    //    if (numb.IsBlockRight())
+                    //    {
+                    //        toDo = false;
+                    //    }
+                    //}
+                    //if (toDo)
+                    //    success = false;
+
+                ///End of attempt
+                if (sudoku.Block.All(x => x.IsRight()))
+                    success = false;
+                success = sudoku.IsRight();
                 if (i % 1000 == 0)
+                {
                     Console.WriteLine("Attempt #{0}", i);
+                    Debug.Print.Sudoku2D(sudoku);
+                }
                 if (success)
                 {
                     Console.WriteLine("Stopped at {0}", i);
+                    Debug.Print.Sudoku2D(sudoku);
                     isContinue = false;
                 }
                 else
                 {
+                    //sudoku = new Sudoku(blockType, block, number, 9);
                     sudoku.Clear();
                 }
             }
-            
+
+            Debug.ShowSudoku(sudoku, 9);
+
+            Console.ReadKey();
             return; //Tmp;
 
             Console.Write("Enter secret code, to run debug. Or press enter: ");

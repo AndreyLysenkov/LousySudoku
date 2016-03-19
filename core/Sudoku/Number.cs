@@ -53,7 +53,7 @@ namespace LousySudoku
         /// Every block should add here link to itself 
         /// throught this.AddParent(Block)
         /// </summary>
-        private List<Block> parent;
+        public List<Block> parent;
 
         /// <summary>
         /// Current cell status. Can't be changed.
@@ -217,9 +217,10 @@ namespace LousySudoku
             {
                 return this.Clear();
             }
-            if (CanModify)
+            if (this.CanModify)
             {
                 this.value = new_value;
+                this.Type = NumberType.Modify;
                 return true;
             }
             return false;
@@ -236,6 +237,7 @@ namespace LousySudoku
             if (this.CanModify)
             {
                 this.value = 0;
+                this.Type = NumberType.Empty;
                 return true;
             }
             return false;
