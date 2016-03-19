@@ -55,6 +55,10 @@ namespace Dbg_runner
                 }
             }
 
+            Debug.Print.Position(new Position(17, 5));
+
+            Debug.Print.Number(number);
+
             List<BlockType> blockType = new List<BlockType> { };
             BlockType standart = new BlockType();
             standart.SetChecker(LousySudoku.Method.CheckMethod_Standart);
@@ -72,6 +76,7 @@ namespace Dbg_runner
                     standart,
                     number.FindAll(x => x.Coordinate.GetCoordinate(0) == col)
                     ));
+
                 block.Add(new Block(
                     sudoku, 
                     standart,
@@ -96,9 +101,12 @@ namespace Dbg_runner
                 }
             }
 
+            sudoku.Block.ForEach(new Action<Block>(Debug.Print.Block));
+
             Alist.Xml.Transform.ElementToFile(sudoku.UnloadXml(), "standart_9x9.xml");
 
-            for (int i = 0; ; i++)
+            bool isContinue = true;
+            for (int i = 0; isContinue; i++)
             {
                 bool success = true;
                 for (int j = 0; j < sudoku.Block.Count || success; j++)
@@ -111,7 +119,11 @@ namespace Dbg_runner
                 if (success)
                 {
                     Console.WriteLine("Stopped at {0}", i);
-                    break;
+                    isContinue = false;
+                }
+                else
+                {
+                    sudoku.Clear();
                 }
             }
             

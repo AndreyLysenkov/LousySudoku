@@ -10,6 +10,62 @@ namespace LousySudoku
 
     public static class Debug
     {
+
+        public static class Print
+        {
+
+            public static void Position
+                (Position position, bool isMessage = true)
+            {
+                if (isMessage)
+                    Console.WriteLine(" --- Postion");
+                for (int i = 0; i < position.Dimention; i++)
+                {
+                    Console.Write
+                        ("{0}; ", position.GetCoordinate(dimention: i));
+                }
+                Console.WriteLine();
+            }
+
+            public static void Number(Number number, bool isMessage)
+            {
+                Console.WriteLine(" --- Number");
+                Console.WriteLine("  value : {0}", number.Value);
+                Debug.Print.Position(number.Coordinate);
+            }
+
+            public static void Number(Number number)
+            {
+                Debug.Print.Number(number, true);
+            }
+            
+            public static void Block(Block block, bool isValue)
+            {
+                Console.WriteLine(
+                    " --- Block; childrenCount = {0}",
+                    block.Child.Count);
+                for (int i = 0; i < block.Child.Count; i++)
+                {
+                    if (isValue)
+                        Console.WriteLine("{0}; ", block.Child[i].Value);
+                    else
+                        Debug.Print.Position
+                            (block.Child[i].Coordinate, false);
+                }
+            }
+            
+            public static void Block(Block block)
+            {
+                Debug.Print.Block(block, false);
+            }
+
+            public static void Number(List<Number> nubmer)
+            {
+                nubmer.ForEach(new Action<Number>(Debug.Print.Number));
+            }
+
+        }
+
         public static string TestString()
         {
             return "This is the test string prove you didn't mess up... yet, %developername%";
