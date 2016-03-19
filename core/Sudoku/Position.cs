@@ -92,7 +92,7 @@ namespace LousySudoku
         {
             this.coordinates = new List<int> { };
             if (coordinates != null)
-                this.Coordinates.AddRange(coordinates);
+                this.coordinates.AddRange(coordinates);
         }
 
         public void SetCoordinate(int dimention, int newValue)
