@@ -82,6 +82,24 @@ namespace LousySudoku
 
         }
 
+        public static class Test
+        {
+
+            public static class IClonable
+            {
+
+                public static void Position(
+)
+                {
+
+                }
+
+
+
+            }
+
+        }
+
         public static string TestString()
         {
             return "This is the test string prove you didn't mess up... yet, %developername%";
