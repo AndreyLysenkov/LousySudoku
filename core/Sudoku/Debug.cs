@@ -67,10 +67,10 @@ namespace LousySudoku
             public static void Sudoku2D(Sudoku sudoku)
             {
                 Position size = sudoku.Size;
-                for (int i = 0; i < size.GetCoordinate(0); i++)
+                for (int i = 0; i <= size.GetCoordinate(0); i++)
                 {
                     Console.WriteLine();
-                    for (int j = 0; j < size.GetCoordinate(1); j++)
+                    for (int j = 0; j <= size.GetCoordinate(1); j++)
                     {
                         Console.Write(
                             "{0} - ", 

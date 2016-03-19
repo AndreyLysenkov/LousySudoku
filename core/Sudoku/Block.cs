@@ -17,7 +17,8 @@ namespace LousySudoku
     /// Блок чисел - это массив чисел, подчиняющийся одному правилу (нет повторяющихся чисел)
     /// </summary>
     public class Block
-        : IXmlsaver, IActivatable, IEquatable<Block>
+        : IXmlsaver, IActivatable,
+        ICloneable
     {
         
         private List<Number> child;
@@ -61,13 +62,7 @@ namespace LousySudoku
         }
 
         private BlockType blockType;
-
-        /// <summary>
-        /// NNBB; tmp;
-        /// </summary>
-        /// <param name="sudoku"></param>
-        /// <param name="type"></param>
-        /// <param name="children"></param>
+        
         public Block(Sudoku sudoku, BlockType type, List<Number> children)
         {
             this.child = new List<Number> { };
@@ -76,12 +71,6 @@ namespace LousySudoku
             this.Father = sudoku;
         }
         
-        /// <summary>
-        /// NNBB; tmp;
-        /// </summary>
-        /// <param name="sudoku"></param>
-        /// <param name="type"></param>
-        /// <param name="children"></param>
         public Block(Sudoku sudoku, BlockType type)
             : this(sudoku, type, new List<Number> { })
         {   }
@@ -280,6 +269,7 @@ namespace LousySudoku
             if (this.IsInitialized)
             {
                 this.blockType = null;
+                this.child = null;
             }
             else
             {
@@ -333,20 +323,10 @@ namespace LousySudoku
             return tag.UnloadXml();
         }
 
-        public bool Equals(Block other)
+        public object Clone()
         {
-            return false;
             // NNBB; todo;
-            if (other == null)
-                return false;
-            if (other.TypeId != this.TypeId)
-                return false;
-            foreach (Number number in this.child)
-            {
-                if (!other.Child.Contains(number))
-                    return false;
-            }
-            return true;
+            return null;
         }
 
     }

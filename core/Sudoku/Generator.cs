@@ -58,8 +58,10 @@ namespace LousySudoku
         {
             this.AttemptsRemain--;
             this.AttemptsCounter++;
+#if DEBUG
             if ((this.AttemptsCounter % 1000) == 0)
                 Console.WriteLine("Did: {0} attempts", this.AttemptsCounter);
+#endif
         }
 
         /// <summary>
@@ -83,7 +85,7 @@ namespace LousySudoku
         /// </summary>
         /// <param name="number"></param>
         /// <returns></returns>
-        private int ReturnRandomFromArray(List<int> number)
+        private int ReturnRandomFromArray(ref List<int> number)
         {
             if (number.Count == 0)
             {
@@ -110,8 +112,8 @@ namespace LousySudoku
             }
             do
             {
-                cell.Modify(ReturnRandomFromArray(number));
-            } while (!cell.IsRight() && (number.Count != 0));
+                cell.Modify(ReturnRandomFromArray(ref number));
+            } while (!cell.IsBlockRight() && (number.Count != 0));
             return cell.IsRight();
         }
 
@@ -124,7 +126,8 @@ namespace LousySudoku
             this.AttemptWaisted();
             for (int i = 0; i < sudokuToFill.Number.Count; i++)
             {
-                bool success = FillCell(sudokuToFill.Number[i], sudokuToFill.MaxValue);
+                bool success
+                    = FillCell(sudokuToFill.Number[i], sudokuToFill.MaxValue);
                 if (!success)
                 {
                     return false;
@@ -263,7 +266,7 @@ namespace LousySudoku
 
             for (int j = 0; j < length; j++ )
             {
-                int fillIndex = ReturnRandomFromArray(index);
+                int fillIndex = ReturnRandomFromArray(ref index);
                 result[j] = array[fillIndex];
             }
             

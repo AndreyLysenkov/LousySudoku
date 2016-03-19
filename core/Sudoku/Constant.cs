@@ -79,6 +79,16 @@ namespace LousySudoku
     public static class Method
     {
 
+        public static IEnumerable<Type> Clone<Type>(List<Type> list)
+            where Type : ICloneable
+        {
+            return list.ConvertAll<Type>(
+                new Converter<Type, Type>(
+                    x => (Type)x.Clone()
+                )
+            );
+        }
+
         public static string ArrayToString<Type>
             (List<Type> list, string separator)
         {
@@ -126,11 +136,12 @@ namespace LousySudoku
         {
             if ((numb.HasValue) || (!numb.CanModify))
                 return true;
+            Random rand = new Random();
             List<int> digit = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             bool isContinue = true;
             for (; (digit.Count != 0) && isContinue ; )
             {
-                int index = Constant.rand.Next(digit.Count - 1);
+                int index = rand.Next(digit.Count - 1);
                 numb.Modify(digit[index]);
                 digit.RemoveAt(index);
                 if (numb.IsBlockRight())
@@ -142,25 +153,6 @@ namespace LousySudoku
         public static int[] CheckMethod_Standart
             (Block block, int[] value, bool[] mask)
         {
-            // tmp;
-            /*
-            List<int> result = value.ToList();
-            result.Select(x => x != 0);
-            if (result.Distinct().Count() != result.Count)
-                return new int[1] { 0 };
-            return new int[0] { };
-            // */
-            //for (int i = 0; i < value.Length; i++)
-            //{
-            //    for (int j = i + 1; (j < value.Length) && (mask[i]); j++)
-            //    {
-            //        if ((mask[j]) && (value[i] == value[j]))
-            //        {
-            //            result.Add(i);
-            //            result.Add(j);
-            //        }
-            //    }
-            //}
             List<int> result = new List<int> { };
             List<int> tmp = value.ToList();
             // Do not ask
@@ -179,39 +171,10 @@ namespace LousySudoku
         public static bool GenerateMethod_Standart
             (Block block, int[] value, bool[] mask)
         {
-#if DEBUG
-            int count9 = 0;
-#endif
-            List<Number> cell = block.Child;
-            Random rand = new Random();
-                //Constant.rand;
-                //new Random();
-            for (int i = 0; i < cell.Count; i++)
+            for (int i = 0; i < block.Child.Count; i++)
             {
-                Number numb = cell[i];
-                if ((numb.CanModify) && (!numb.HasValue))
-                {
-                    List<int> ints = new List<int>
-                        { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-                    bool isContinue = true;
-                    for (int k = 0; isContinue && (ints.Count != 0); k++)
-                    {
-                        int index = rand.Next(ints.Count);
-                        int newnumb = ints[index];
-                        numb.Modify(newnumb);
-                        ints.RemoveAt(index);
-                        if (numb.IsBlockRight())
-                            isContinue = false;
-                    }
-                    if (isContinue)
-                        return false;
-                }
-#if DEBUG
-                if (cell[i].Value == 9)
-                    count9++;
-                if (count9 > 2)
-                    ;
-#endif
+                if (!Generate(block.Child[i]))
+                    return false;
             }
             // NNBB; todo;
             return block.IsRight();

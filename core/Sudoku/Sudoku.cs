@@ -17,7 +17,6 @@ namespace LousySudoku
     public class Sudoku
         : IXmlsaver, IActivatable,
         ICloneable
-        // NNBB; todo; IClonable
     {
 
         /// <summary>
@@ -61,10 +60,8 @@ namespace LousySudoku
         {
             get { return this.CalculateSize(); }
         }
-
-        /// <summary>
-        /// NNBB; todo;
-        /// </summary>
+        
+        // NNBB; todo;
         private int emptyCell;
 
         /// <summary>
@@ -305,20 +302,41 @@ namespace LousySudoku
 
         public bool IsInitialized
         {
-            // NNBB; todo;
-            get { return false; }
+            get;
+            private set;
         }
 
         public MultyException Initialize()
         {
-            // NNBB; todo;
-            return null;
+            MultyException error = new MultyException();
+            if (!this.IsInitialized)
+            {
+                this.BlockType.ForEach(x => error += x.Initialize());
+                this.Block.ForEach(x => error += x.Initialize());
+            }
+            else
+            {
+                error += Alist.Constant.Exception.RepeatInitialization;
+            }
+            return error;
         }
 
         public MultyException Finilize()
         {
-            // NNBB; todo;
-            return null;
+            MultyException error = new MultyException();
+            if (this.IsInitialized)
+            {
+                this.Block.ForEach(x => x.Finilize());
+                this.BlockType.ForEach(x => x.Finilize());
+                this.Number = null;
+                this.Block = null;
+                this.BlockType = null;
+            }
+            else
+            {
+                error += Alist.Constant.Exception.RepeatFinalization;
+            }
+            return error;
         }
 
         protected bool LoadXml_NumberSection(XElement element)
