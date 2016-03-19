@@ -256,7 +256,7 @@ namespace LousySudoku
         {
             if (!this.parent.Any(newParent.Equals))
             {
-                this.AddParent(newParent);
+                this.parent.Add(newParent);
             }
         }
 
