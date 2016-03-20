@@ -5,101 +5,100 @@ using System.Text;
 using System.Diagnostics;
 using System.Reflection;
 
-namespace LousySudoku
+namespace LousySudoku.Debug
 {
 
-    public static class Debug
+    public static class Print
     {
 
-        public static class Print
+        public static void Position
+            (Position position, bool isMessage = true)
         {
-
-            public static void Position
-                (Position position, bool isMessage = true)
+            if (isMessage)
+                Console.WriteLine(" --- Postion");
+            for (int i = 0; i < position.Dimention; i++)
             {
-                if (isMessage)
-                    Console.WriteLine(" --- Postion");
-                for (int i = 0; i < position.Dimention; i++)
-                {
-                    Console.Write
-                        ("{0}; ", position.GetCoordinate(dimention: i));
-                }
+                Console.Write
+                    ("{0}; ", position.GetCoordinate(dimention: i));
+            }
+            Console.WriteLine();
+        }
+
+        public static void Number(Number number, bool isMessage)
+        {
+            Console.WriteLine(" --- Number");
+            Console.WriteLine("  value : {0}", number.Value);
+            Debug.Print.Position(number.Coordinate);
+        }
+
+        public static void Number(Number number)
+        {
+            Debug.Print.Number(number, true);
+        }
+
+        public static void Block(Block block, bool isValue)
+        {
+            Console.WriteLine(
+                " --- Block; childrenCount = {0}",
+                block.Child.Count);
+            for (int i = 0; i < block.Child.Count; i++)
+            {
+                if (isValue)
+                    Console.WriteLine("{0}; ", block.Child[i].Value);
+                else
+                    Debug.Print.Position
+                        (block.Child[i].Coordinate, false);
+            }
+        }
+
+        public static void Block(Block block)
+        {
+            Debug.Print.Block(block, false);
+        }
+
+        public static void Number(List<Number> nubmer)
+        {
+            nubmer.ForEach(new Action<Number>(Debug.Print.Number));
+        }
+
+        public static void Sudoku2D(Sudoku sudoku)
+        {
+            Position size = sudoku.Size;
+            for (int i = 0; i <= size.GetCoordinate(0); i++)
+            {
                 Console.WriteLine();
-            }
-
-            public static void Number(Number number, bool isMessage)
-            {
-                Console.WriteLine(" --- Number");
-                Console.WriteLine("  value : {0}", number.Value);
-                Debug.Print.Position(number.Coordinate);
-            }
-
-            public static void Number(Number number)
-            {
-                Debug.Print.Number(number, true);
-            }
-            
-            public static void Block(Block block, bool isValue)
-            {
-                Console.WriteLine(
-                    " --- Block; childrenCount = {0}",
-                    block.Child.Count);
-                for (int i = 0; i < block.Child.Count; i++)
+                for (int j = 0; j <= size.GetCoordinate(1); j++)
                 {
-                    if (isValue)
-                        Console.WriteLine("{0}; ", block.Child[i].Value);
-                    else
-                        Debug.Print.Position
-                            (block.Child[i].Coordinate, false);
+                    Console.Write(
+                        "{0} - ",
+                        sudoku.GetNumber(new Position(i, j)).Value);
                 }
-            }
-            
-            public static void Block(Block block)
-            {
-                Debug.Print.Block(block, false);
-            }
-
-            public static void Number(List<Number> nubmer)
-            {
-                nubmer.ForEach(new Action<Number>(Debug.Print.Number));
-            }
-
-            public static void Sudoku2D(Sudoku sudoku)
-            {
-                Position size = sudoku.Size;
-                for (int i = 0; i <= size.GetCoordinate(0); i++)
-                {
-                    Console.WriteLine();
-                    for (int j = 0; j <= size.GetCoordinate(1); j++)
-                    {
-                        Console.Write(
-                            "{0} - ", 
-                            sudoku.GetNumber(new Position(i,j)).Value);
-                    }
-                }
-
             }
 
         }
 
-        public static class Test
+    }
+
+    public static class Test
+    {
+
+        public static class IClonable
         {
 
-            public static class IClonable
-            {
-
-                public static void Position(
+            public static void Position(
 )
-                {
-
-                }
-
-
+            {
 
             }
 
+
+
         }
 
+    }
+
+    public static class Common
+    {
         public static string TestString()
         {
             return "This is the test string prove you didn't mess up... yet, %developername%";
@@ -153,7 +152,7 @@ namespace LousySudoku
                 }
             }
             ////////////////
-            
+
             NumberType[,] mask = new NumberType[9, 9];
             for (int i = 0; i < 9; i++)
             {
@@ -172,14 +171,14 @@ namespace LousySudoku
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    block[i][j] = new Position(i , j);
+                    block[i][j] = new Position(i, j);
                 }
             }
             Console.WriteLine("temp vars initialized");
 
             Console.WriteLine("Call constructor Sufoku");
             Sudoku sudoku = new Sudoku();
-                //(new Position(9, 9), value, mask, block, 9);
+            //(new Position(9, 9), value, mask, block, 9);
 
             Console.WriteLine("Call method Debug.ShowSudoku");
             ShowSudoku(sudoku, 9);
@@ -283,7 +282,7 @@ namespace LousySudoku
             }
 
             return new Sudoku();
-                //(new Position(9, 9), value, mask, block, 9);
+            //(new Position(9, 9), value, mask, block, 9);
         }
 
         public static Sudoku GetStandart16(int[,] numbs)
@@ -351,7 +350,7 @@ namespace LousySudoku
             }
 
             return new Sudoku();
-                //(new Position(16, 16), value, mask, block, 16);
+            //(new Position(16, 16), value, mask, block, 16);
         }
 
         public static Sudoku GetStandart12(int[,] numbs)
@@ -419,7 +418,7 @@ namespace LousySudoku
             }
 
             return new Sudoku();
-                //(new Position(12, 12), value, mask, block, 12);
+            //(new Position(12, 12), value, mask, block, 12);
         }
 
         public static Sudoku GetStandart25(int[,] numbs)
@@ -487,7 +486,7 @@ namespace LousySudoku
             }
 
             return new Sudoku();
-                //(new Position(25, 25), value, mask, block, 25);
+            //(new Position(25, 25), value, mask, block, 25);
         }
 
         public static Sudoku GeneratorReconstruction()
@@ -515,7 +514,7 @@ namespace LousySudoku
             System.Xml.Linq.XElement Sudoku = sudoku9.UnloadXml();
             Console.WriteLine(Sudoku);
             Sudoku sudoku0 = new Sudoku();
-                //(null, null, null, null, 0);
+            //(null, null, null, null, 0);
             sudoku0.LoadXml(Sudoku);
             Console.WriteLine("Go");
             ShowSudoku(sudoku0, 9);
@@ -554,7 +553,7 @@ namespace LousySudoku
                     }
                 }
             }
-            
+
         }
 
         public static string BlockCoordinates(Block block)
@@ -570,7 +569,7 @@ namespace LousySudoku
         public static string SudokuCoordinates(Sudoku sudoku)
         {
             string result = "";
-            for(int i = 0; i < sudoku.Block.Count; i++)
+            for (int i = 0; i < sudoku.Block.Count; i++)
             {
                 result += String.Format("Block #{0} : {1} \n", i, BlockCoordinates(sudoku.Block[i]));
             }
@@ -604,7 +603,7 @@ namespace LousySudoku
             timer.Start();
             Sudoku sudoku = Interface.LoadSudoku(file);
             bool success = (new Generator(sudoku, attemptsNumber: attempt, fillness: 1)).Generate();
-            Debug.ShowSudoku(sudoku, 16);
+            Debug.Common.ShowSudoku(sudoku, 16);
             timer.Stop();
             Console.WriteLine("Generated in {0}ms with {1}", timer.ElapsedMilliseconds, success);
         }
@@ -621,6 +620,7 @@ namespace LousySudoku
             TestSudokuFile("data\\templates\\standart_window_x.txt", 0); ///Infinity s; more 1000k attempts;
             Console.ReadLine();
         }
+
     }
 
 }
