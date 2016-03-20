@@ -1,42 +1,13 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LousySudoku.UnitTest
 {
     [TestClass]
-    public static class Common
-    {
-
-        [TestMethod]
-        public static void Run(int deep = 0)
-        {
-
-
-
-
-
-            if (deep >= 4)
-            {
-                Interface.ICLonable_Position();
-            }
-
-
-
-        }
-
-
-
-
-    }
-
-
-    [TestClass]
     public static class Interface
     {
-
         
-
         [TestMethod]
         public static void ICLonable_Position(
                 int attempt = 100,
@@ -82,9 +53,7 @@ namespace LousySudoku.UnitTest
                     (obj1.Coordinate[k], obj_clone1.Coordinate[k]);
 
         }
-
-
-
+        
     }
 
 }
