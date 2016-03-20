@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku", "Sudoku\Sudoku.csproj", "{9C9271FB-BD2C-4179-AC30-C5B22E8177D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dbg_runner", "Dbg_runner\Dbg_runner.csproj", "{9CDA839D-423E-4513-9C23-A7C03B634056}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Debug.Runner", "Dbg_runner\Debug.Runner.csproj", "{9CDA839D-423E-4513-9C23-A7C03B634056}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "..\UnitTest\UnitTest.csproj", "{52535993-7EDC-4CBB-AF1B-B4FF979D8B2A}"
 EndProject

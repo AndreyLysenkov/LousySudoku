@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Alist;
-using LousySudoku;
 
-namespace Dbg_runner
+namespace LousySudoku.Debug.Runner
 {
-    class Program
+
+    public static class Program
     {
 
         public static bool completed = false;
@@ -27,7 +26,7 @@ namespace Dbg_runner
             sudoku.onCompleted += DoOnCompleted;
             do
             {
-                Debug.ShowSudoku(sudoku, 0);
+                Debug.Common.ShowSudoku(sudoku, 0);
                 Console.Write("Enter position x, y, value: ");
                 string[] values = (Console.ReadLine()).Split(new char[] { ' ' }, 3);
                 if (values[0] == "AL")
@@ -43,8 +42,18 @@ namespace Dbg_runner
             Console.ReadLine();
         }
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
+            System.Diagnostics.Stopwatch testTime
+                = new System.Diagnostics.Stopwatch();
+            testTime.Start();
+            LousySudoku.UnitTest.Common.Run(5);
+            testTime.Stop();
+            Console.WriteLine("Time elapsed: {0}", testTime.Elapsed);
+
+            Console.ReadKey();
+            return;
+
             int size = 9;
             List<Number> number = new List<Number> { };
             for (int i = 0; i < size; i++)
@@ -195,7 +204,7 @@ namespace Dbg_runner
 //                }
 //            }
 
-            Debug.ShowSudoku(sudoku, size);
+            Debug.Common.ShowSudoku(sudoku, size);
 
             Console.ReadKey();
             return; //Tmp;
@@ -231,7 +240,7 @@ namespace Dbg_runner
 
             ///Debug.TestGeneration();
 
-            Debug.TestSudokuFiles();
+            Debug.Common.TestSudokuFiles();
 
             Console.ReadLine();
         }

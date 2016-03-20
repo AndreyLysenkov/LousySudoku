@@ -35,7 +35,7 @@
     <DocumentationFile>..\..\compile\debug\debug.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Dbg_runner.Program</StartupObject>
+    <StartupObject>LousySudoku.Debug.Runner.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>icon.ico</ApplicationIcon>
@@ -58,6 +58,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\UnitTest\UnitTest.csproj">
+      <Project>{52535993-7edc-4cbb-af1b-b4ff979d8b2a}</Project>
+      <Name>UnitTest</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sudoku\Sudoku.csproj">
       <Project>{9c9271fb-bd2c-4179-ac30-c5b22e8177d2}</Project>
       <Name>Sudoku</Name>
