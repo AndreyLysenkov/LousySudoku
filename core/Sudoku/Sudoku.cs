@@ -63,7 +63,6 @@ namespace LousySudoku
             get { return this.CalculateSize(); }
         }
         
-        // NNBB; todo;
         private int emptyCell;
 
         /// <summary>
@@ -120,14 +119,20 @@ namespace LousySudoku
                 cell = new List<Number> { };
             if (maxValue < 0)
                 maxValue = 0;
+
             this.BlockType = blockType;
             this.Block = block;
             this.Number = cell;
             this.MaxValue = maxValue;
+
+            this.onClear += (x => x.Nothing());
+            this.onCompleted += (x => x.Nothing());
+            this.onFilled += (x => x.Nothing());
+            this.onChanging += ((x, y, z) => x.Nothing());
             // ??
             this.Number.Sort();
         }
-        
+
         public Sudoku()
             : this(blockType: null, block: null, cell: null, maxValue: 0)
         {   }
@@ -161,49 +166,125 @@ namespace LousySudoku
         /// <returns></returns>
         public Number GetNumber(Position position)
         {
-            List<Number> result 
-                = this.Number.Where(x => x.Equals(position)).ToList();
-            if (result.Count == 0)
+            Number result 
+                = this.Number.Find(x => x.Equals(position));
+            if (result == null)
                 return new Number(NumberType.Unexists, position);
-            return result[0];
+            return result;
         }
 
-        public object GetField(Position position, params int[] dimention)
+        private void CalculateEmptyCell_Refresh()
         {
-            List<object> result = new List<object> { };
-            if (dimention == null)
-                return result.ToArray();
+            this.emptyCell = this.Number.Where(x => !x.HasValue).Count();
+        }
+
+        private void CalculateEmptyCell_OneChange(NumberType was, NumberType became)
+        {
+            if ((was == NumberType.Empty) && (became == NumberType.Modify))
+                this.emptyCell--;
+            if ((was == NumberType.Modify) && (became == NumberType.Empty))
+                this.emptyCell++;
+            EmptyCell_Check();
+        }
+
+        private void EmptyCell_Check()
+        {
+            if (this.emptyCell == 0)
+            {
+                this.onFilled(this);
+                if (this.IsRight())
+                    this.onCompleted(this);
+            }
+            
+        }
+
+        private bool GetField_IncList(
+            ref List<int> coordinate, 
+            Position maxPosition,
+            List<bool> mask)
+        {
+            for (int i = 0; i < coordinate.Count; i++)
+            {
+                if ((mask[i]) && (coordinate[i] < maxPosition.GetCoordinate(i)))
+                {
+                    coordinate[i]++;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private List<bool> GetField_DimentionMask
+            (ref List<int> coordinate, int[] dimention)
+        {
+            int length = Math.Max(coordinate.Count, dimention.Max());
+            for(int i = coordinate.Count; i < length; i++)
+            {
+                coordinate.Add(0);
+            }
+            List<bool> result = new List<bool>(length);
             for (int i = 0; i < dimention.Length; i++)
             {
-                List<int> array = new List<int>();
+                result[dimention[i]] = true;
+                coordinate[dimention[i]] = 0;
+            }
+            return result;
+        }
 
-                // NNBB; todo;
+        private Position GetField_CalculateFieldSize(List<bool> mask)
+        {
+            List<int> coordinate = new List<int> { };
+
+            return new Position(coordinate);
+        }
+
+        public Number[] GetField(ref Position fieldSize, Position position, params int[] dimention)
+        {
+            List<Number> result = new List<Number> { };
+            if (dimention == null)
+                return result.ToArray();
+            Position size = this.Size;
+
+            // First coordinate of field == (0;0;0 ... 0);
+            List<int> coordinate = position.Coordinate;
+            List<bool> mask 
+                = GetField_DimentionMask(ref coordinate, dimention);
+
+            bool isContinue = true;
+            for (;isContinue;)
+            {
+                Number number = this.GetNumber(new Position(coordinate));
+
+
+                isContinue = GetField_IncList(ref coordinate, size, mask);
             }
             return result.ToArray();
         }
 
-        public int[] GetField_1D(Position position, int dimention)
+        public Number[] GetField1D(Position position, int dimention)
         {
-            return (int[])this.GetField(position, dimention);
+            Position fieldSize = new Position();
+            return (Number[])this.GetField
+                (ref fieldSize, position, dimention);
         }
 
-        public int[][] GetField_2D
+        public Number[,] GetField2D
             (Position position, int dimention1, int dimention2)
         {
-            return (int[][])this.GetField(position, dimention1, dimention2);
-        }
-
-        public int[][][] GetField_3D(
-            Position position, 
-            int dimention1, 
-            int dimention2, 
-            int dimention3)
-        {
-            return (int[][][])this.GetField(
-                position, 
-                dimention1, 
-                dimention2, 
-                dimention3);
+            Position fieldSize = new Position();
+            Number[] preResult = GetField
+                (ref fieldSize, position, dimention1, dimention2);
+            int length1 = fieldSize.GetCoordinate(0);
+            int length2 = fieldSize.GetCoordinate(1);
+            Number[,] result = new Number[length1, length2];
+            for (int i = 0, k = 0; i < length1; i++, k++)
+            {
+                for (int j = 0; j < length2; j++,  k++)
+                {
+                    result[i, j] = preResult[k];
+                }
+            }
+            return result;
         }
 
         /// <summary>
@@ -214,7 +295,14 @@ namespace LousySudoku
         /// <returns></returns>
         public bool SetNumber(Position position, int value)
         {
-            return this.GetNumber(position).Modify(value);
+            //return this.GetNumber(position).Modify(value);
+            Number cell = this.GetNumber(position);
+            NumberType was = cell.Type;
+            int oldValue = cell.Value;
+            bool success = cell.Modify(value);
+            this.CalculateEmptyCell_OneChange(was, cell.Type);
+            this.onChanging(this, cell, oldValue);
+            return success;
         }
 
         public bool ClearNumber(Position position)
@@ -225,16 +313,19 @@ namespace LousySudoku
         public void GetWrong
             (ref List<Number> cellResult, ref List<Block> blockResult)
         {
+
             cellResult = new List<Number> { };
             blockResult = new List<Block> { };
             foreach (Block block in this.Block)
             {
-                List<Number> newCheck = block.Check();
+                List<Number> newCheck = block.Check().ToList();
                 if (newCheck.Count > 0)
+                {
                     blockResult.Add(block);
-                cellResult.Union(newCheck);
-                // ??
-                cellResult.Sort();
+                    cellResult.Union(newCheck);
+                    // ?? that ever for
+                    cellResult.Sort();
+                }
             }
         }
 
@@ -291,7 +382,9 @@ namespace LousySudoku
         /// </summary>
         public void Clear()
         {
+            this.onClear(this);
             this.Number.ForEach(x => x.Clear());
+            this.CalculateEmptyCell_Refresh();
         }
 
         /// <summary>
@@ -530,6 +623,15 @@ namespace LousySudoku
                 block[i].AddChildren(blockCell);
             }
             return result;
+        }
+
+        /// <summary>
+        /// ??
+        /// NNBB; tmp; fix;
+        /// </summary>
+        private void Nothing()
+        {
+            return;
         }
 
     }
