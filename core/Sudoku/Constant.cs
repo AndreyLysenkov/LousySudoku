@@ -11,7 +11,9 @@ namespace LousySudoku
 
         public static Alist.Core Core;
 
-        public static Random rand;
+        public static Random Random;
+
+        public const string BlockTypeIdDefault = "non-repeat";
 
         public static class Xml
         {
@@ -132,54 +134,6 @@ namespace LousySudoku
             {
                 list2.Add(value);
             }
-        }
-
-        public static bool Generate(Number numb)
-        {
-            if ((numb.HasValue) || (!numb.CanModify))
-                return true;
-            Random rand = new Random();
-            List<int> digit = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            bool isContinue = true;
-            for (; (digit.Count != 0) && isContinue ; )
-            {
-                int index = rand.Next(digit.Count - 1);
-                numb.Modify(digit[index]);
-                digit.RemoveAt(index);
-                if (numb.IsBlockRight())
-                    isContinue = false;
-            }
-            return !isContinue;
-        }
-
-        public static int[] CheckMethod_Standart
-            (Block block, int[] value, bool[] mask)
-        {
-            List<int> result = new List<int> { };
-            List<int> tmp = value.ToList();
-            // Do not ask
-            List<bool> resultMask 
-                = tmp.Select
-                    (x => 
-                        (x != 0)
-                        && (tmp.FindAll(y => y == x).ToList().Count > 1))
-                            .ToList();
-            for (int i = 0; i < resultMask.Count; i++)
-                if (resultMask[i])
-                    result.Add(i);
-            return result.ToArray();
-        }
-
-        public static bool GenerateMethod_Standart
-            (Block block, int[] value, bool[] mask)
-        {
-            for (int i = 0; i < block.Child.Count; i++)
-            {
-                if (!Generate(block.Child[i]))
-                    return false;
-            }
-            // NNBB; todo;
-            return block.IsRight();
         }
 
     }

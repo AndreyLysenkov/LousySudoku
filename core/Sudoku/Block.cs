@@ -107,12 +107,10 @@ namespace LousySudoku
         /// Calls check method of block.
         /// BlockType contains that method
         /// </summary>
-        /// <param name="value"></param>
-        /// <param name="mask"></param>
         /// <returns></returns>
-        private int[] Check(int[] value, bool[] mask)
+        public Number[] Check()
         {
-            return this.blockType.Checker(this, value, mask);
+            return this.blockType.Checker(this);
         }
 
         public void SetParent(Sudoku sudoku)
@@ -121,29 +119,9 @@ namespace LousySudoku
                 this.Father = sudoku;
         }
 
-        /// <summary>
-        /// Return wrong numbers of block
-        /// </summary>
-        /// <returns></returns>
-        public List<Number> Check()
-        {
-            int[] value = new int[0] { };
-            bool[] mask = new bool[0] { };
-            this.GetValuesMask(ref value, ref mask);
-            int[] result_indexes = this.Check(value, mask);
-
-            List<Number> result = new List<Number> { };
-            for (int i = 0; i < result_indexes.Length; i++)
-            {
-                result.Add(this.child[result_indexes[i]]);
-            }
-            return result;
-        }
-
         public bool Generate()
         {
-            // NNBB; todo;
-            return this.blockType.Generator(this, null, null);
+            return this.blockType.Generator(this);
         }
 
         /// <summary>
@@ -221,7 +199,7 @@ namespace LousySudoku
         /// <returns></returns>
         public bool IsRight()
         {
-            return (this.Check().Count == 0);
+            return (this.Check().Length == 0);
         }
 
         /// <summary>
@@ -255,16 +233,19 @@ namespace LousySudoku
                 }
                 else
                 {
-                    try
+                    if (this.blockType == null)
                     {
-                        this.blockType
-                            = this.Father.GetBlockType(this.TypeId);
-                        this.IsInitialized = true;
-                    }
-                    catch (ApplicationException exception)
-                    {
-                        error += exception;
-                        this.IsInitialized = false;
+                        try
+                        {
+                            this.blockType
+                                = this.Father.GetBlockType(this.TypeId);
+                            this.IsInitialized = true;
+                        }
+                        catch (ApplicationException exception)
+                        {
+                            error += exception;
+                            this.IsInitialized = false;
+                        }
                     }
                 }
             }

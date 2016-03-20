@@ -71,9 +71,9 @@ namespace LousySudoku.Debug.Runner
 
             List<BlockType> blockType = new List<BlockType> { };
             BlockType standart = new BlockType();
-            standart.SetChecker(LousySudoku.Method.CheckMethod_Standart);
-            standart.SetGenerator
-                (LousySudoku.Method.GenerateMethod_Standart);
+            //standart.SetChecker(LousySudoku.Method.CheckMethod_Standart);
+            //standart.SetGenerator
+            //    (LousySudoku.Method.GenerateMethod_Standart);
             blockType.Add(standart);
 
             List<Block> block = new List<Block> { };
@@ -116,7 +116,7 @@ namespace LousySudoku.Debug.Runner
             Alist.Xml.Transform.ElementToFile
                 (sudoku.UnloadXml(), "standart_12x12.xml");
 
-            LousySudoku.Constant.rand = new Random();
+            //LousySudoku.Constant.rand = new Random();
 
             //foreach (Number numb in sudoku.Number)
             //{

@@ -18,16 +18,16 @@ namespace LousySudoku
         IEquatable<Position>
     {
 
-        protected List<int> coordinates;
+        protected List<int> coordinate;
 
         /// <summary>
         /// Coordinates of position (x;y;z) etc.
         /// </summary>
-        public List<int> Coordinates
+        public List<int> Coordinate
         {
             get
             {
-                return this.coordinates.AsReadOnly().ToList();
+                return this.coordinate.AsReadOnly().ToList();
             }
         }
 
@@ -37,7 +37,7 @@ namespace LousySudoku
         /// </summary>
         public int Dimention
         {
-            get { return this.coordinates.Count; }
+            get { return this.coordinate.Count; }
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace LousySudoku
         {
             get
             {
-                return Math.Sqrt(this.coordinates.Sum(x => x * x));
+                return Math.Sqrt(this.coordinate.Sum(x => x * x));
             }
         }
         
@@ -90,20 +90,24 @@ namespace LousySudoku
         /// Create new position with specified coordinates
         /// </summary>
         /// <param name="coordinates"></param>
-        public Position(params int[] coordinates)
+        public Position(params int[] coordinate)
         {
-            this.coordinates = new List<int> { };
-            if (coordinates != null)
-                this.coordinates.AddRange(coordinates);
+            this.coordinate = new List<int> { };
+            if (coordinate != null)
+                this.coordinate.AddRange(coordinate);
         }
+
+        public Position(List<int> coordinate)
+            : this(coordinate.ToArray())
+        {   }
 
         public void SetCoordinate(int dimention, int newValue)
         {
-            while (dimention >= this.coordinates.Count)
+            while (dimention >= this.coordinate.Count)
             {
-                this.coordinates.Add(0);
+                this.coordinate.Add(0);
             }
-            this.coordinates[dimention] = newValue;
+            this.coordinate[dimention] = newValue;
         }
 
         /// <summary>
@@ -114,15 +118,15 @@ namespace LousySudoku
         /// <returns></returns>
         public int GetCoordinate(int dimention)
         {
-            if (dimention >= this.Coordinates.Count)
+            if (dimention >= this.Coordinate.Count)
                 return 0;
-            return this.Coordinates[dimention];
+            return this.Coordinate[dimention];
         }
 
         public static bool operator <= (Position obj1, Position obj2)
         {
             int length = Math.Max 
-                (obj1.coordinates.Count, obj2.coordinates.Count);
+                (obj1.coordinate.Count, obj2.coordinate.Count);
             for (int i = 0; i < length; i++)
             {
                 if (!(obj1.GetCoordinate(i) <= obj2.GetCoordinate(i)))
@@ -138,7 +142,7 @@ namespace LousySudoku
 
         public bool IsZero()
         {
-            return this.coordinates.All(x => x == 0);
+            return this.coordinate.All(x => x == 0);
         }
 
         public string NameXml
@@ -152,14 +156,14 @@ namespace LousySudoku
             tag.LoadXml(element);
             string value = tag.Value;
             List<string> tmp = value.Split(';').ToList();
-            this.coordinates = tmp.ConvertAll<int>(Convert.ToInt32);
+            this.coordinate = tmp.ConvertAll<int>(Convert.ToInt32);
             return true;
         }
 
         public System.Xml.Linq.XElement UnloadXml()
         {
             List<string> value 
-                = this.coordinates.ConvertAll<string>(Convert.ToString);
+                = this.coordinate.ConvertAll<string>(Convert.ToString);
             string valueStr = Method.ArrayToString<string>(value, ";");
             Alist.Xml.Tag tag = new Alist.Xml.Tag(
                 name: this.NameXml,
@@ -175,7 +179,7 @@ namespace LousySudoku
         {
             return new Position
                 (Method.Clone<int>
-                    ((IEnumerable<int>)this.coordinates).ToArray());
+                    ((IEnumerable<int>)this.coordinate).ToArray());
         }
 
         /// <summary>

@@ -74,7 +74,7 @@ namespace LousySudoku.UnitTest
                 Assert.AreEqual
                     (obj.Coordinate[k], obj_clone.Coordinate[k]);
 
-            Position obj1 = new Position(null);
+            Position obj1 = new Position(new List<int> { });
             Position obj_clone1 = (Position)obj.Clone();
             int length1 = Math.Max(obj1.Dimention, obj_clone1.Dimention);
             for (int k = 0; k < length1; k++)

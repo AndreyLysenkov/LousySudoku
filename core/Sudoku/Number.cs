@@ -194,7 +194,7 @@ namespace LousySudoku
         {
             foreach (Block block in this.parent)
             {
-                List<Number> wrong = block.Check();
+                Number[] wrong = block.Check();
                 foreach (Number number in wrong)
                 {
                     if (number == this)

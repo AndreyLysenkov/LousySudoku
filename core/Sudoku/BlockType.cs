@@ -29,8 +29,7 @@ namespace LousySudoku
         /// <param name="mask">Each element indicates is element with same
         /// index in value array has got value</param>
         /// <returns></returns>
-        public delegate int[] CheckMethod
-            (Block block, int[] value, bool[] mask);
+        public delegate Number[] CheckMethod(Block block);
 
         /// <summary>
         /// Method fills missing number in value array.
@@ -41,8 +40,7 @@ namespace LousySudoku
         /// <param name="mask">Each element indicates is element with same
         /// index in value array has got value</param>
         /// <returns></returns>
-        public delegate bool GenerateMethod
-            (Block block, int[] value, bool[] mask);
+        public delegate bool GenerateMethod(Block block);
 
         /// <summary>
         /// Identificator of block types.
@@ -87,8 +85,8 @@ namespace LousySudoku
             this.checkerExternal = null;
         }
 
-        public BlockType()
-            : this(new Adress(Alist.Constant.Undefinded))
+        public BlockType(string id = Constant.BlockTypeIdDefault)
+            : this(new Adress(id))
         {   }
 
         public bool SetGenerator(GenerateMethod generator)
@@ -99,14 +97,14 @@ namespace LousySudoku
             return true;
         }
 
-        //public bool SetGenerator(IExternalMethod external)
-        //{
-        //    if (this.Generator != null)
-        //        return false;
-        //    this.generatorExternal = external;
-        //    this.Generator = this.ExternalGenerate;
-        //    return true;
-        //}
+        public bool SetGenerator(IExternalMethod external)
+        {
+            if (this.Generator != null)
+                return false;
+            this.generatorExternal = external;
+            this.Generator = this.ExternalGenerate;
+            return true;
+        }
 
         public bool SetChecker(CheckMethod checker)
         {
@@ -132,11 +130,11 @@ namespace LousySudoku
         /// <param name="value"></param>
         /// <param name="mask"></param>
         /// <returns></returns>
-        public int[] ExternalCheck(Block block, int[] value, bool[] mask)
+        private Number[] ExternalCheck(Block block)
         {
-            return (int[])(this.checkerExternal.Run(
+            return (Number[])(this.checkerExternal.Run(
                 caller: null,
-                parameter: new object[3] { this, value, mask }));
+                parameter: new object[] { this }));
         }
 
         /// <summary>
@@ -146,13 +144,76 @@ namespace LousySudoku
         /// <param name="value"></param>
         /// <param name="mask"></param>
         /// <returns></returns>
-        public bool ExternalGenerate(Block block, int[] value, bool[] mask)
+        private bool ExternalGenerate(Block block)
         {
             return (bool)(this.generatorExternal.Run(
                 caller: null,
-                parameter: new object[3] { this, value, mask }));
+                parameter: new object[] { this }));
+        }
+        
+        public static bool Generate(Number numb, int maxValue)
+        {
+            if ((numb.HasValue) || (!numb.CanModify))
+                return true;
+
+            Random rand = new Random();
+            List<int> digit = new List<int> { };
+            for (int i = 0; i < maxValue; i++)
+                digit.Add(i);
+
+            bool isContinue = true;
+            for (; (digit.Count != 0) && isContinue;)
+            {
+                int index = rand.Next(digit.Count);
+                numb.Modify(digit[index]);
+                digit.RemoveAt(index);
+                if (numb.IsBlockRight())
+                    isContinue = false;
+            }
+            return !isContinue;
         }
 
+        private static Number[] CheckMethod_Standart(Block block)
+        {
+            // OMG do not ask;
+            // NNBB; todo; fix;
+            return block.Child.FindAll(
+                number =>
+                    (number.HasValue)
+                    && (block.Child.FindAll(
+                        number2 =>
+                            (number2.HasValue)
+                            && (number2.Value == number.Value)
+                        ).Count > 1)
+                ).ToArray();
+            //Position[]
+            //ConvertAll(
+            //    number =>
+            //        number.HasValue ?
+            //            (block.Child.FindAll
+            //                (number2 => 
+            //                    number2.HasValue 
+            //                    && number2.Value == number.Value
+            //                ).Count > 1 ?
+            //                    number.Coordinate  
+            //                    : null)
+            //            : null
+            //    ).ToArray();
+        }
+
+        private static bool GenerateMethod_Standart(Block block)
+        {
+            //block.Child.All(Generate);
+            int maxvalue = block.Father.MaxValue;
+            for (int i = 0; i < block.Child.Count; i++)
+            {
+                if (!Generate(block.Child[i], maxvalue))
+                    return false;
+            }
+            // NNBB; todo;
+            return block.IsRight();
+        }
+        
         public bool IsInitialized
         {
             get;
@@ -168,12 +229,12 @@ namespace LousySudoku
                     && (this.checkerExternal == null))
                 {
                     error += Constant.Exception.BlockTypeCheckerNotSet;
-                    this.Checker = Method.CheckMethod_Standart;
+                    this.Checker = CheckMethod_Standart;
                 }
                 if ((this.Generator == null)
                     && (this.generatorExternal == null))
                 {
-                    this.Generator = Method.GenerateMethod_Standart;
+                    this.Generator = GenerateMethod_Standart;
                 }
 
                 bool success = true;
