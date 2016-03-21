@@ -71,7 +71,7 @@ namespace LousySudoku
         /// <param name="sudoku"></param>
         /// <param name="attemptsNumber"></param>
         /// <param name="fillness"></param>
-        public static void GenerateSudoku(Sudoku sudoku, int attemptsNumber = Generator.AttemptsNumberDefault, double fillness = Generator.FillnessDefault)
+        public static void GenerateSudoku(Sudoku sudoku, int attemptsNumber = Generator.AttemptsCountDefault, double fillness = Generator.FillnessDefault)
         {
             Generator generator = new Generator(sudoku, attemptsNumber, fillness);
             generator.Generate();

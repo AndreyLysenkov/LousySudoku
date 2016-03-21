@@ -2,49 +2,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Alist;
 
 namespace LousySudoku
 {
 
     /// <summary>
-    /// Содержит методы для генерации судоку
+    /// Class for sudoku generation
     /// </summary>
     public class Generator
+        : IXmlize
     {
 
         /// <summary>
-        /// Коэффициент попыток по умолчанию
+        /// Attempts count on default
         /// </summary>
-        public const int AttemptsNumberDefault = 200;
+        public const int AttemptsCountDefault = 2000;
 
         /// <summary>
-        /// Заполненость судоку по умолчанию
+        /// Sudoku fillness after generation on default
         /// </summary>
         public const double FillnessDefault = 0.27;
 
         /// <summary>
-        /// Рандомайзер
+        /// Randomizer
         /// </summary>
         private Random random;
 
         /// <summary>
-        /// Ссылка на объект, в который будет генерироваться судоку
+        /// Sudoku object in wich will be generated sudoku
         /// </summary>
         private Sudoku sudoku;
 
-        /// <summary>
-        /// Коэффициент попыток. Чем он больше, тем дольше генератор будет пытаться сгенерировать судоку
-        /// В зависимости от этого коэффициента будет разное количество попыток для разных судоку
-        /// </summary>
-        public int AttemptsRemain
-        {
-            get;
-            private set;
-        }
+        private int attemptsRemain;
 
         /// <summary>
-        /// Коэффициент заполнености судоку
-        /// Значение от 0 до 1, где 0 - ни одного числа, 0,2 - 20% чисел заполнены, 1 - все числа заполнены
+        /// Sudoku fillness after generation.
+        /// Value [0..1], where 0,2, for exanple, 
+        /// - means 20% of sudoku number are known
         /// </summary>
         public double Fillness
         {
@@ -52,31 +47,38 @@ namespace LousySudoku
             private set;
         }
 
-        private int AttemptsCounter = 0;
+        public int AttemptsCount
+        {
+            get;
+            private set;
+        }
 
         private void AttemptWaisted()
         {
-            this.AttemptsRemain--;
-            this.AttemptsCounter++;
+            this.attemptsRemain--;
+            this.AttemptsCount++;
 #if DEBUG
-            if ((this.AttemptsCounter % 1000) == 0)
-                Console.WriteLine("Did: {0} attempts", this.AttemptsCounter);
+            if ((this.AttemptsCount % 1000) == 0)
+            {
+                Console.WriteLine("Did: {0} attempts", this.AttemptsCount);
+                Debug.Print.Sudoku2D(this.sudoku);
+            }
 #endif
         }
 
         /// <summary>
-        /// Создает объект, задавая шаблон судоку, коэффициент попыток и заполненость
+        /// Create new generator, wich will be generate sudoku
         /// </summary>
         /// <param name="sudoku"></param>
         /// <param name="attemptsNumber"></param>
         /// <param name="fillness"></param>
-        public Generator(Sudoku sudoku, int attemptsNumber = AttemptsNumberDefault, double fillness = FillnessDefault)
+        public Generator(Sudoku sudoku,
+            int attemptsNumber = AttemptsCountDefault, 
+            double fillness = FillnessDefault)
         {
             this.random = new Random();
             this.sudoku = sudoku;
-            ///NNBB temp Debug;
-            //((IStringify)(this.sudoku)).Unstringify((((IStringify)(this.sudoku)).Stringify(Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault))), Stringify_Help.CopyList(Stringify_Help.SeparatorListDefault));
-            this.AttemptsRemain = this.GetAttempts(attemptsNumber);
+            this.attemptsRemain = attemptsNumber;
             this.Fillness = fillness;
         }
 
@@ -173,8 +175,8 @@ namespace LousySudoku
         /// <returns>Успех генерации судоку</returns>
         private bool FillSudoku()
         {
-            bool IsForever = (this.AttemptsRemain == 0);
-            for (; (this.AttemptsRemain > 0) || IsForever; )
+            bool IsForever = (this.attemptsRemain == 0);
+            for (; (this.attemptsRemain > 0) || IsForever; )
             {
                 ///bool success = this.FillSudokuOneAttempt();
                 bool success = this.FillSudokuOneAttemptBlock();
@@ -184,7 +186,7 @@ namespace LousySudoku
                 }
                 else
                 {
-                    if (this.AttemptsRemain != 0)
+                    if (this.attemptsRemain != 0)
                         this.sudoku.Clear();
                 }
             }
@@ -193,8 +195,8 @@ namespace LousySudoku
         
         private bool CompleteSudoku()
         {
-            bool IsForever = (this.AttemptsRemain == 0);
-            for (; (this.AttemptsRemain > 0) || IsForever; )
+            bool IsForever = (this.attemptsRemain == 0);
+            for (; (this.attemptsRemain > 0) || IsForever; )
             {
                 Sudoku sudokuToFill = (Sudoku)this.sudoku.Clone();
                 bool success = this.FillSudokuOneAttempt(sudokuToFill);
@@ -236,18 +238,7 @@ namespace LousySudoku
             //this.sudoku.DeleteNumbers(numberDelete);
             return success;
         }
-
-        /// <summary>
-        /// Возвращает колличество попыток, которые будет делать программа, чтобы заполнить судоку
-        /// </summary>
-        /// <param name="attemptsNumber"></param>
-        /// <returns></returns>
-        public int GetAttempts(int attemptsNumber = AttemptsNumberDefault)
-        {
-            return attemptsNumber;
-            //sudoku.Size.X * sudoku.Size.Y *
-        }
-
+        
         /// <summary>
         /// Перемешивает элементы массива
         /// </summary>
@@ -271,6 +262,24 @@ namespace LousySudoku
             }
             
             return result;
+        }
+
+        public string NameXml
+        {
+            // NNBB; todo;
+            get;
+        }
+
+        public bool LoadXml(System.Xml.Linq.XElement element)
+        {
+            // NNBB; todo;
+            return true;
+        }
+
+        public System.Xml.Linq.XElement UnloadXml()
+        {
+            // NNBB; todo;
+            return null;
         }
 
     }

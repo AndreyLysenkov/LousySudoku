@@ -140,6 +140,15 @@ namespace LousySudoku
             return obj2 <= obj1;
         }
 
+        public int Multiply()
+        {
+            if (this.IsZero())
+                return 0;
+            int result = 1;
+            this.Coordinate.ForEach(x => result *= (x + 1));
+            return result;
+        }
+
         public bool IsZero()
         {
             return this.coordinate.All(x => x == 0);

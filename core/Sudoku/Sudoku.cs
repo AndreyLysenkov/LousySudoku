@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using Alist;
 using Alist.Error;
 using Alist.Xml;
+using Alist.Assembly;
 
 namespace LousySudoku
 {
@@ -65,6 +66,12 @@ namespace LousySudoku
         
         private int emptyCell;
 
+        public delegate void Generator(Sudoku sudoku);
+
+        private IExternalMethod generator_external;
+
+        private Generator generator;
+
         /// <summary>
         /// Delegate for sudoku events OnCompleted and OnFilled
         /// </summary>
@@ -90,13 +97,11 @@ namespace LousySudoku
         /// <summary>
         /// Calls if all cells filled with value
         /// and all block are right
-        /// NNBB; todo;
         /// </summary>
         public event SudokuEvent onCompleted;
 
         /// <summary>
         /// Calls if all cells filled with value
-        /// NNBB; todo;
         /// </summary>
         public event SudokuEvent onFilled;
 
@@ -136,6 +141,31 @@ namespace LousySudoku
         public Sudoku()
             : this(blockType: null, block: null, cell: null, maxValue: 0)
         {   }
+
+        public bool SetGenerator(Generator method)
+        {
+            if (this.generator == null)
+            {
+                this.generator = method;
+                return true;
+            }
+            return false;
+        }
+
+        public bool SetGenerator(IExternalMethod method)
+        {
+            if (this.generator_external == null)
+            {
+                this.generator_external = method;
+                return true;
+            }
+            return false;
+        }
+
+        private static void Generate_External(Sudoku sudoku)
+        {
+            sudoku.generator_external.Run(null, new object[] { sudoku });
+        }
 
         private Position CalculateSize()
         {
@@ -408,6 +438,17 @@ namespace LousySudoku
             {
                 this.BlockType.ForEach(x => error += x.Initialize());
                 this.Block.ForEach(x => error += x.Initialize());
+                if (this.generator_external != null)
+                {
+                    error += this.generator_external.Initialize();
+                    if (generator_external.IsInitialized)
+                        this.generator = Sudoku.Generate_External;
+                }
+                if (this.generator == null)
+                {
+                    //error += "";
+                    //NNBB; todo;
+                }
             }
             else
             {
@@ -452,10 +493,10 @@ namespace LousySudoku
         {
             Tag tag = new Tag();
             tag.LoadXml(element);
-            List<XElement> child = tag.GetChildren(Constant.Xml.NumberTag);
+            List<XElement> child = tag.GetChildren(Constant.Xml.BlockTag);
             for (int i = 0; i < child.Count; i++)
             {
-                Block newBlock = new Block(null);
+                Block newBlock = new Block(this);
                 newBlock.LoadXml(child[i]);
                 this.Block.Add(newBlock);
             }
@@ -475,7 +516,15 @@ namespace LousySudoku
 
         protected bool LoadXml_MethodSection(XElement element)
         {
-            // NNBB; todo;
+            Tag tag = new Tag();
+            tag.LoadXml(element);
+            List<XElement> generator 
+                = tag.GetChildren(Alist.Constant.Xml.Assembly.Tag);
+            if (generator.Count > 1)
+            {
+                this.generator_external = new ExternalMethod(null);
+                generator.ForEach(x => this.generator_external.LoadXml(x));
+            }
             return true;
         }
 
@@ -528,36 +577,13 @@ namespace LousySudoku
 
         protected XElement UnloadXml_MethodSection()
         {
-            // NNBB; todo;
-            //Tag checkerXml = new Tag(
-            //    //element: this.checker.UnloadXml(),
-            //    attribute: new Dictionary<string, string>
-            //    {
-            //        {
-            //            Constant.Xml.BlockType.MethodAttribute,
-            //            Constant.Xml.BlockType.MethodAttributeChecker
-            //        }
-            //    }
-            //    );
-            //Tag generatorXml = new Tag(
-            //    //element: this.generator.UnloadXml(),
-            //    attribute: new Dictionary<string, string>
-            //    {
-            //        {
-            //            Constant.Xml.BlockType.MethodAttribute,
-            //            Constant.Xml.BlockType.MethodAttributeGenerator
-            //        }
-            //    }
-            //    );
             Tag result = new Tag(
                 name: Constant.Xml.Sudoku.MethodSection,
                 value: null,
-                child: new List<XElement>
-                {
-                    // checkerXml.UnloadXml(),
-                    // generatorXml.UnloadXml()
-                }
+                child: new List<XElement>{ }
                 );
+            if (this.generator_external != null)
+                result.Child.Add(this.generator_external.UnloadXml());
             return result.UnloadXml();
         }
 

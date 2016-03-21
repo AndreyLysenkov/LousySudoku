@@ -89,7 +89,7 @@ namespace LousySudoku
         {   }
 
         public Block(Sudoku sudoku)
-            : this(sudoku, new Adress(new List<string> { }))
+            : this(sudoku, new Adress(Constant.BlockTypeIdDefault))
         {   }
 
         private void GetValuesMask(ref int[] value, ref bool[] mask)
@@ -295,6 +295,8 @@ namespace LousySudoku
                 Number newChild = this.Father.GetNumber(coordinate);
                 this.AddChild(newChild);
             }
+            this.TypeId = new Adress(tag.GetAttribute
+                (Constant.Xml.BlockType.IdAttribute, Constant.BlockTypeIdDefault));
             return true;
         }
 

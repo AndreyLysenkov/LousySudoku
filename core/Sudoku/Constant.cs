@@ -64,6 +64,8 @@ namespace LousySudoku
 
             public const string BlockNumberTag = "number";
 
+            public const string GeneratorTag = "generator";
+
         }
 
         public static class Exception
