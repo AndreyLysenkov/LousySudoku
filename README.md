@@ -13,4 +13,4 @@ User may create its own Sudoku and program even generate a Sudoku by your templa
 
 
 
- ![LousySudoku Logo](https://raw.githubusercontent.com/AndreyLysenkov/LousySudoku/master/data/logo.png) 
+ ![LousySudoku Logo](https://raw.githubusercontent.com/AndreyLysenkov/LousySudoku/master/compile/data/logo.png) 
